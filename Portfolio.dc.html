@@ -1,0 +1,2114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&display=swap">
+<script src="./image-slot.js"></script>
+<style>
+  html { background: #08080a; }
+  body { margin: 0; background: #08080a; color: #f4f2ef; font-family: "Instrument Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  * { box-sizing: border-box; }
+  a { color: #EF5152; text-decoration: none; }
+  a:hover { color: #ffd23f; }
+  ::selection { background: #EF5152; color: #08080a; }
+  :focus-visible { outline: 2px solid #ffd23f; outline-offset: 3px; }
+  @keyframes marq { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
+  @keyframes floaty { 0%,100% { transform: translateY(0) rotate(var(--r,0deg)); } 50% { transform: translateY(-9px) rotate(var(--r,0deg)); } }
+  @keyframes marqR { from { transform: translate3d(-50%,0,0); } to { transform: translate3d(0,0,0); } }
+  @keyframes plWord { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes prevIn { 0% { opacity: 0; transform: scale(.82) rotate(-5deg); clip-path: inset(0 0 100% 0); } 55% { opacity: 1; } 100% { opacity: 1; transform: scale(1) rotate(0deg); clip-path: inset(0 0 0 0); } }
+  @keyframes prevOut { from { opacity: 1; transform: scale(1) rotate(0deg); clip-path: inset(0 0 0 0); } to { opacity: 0; transform: scale(.9) rotate(4deg); clip-path: inset(100% 0 0 0); } }
+  @keyframes blink { 0%,45% { opacity: 1; } 50%,95% { opacity: .25; } }
+  @keyframes drift { from { background-position: 0 0; } to { background-position: 60px 60px; } }
+  @keyframes dropIn { from { opacity: 0; transform: translate(-50%, -10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+  @keyframes lightboxFadeIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .works-dropdown-item {
+    padding: 12px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: transparent;
+    border: 1px solid transparent;
+  }
+  .works-dropdown-item:hover,
+  .works-dropdown-item.is-active {
+    background: rgba(239, 81, 82, 0.14) !important;
+    border-color: rgba(239, 81, 82, 0.35) !important;
+  }
+  .works-dropdown-item:hover .item-title,
+  .works-dropdown-item.is-active .item-title {
+    color: #EF5152 !important;
+  }
+  @media (max-width: 768px) {
+    html { font-size: 15px; }
+    nav { padding: 12px clamp(16px, 3vw, 24px) !important; gap: 10px !important; }
+    .nav-brand-name { display: none !important; }
+    .nav-hire-btn { display: none !important; }
+    .nav-links { gap: 14px !important; }
+    .nav-links span { font-size: 12.5px !important; }
+    [data-case-card] { grid-column: span 12 !important; margin-top: 0 !important; }
+    .chapter-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+    .chapter-grid > div:first-child { position: relative !important; top: 0 !important; margin-bottom: 4px !important; }
+    .timeline-row { grid-template-columns: 1fr !important; gap: 6px !important; }
+    .capability-row { grid-template-columns: 1fr !important; gap: 4px !important; }
+    .work-card { grid-template-columns: 1fr !important; gap: 16px !important; }
+    .work-card-thumb { width: 100% !important; aspect-ratio: 16/9 !important; }
+    .sticky-tabs-bar { top: 60px !important; }
+  /* Dribbble 3-Column Gallery Layout */
+  .dribbble-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: clamp(20px, 2.5vw, 36px) !important;
+    width: 100% !important;
+  }
+  .dribbble-shot {
+    display: flex !important;
+    flex-direction: column !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+    width: 100% !important;
+  }
+  .dribbble-shot-frame,
+  .dribbble-shot-frame *,
+  .dribbble-shot-frame image-slot,
+  .dribbble-shot-frame img,
+  .dribbble-shot-frame canvas,
+  .dribbble-shot-frame > div {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+  }
+  .dribbble-shot-frame {
+    width: 100% !important;
+    aspect-ratio: 4/3 !important;
+    background: #121218 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(244,242,239,0.08) !important;
+    position: relative !important;
+    transition: transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s ease, box-shadow .3s ease !important;
+  }
+  .dribbble-shot:hover .dribbble-shot-frame {
+    transform: translateY(-6px) !important;
+    border-color: rgba(244,242,239,0.26) !important;
+    box-shadow: 0 18px 38px rgba(0,0,0,0.65) !important;
+  }
+  @media (max-width: 900px) {
+    .dribbble-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 20px !important; }
+  }
+  @media (max-width: 580px) {
+    .dribbble-grid { grid-template-columns: 1fr !important; gap: 18px !important; }
+  }
+  @media (max-width: 480px) {
+    .meta-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 16px 12px !important; }
+  }
+</style>
+</helmet>
+
+<div ref="{{ wrap }}" style="position: relative; min-height: 100vh; background: #08080a;">
+
+  <div ref="{{ ov }}" style="position: fixed; inset: 0; z-index: 900; background: #EF5152; transform: translateY(100%); pointer-events: none; display: flex; align-items: center; justify-content: center;">
+    <span style="font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: 4rem; color: #08080a; letter-spacing: -0.03em;">N—B</span>
+  </div>
+
+  <div ref="{{ dot }}" style="position: fixed; top: 0; left: 0; width: 8px; height: 8px; border-radius: 50%; background: #EF5152; z-index: 950; pointer-events: none; margin: -4px 0 0 -4px;"></div>
+  <div ref="{{ ring }}" style="position: fixed; top: 0; left: 0; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(244,242,239,0.35); z-index: 949; pointer-events: none; margin: -22px 0 0 -22px; display: flex; align-items: center; justify-content: center; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #08080a; font-weight: 600;"><span ref="{{ ringLabel }}"></span></div>
+
+  <div ref="{{ heroCur }}" style="position: fixed; top: 0; left: 0; z-index: 951; pointer-events: none; opacity: 0; transition: opacity .18s ease;">
+    <svg width="20" height="24" viewBox="0 0 20 24" style="display: block; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.45));"><path d="M2 1.6l14.6 9.3-6.1 1.1L7.1 19z" fill="#EF5152" stroke="#08080a" stroke-width="1.3" stroke-linejoin="round"/></svg>
+    <span style="display: inline-block; margin: -2px 0 0 13px; background: #EF5152; color: #08080a; font-size: 11.5px; font-weight: 600; padding: 4px 10px; border-radius: 7px; white-space: nowrap;">You</span>
+  </div>
+
+  <div ref="{{ preload }}" style="position: fixed; inset: 0; z-index: 999; pointer-events: none;">
+    <div ref="{{ plTop }}" style="position: absolute; left: 0; right: 0; top: 0; height: 50%; background: #EF5152; overflow: hidden; will-change: transform;">
+      <div style="position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: center;">
+        <span style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: clamp(1.1rem, 2.2vw, 1.75rem); letter-spacing: -0.02em; line-height: 1; color: #08080a; padding-bottom: 8px; opacity: 0; animation: plWord .8s cubic-bezier(.2,.8,.2,1) .15s forwards;">Nethra Balasubramaniam</span>
+      </div>
+    </div>
+    <div ref="{{ plBot }}" style="position: absolute; left: 0; right: 0; bottom: 0; height: 50%; background: #EF5152; overflow: hidden; will-change: transform;">
+      <div style="position: absolute; left: 0; right: 0; top: 0; display: flex; justify-content: center;">
+        <span style="font-family: 'Instrument Sans', sans-serif; font-weight: 500; font-size: clamp(0.85rem, 1.5vw, 1.05rem); letter-spacing: 0.16em; text-transform: uppercase; color: rgba(8,8,10,0.72); padding-top: 14px; opacity: 0; animation: plWord .8s cubic-bezier(.2,.8,.2,1) .3s forwards;">Product Designer —</span>
+      </div>
+    </div>
+  </div>
+
+  <div ref="{{ hoverPrev }}" style="position: fixed; top: 0; left: 0; z-index: 940; pointer-events: none; transform: translate(-9999px,-9999px);">
+    <div data-prevcard="1" style="position: relative; width: 300px; height: 200px; margin: -230px 0 0 -150px; transform-origin: 50% 100%; border-radius: 12px; overflow: hidden; border: 1px solid rgba(244,242,239,0.14); background: #121216; box-shadow: 0 22px 50px rgba(0,0,0,0.55);">
+      <div data-prev="fintech" style="position: absolute; inset: 0; display: none;"><image-slot id="dom-fintech" shape="rect" fit="cover" placeholder="FinTech work" style="width: 100%; height: 100%;"></image-slot></div>
+      <div data-prev="healthtech" style="position: absolute; inset: 0; display: none;"><image-slot id="dom-healthtech" shape="rect" fit="cover" placeholder="HealthTech work" style="width: 100%; height: 100%;"></image-slot></div>
+      <div data-prev="genai" style="position: absolute; inset: 0; display: none;"><image-slot id="dom-genai" shape="rect" fit="cover" placeholder="GenAI SaaS work" style="width: 100%; height: 100%;"></image-slot></div>
+      <div data-prev="web3" style="position: absolute; inset: 0; display: none;"><image-slot id="dom-web3" shape="rect" fit="cover" placeholder="Web3 work" style="width: 100%; height: 100%;"></image-slot></div>
+    </div>
+  </div>
+
+  <nav style="position: fixed; top: 0; left: 0; right: 0; z-index: 800; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 18px clamp(20px, 4vw, 56px); background: rgba(8,8,10,0.72); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(244,242,239,0.07);">
+    <div onClick="{{ goHome }}" style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+      <span style="display: block; width: 32px; height: 36px; background: #f4f2ef; -webkit-mask: url(uploads/logo.svg) no-repeat center / contain; mask: url(uploads/logo.svg) no-repeat center / contain; transition: background .3s ease;" style-hover="background: #EF5152;"></span>
+      <span class="nav-brand-name" style="font-size: 13px; letter-spacing: 0.02em; color: rgba(244,242,239,0.65);">Nethra B.</span>
+    </div>
+    <div class="nav-links" style="display: flex; align-items: center; gap: clamp(14px, 2vw, 30px); position: relative;">
+      <span onClick="{{ goHome }}" style="font-size: 13.5px; cursor: pointer; color: {{ homeInk }}; letter-spacing: 0.01em;">Home</span>
+      
+      <div class="nav-my-works-wrap" style="position: relative; display: inline-block;">
+        <span onClick="{{ toggleWorksMenu }}" style="font-size: 13.5px; cursor: pointer; color: {{ workInk }}; letter-spacing: 0.01em; display: inline-flex; align-items: center; gap: 5px; user-select: none;">
+          My Works
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="transition: transform .25s ease; transform: {{ isWorksOpen ? 'rotate(180deg)' : 'rotate(0deg)' }};">
+            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+
+        <sc-if value="{{ isWorksOpen }}" hint-placeholder-val="{{ false }}">
+        <div class="works-mega-dropdown" style="position: absolute; top: calc(100% + 18px); left: 50%; transform: translateX(-50%); width: min(600px, 92vw); background: #0c0c10; border: 1px solid rgba(244,242,239,0.12); border-radius: 20px; padding: 16px; box-shadow: 0 24px 60px rgba(0,0,0,0.85); backdrop-filter: blur(20px); z-index: 900; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 14px; align-items: stretch; animation: dropIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);">
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <div class="works-dropdown-item {{ activeHoverItem === 'cases' ? 'is-active' : '' }}" onClick="{{ navCaseStudies }}" onMouseEnter="{{ hoverCaseStudies }}">
+              <div class="item-title" style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 14.5px; color: {{ activeHoverItem === 'cases' ? '#EF5152' : '#f4f2ef' }};">Product Case Studies</div>
+              <div style="font-size: 11.5px; color: rgba(244,242,239,0.5); margin-top: 3px; line-height: 1.35;">End-to-end design for fintech &amp; consumer</div>
+            </div>
+            <div class="works-dropdown-item {{ activeHoverItem === 'playground' ? 'is-active' : '' }}" onClick="{{ navPlayground }}" onMouseEnter="{{ hoverPlayground }}">
+              <div class="item-title" style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 14.5px; color: {{ activeHoverItem === 'playground' ? '#EF5152' : '#f4f2ef' }};">Design Playground</div>
+              <div style="font-size: 11.5px; color: rgba(244,242,239,0.5); margin-top: 3px; line-height: 1.35;">UI components, interactions &amp; craft</div>
+            </div>
+            <div class="works-dropdown-item {{ activeHoverItem === 'ai' ? 'is-active' : '' }}" onClick="{{ navAiExplorations }}" onMouseEnter="{{ hoverAiExplorations }}">
+              <div class="item-title" style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 14.5px; color: {{ activeHoverItem === 'ai' ? '#EF5152' : '#f4f2ef' }};">AI Explorations</div>
+              <div style="font-size: 11.5px; color: rgba(244,242,239,0.5); margin-top: 3px; line-height: 1.35;">Design at the intersection of AI &amp; product</div>
+            </div>
+          </div>
+          <div style="background: #121218; border-radius: 14px; padding: 12px; border: 1px solid rgba(244,242,239,0.06); display: flex; flex-direction: column; justify-content: space-between;">
+            <div style="width: 100%; aspect-ratio: 16/10; border-radius: 10px; overflow: hidden; background: #1a1a22; border: 1px solid rgba(244,242,239,0.08);">
+              <image-slot id="{{ previewSlot }}" shape="rect" fit="cover" src="{{ previewSrc }}" placeholder="{{ previewPh }}" style="width: 100%; height: 100%;"></image-slot>
+            </div>
+            <div style="margin-top: 10px;">
+              <h4 style="margin: 0; font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 14px; color: #f4f2ef;">{{ previewTitle }}</h4>
+              <p style="margin: 3px 0 0; font-size: 11px; color: rgba(244,242,239,0.5); line-height: 1.35;">{{ previewBlurb }}</p>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+      </div>
+
+      <span onClick="{{ goAbout }}" style="font-size: 13.5px; cursor: pointer; color: {{ aboutInk }}; letter-spacing: 0.01em;">About</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span class="nav-hire-btn" onClick="{{ goHire }}" style="cursor: pointer; font-size: 12.5px; font-weight: 600; color: {{ hireInk }}; border: 1px solid rgba(244,242,239,0.3); border-radius: 999px; padding: 9px 18px;" style-hover="border-color: #f4f2ef; background: rgba(244,242,239,0.08);">Hire Me</span>
+      <a href="mailto:hello@nethra.design" style="font-size: 12.5px; font-weight: 600; color: #08080a; background: #EF5152; border-radius: 999px; padding: 10px 19px;" style-hover="background: #ffd23f; color: #08080a;">Let's Talk</a>
+    </div>
+  </nav>
+
+  <div ref="{{ bar }}" style="position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: #ffd23f; z-index: 850;"></div>
+
+  <!-- ══ HOME ══ -->
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <div style="padding-top: 74px;">
+
+    <section data-hero="1" style="cursor: none; position: relative; min-height: calc(100vh - 74px); display: flex; flex-direction: column; justify-content: center; padding: clamp(20px, 3.5vh, 44px) clamp(20px, 4vw, 56px) clamp(18px, 3vh, 32px); overflow: hidden;">
+      <div style="position: absolute; inset: 0; background-image: linear-gradient(rgba(244,242,239,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(244,242,239,0.035) 1px, transparent 1px); background-size: 60px 60px; animation: drift 24s linear infinite; mask-image: radial-gradient(circle at 50% 30%, #000 0%, transparent 72%);"></div>
+
+      <div style="position: relative; max-width: 1240px; margin: 0 auto;">
+        <p data-reveal="up" style="text-align: center; font-size: 14px; color: rgba(244,242,239,0.6); margin: 0 0 clamp(8px, 2vh, 22px);">🙏 <span ref="{{ greet }}" style="display: inline-block; color: #ffd23f; transition: opacity .3s ease, transform .3s cubic-bezier(.2,.8,.2,1);">Vanakkam</span>, I am <strong style="color: #f4f2ef; font-weight: 600;">Nethra Balasubramaniam</strong></p>
+
+        <div style="position: relative; display: flex; flex-direction: column; align-items: center;">
+          <h1 data-reveal="up" style="position: relative; z-index: 3; margin: 0; font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: max(3rem, min(8.8rem, 10.4vw, 16vh)); line-height: 0.86; letter-spacing: -0.045em; text-align: center;">Creative</h1>
+
+          <div style="position: relative; width: min(400px, 45vw, 40vh); height: min(410px, 47vw, 41vh); margin: clamp(-58px, -6vw, -22px) 0 clamp(-52px, -6vw, -20px); z-index: 5;">
+            <image-slot id="hero-portrait" bare shape="rect" fit="contain" placeholder="Drop your cut-out portrait (transparent PNG works best)" style="width: 100%; height: 100%; background: transparent; border: none;"></image-slot>
+          </div>
+
+          <h1 data-reveal="up" data-delay="90" style="position: relative; z-index: 3; margin: 0; font-family: 'Clash Display', sans-serif; font-weight: 400; font-size: max(2rem, min(5.6rem, 6.6vw, 10vh)); line-height: 0.9; letter-spacing: -0.035em; text-align: center;">Product&nbsp;&nbsp;Designer</h1>
+
+          <div style="position: absolute; left: 0; top: 12%; --r: -4deg; animation: floaty 5.5s ease-in-out infinite; z-index: 4;">
+            <span style="display: inline-block; background: #EF5152; color: #08080a; font-size: 11.5px; font-weight: 600; padding: 5px 11px; border-radius: 7px; white-space: nowrap;">Product Strategy</span>
+            <svg width="14" height="16" viewBox="0 0 14 16" style="display: block; margin: 2px 0 0 auto;"><path d="M1 1l11 6.5-4.6 1.3L5.6 14z" fill="#EF5152"/></svg>
+          </div>
+          <div style="position: absolute; right: 0; top: 6%; --r: 5deg; animation: floaty 6.4s ease-in-out infinite; z-index: 4; text-align: right;">
+            <span style="display: inline-block; background: #a78bfa; color: #08080a; font-size: 11.5px; font-weight: 600; padding: 5px 11px; border-radius: 7px; white-space: nowrap;">Front-End Developer</span>
+            <svg width="14" height="16" viewBox="0 0 14 16" style="display: block; margin: 2px auto 0 0; transform: scaleX(-1);"><path d="M1 1l11 6.5-4.6 1.3L5.6 14z" fill="#a78bfa"/></svg>
+          </div>
+          <div style="position: absolute; left: 2%; top: 46%; --r: 3deg; animation: floaty 7.1s ease-in-out infinite; z-index: 4;">
+            <span style="display: inline-block; background: #ffd23f; color: #08080a; font-size: 11.5px; font-weight: 600; padding: 5px 11px; border-radius: 7px; white-space: nowrap;">Design Systems</span>
+            <svg width="14" height="16" viewBox="0 0 14 16" style="display: block; margin: 2px 0 0 auto;"><path d="M1 1l11 6.5-4.6 1.3L5.6 14z" fill="#ffd23f"/></svg>
+          </div>
+          <div style="position: absolute; right: 2%; top: 52%; --r: -6deg; animation: floaty 6s ease-in-out infinite; z-index: 4; text-align: right;">
+            <span style="display: inline-block; background: #1fc16b; color: #08080a; font-size: 11.5px; font-weight: 600; padding: 5px 11px; border-radius: 7px; white-space: nowrap;">Project Manager</span>
+            <svg width="14" height="16" viewBox="0 0 14 16" style="display: block; margin: 2px auto 0 0; transform: scaleX(-1);"><path d="M1 1l11 6.5-4.6 1.3L5.6 14z" fill="#1fc16b"/></svg>
+          </div>
+        </div>
+
+        <div data-reveal="up" data-delay="160" style="display: flex; justify-content: center; align-items: stretch; gap: clamp(24px, 6vw, 74px); margin: clamp(22px, 4vh, 46px) 0 clamp(20px, 3.6vh, 40px);">
+          <sc-for list="{{ stats }}" as="s" hint-placeholder-count="3">
+            <div style="text-align: center; min-width: 116px;">
+              <div style="font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: clamp(1.7rem, 3.4vw, 2.5rem); letter-spacing: -0.03em; line-height: 1;"><span data-count="{{ s.n }}">0</span><span style="font-weight: 400; color: #EF5152;">{{ s.suffix }}</span></div>
+              <div style="font-size: 13px; color: rgba(244,242,239,0.55); margin-top: 7px;">{{ s.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: clamp(12px, 1.6vw, 22px); max-width: 1100px; width: 100%; margin: 0 auto;">
+        <span style="flex: none; width: 150px; font-size: 13.5px; line-height: 1.35; color: rgba(244,242,239,0.5);">Worked with clients worldwide</span>
+        <div style="position: relative; flex: 1; min-width: 0; overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent 0, #000 2.5%, #000 94%, transparent 100%); mask: linear-gradient(90deg, transparent 0, #000 2.5%, #000 94%, transparent 100%);">
+      <div style="position: relative; display: flex; width: max-content; will-change: transform; backface-visibility: hidden; animation: marq 44s linear infinite;">
+        <div style="display: flex; align-items: center; gap: clamp(40px, 6vw, 88px); padding-right: clamp(40px, 6vw, 88px);">
+            <span style="flex: none; display: block; width: 110px; height: 30px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-01.svg) no-repeat center / contain; mask: url(uploads/Logo-01.svg) no-repeat center / contain; transition: background .3s ease; will-change: background;" style-hover="background: #f4f2ef;"></span>
+            <span style="flex: none; display: block; width: 105px; height: 30px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-02.svg) no-repeat center / contain; mask: url(uploads/Logo-02.svg) no-repeat center / contain; transition: background .3s ease; will-change: background;" style-hover="background: #f4f2ef;"></span>
+            <span style="flex: none; display: block; width: 171px; height: 22px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-03.svg) no-repeat center / contain; mask: url(uploads/Logo-03.svg) no-repeat center / contain; transition: background .3s ease; will-change: background;" style-hover="background: #f4f2ef;"></span>
+            <span style="flex: none; display: block; width: 117px; height: 26px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-04.svg) no-repeat center / contain; mask: url(uploads/Logo-04.svg) no-repeat center / contain; transition: background .3s ease; will-change: background;" style-hover="background: #f4f2ef;"></span>
+            <span style="flex: none; display: block; width: 122px; height: 24px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-05.svg) no-repeat center / contain; mask: url(uploads/Logo-05.svg) no-repeat center / contain; transition: background .3s ease; will-change: background;" style-hover="background: #f4f2ef;"></span>
+            <span style="flex: none; display: block; width: 60px; height: 26px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-06.svg) no-repeat center / contain; mask: url(uploads/Logo-06.svg) no-repeat center / contain; transition: background .3s ease; will-change: background;" style-hover="background: #f4f2ef;"></span>
+            <span style="flex: none; display: block; width: 110px; height: 30px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-01.svg) no-repeat center / contain; mask: url(uploads/Logo-01.svg) no-repeat center / contain; transition: background .3s ease; will-change: background;" style-hover="background: #f4f2ef;"></span>
+            <span style="flex: none; display: block; width: 105px; height: 30px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-02.svg) no-repeat center / contain; mask: url(uploads/Logo-02.svg) no-repeat center / contain; transition: background .3s ease; will-change: background;" style-hover="background: #f4f2ef;"></span>
+            <span style="flex: none; display: block; width: 171px; height: 22px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-03.svg) no-repeat center / contain; mask: url(uploads/Logo-03.svg) no-repeat center / contain; transition: background .3s ease; will-change: background;" style-hover="background: #f4f2ef;"></span>
+            <span style="flex: none; display: block; width: 117px; height: 26px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-04.svg) no-repeat center / contain; mask: url(uploads/Logo-04.svg) no-repeat center / contain; transition: background .3s ease; will-change: background;" style-hover="background: #f4f2ef;"></span>
+            <span style="flex: none; display: block; width: 122px; height: 24px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-05.svg) no-repeat center / contain; mask: url(uploads/Logo-05.svg) no-repeat center / contain; transition: background .3s ease; will-change: background;" style-hover="background: #f4f2ef;"></span>
+            <span style="flex: none; display: block; width: 60px; height: 26px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-06.svg) no-repeat center / contain; mask: url(uploads/Logo-06.svg) no-repeat center / contain; transition: background .3s ease; will-change: background;" style-hover="background: #f4f2ef;"></span>
+        </div>
+        <div style="display: flex; align-items: center; gap: clamp(40px, 6vw, 88px); padding-right: clamp(40px, 6vw, 88px);" aria-hidden="true">
+            <span style="flex: none; display: block; width: 110px; height: 30px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-01.svg) no-repeat center / contain; mask: url(uploads/Logo-01.svg) no-repeat center / contain; transition: background .3s ease;"></span>
+            <span style="flex: none; display: block; width: 105px; height: 30px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-02.svg) no-repeat center / contain; mask: url(uploads/Logo-02.svg) no-repeat center / contain; transition: background .3s ease;"></span>
+            <span style="flex: none; display: block; width: 171px; height: 22px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-03.svg) no-repeat center / contain; mask: url(uploads/Logo-03.svg) no-repeat center / contain; transition: background .3s ease;"></span>
+            <span style="flex: none; display: block; width: 117px; height: 26px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-04.svg) no-repeat center / contain; mask: url(uploads/Logo-04.svg) no-repeat center / contain; transition: background .3s ease;"></span>
+            <span style="flex: none; display: block; width: 122px; height: 24px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-05.svg) no-repeat center / contain; mask: url(uploads/Logo-05.svg) no-repeat center / contain; transition: background .3s ease;"></span>
+            <span style="flex: none; display: block; width: 60px; height: 26px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-06.svg) no-repeat center / contain; mask: url(uploads/Logo-06.svg) no-repeat center / contain; transition: background .3s ease;"></span>
+            <span style="flex: none; display: block; width: 110px; height: 30px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-01.svg) no-repeat center / contain; mask: url(uploads/Logo-01.svg) no-repeat center / contain; transition: background .3s ease;"></span>
+            <span style="flex: none; display: block; width: 105px; height: 30px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-02.svg) no-repeat center / contain; mask: url(uploads/Logo-02.svg) no-repeat center / contain; transition: background .3s ease;"></span>
+            <span style="flex: none; display: block; width: 171px; height: 22px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-03.svg) no-repeat center / contain; mask: url(uploads/Logo-03.svg) no-repeat center / contain; transition: background .3s ease;"></span>
+            <span style="flex: none; display: block; width: 117px; height: 26px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-04.svg) no-repeat center / contain; mask: url(uploads/Logo-04.svg) no-repeat center / contain; transition: background .3s ease;"></span>
+            <span style="flex: none; display: block; width: 122px; height: 24px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-05.svg) no-repeat center / contain; mask: url(uploads/Logo-05.svg) no-repeat center / contain; transition: background .3s ease;"></span>
+            <span style="flex: none; display: block; width: 60px; height: 26px; background: rgba(244,242,239,0.42); -webkit-mask: url(uploads/Logo-06.svg) no-repeat center / contain; mask: url(uploads/Logo-06.svg) no-repeat center / contain; transition: background .3s ease;"></span>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" style="padding: clamp(70px, 12vh, 150px) clamp(20px, 4vw, 56px) clamp(80px, 14vh, 160px);">
+      <div style="max-width: 1180px; margin: 0 auto; text-align: center;">
+        <p data-reveal="up" style="margin: 0 0 clamp(20px, 4vh, 34px); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">Who am I</p>
+        <p data-reveal="up" style="margin: 0; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: clamp(1.6rem, 3.6vw, 48px); line-height: 1.24; letter-spacing: -0.025em; text-wrap: pretty;">I've spent my career turning complex<br>products into experiences people can<br>use with confidence. <span style="color: rgba(244,242,239,0.5);">Whether it's<br><span data-hoverimg="fintech" style="color: #f4f2ef; cursor: none; border-bottom: 1px solid rgba(239,81,82,0.55);">FinTech</span>, <span data-hoverimg="healthtech" style="color: #f4f2ef; cursor: none; border-bottom: 1px solid rgba(239,81,82,0.55);">HealthTech</span>, <span data-hoverimg="genai" style="color: #f4f2ef; cursor: none; border-bottom: 1px solid rgba(239,81,82,0.55);">GenAI SaaS</span>, or <span data-hoverimg="web3" style="color: #f4f2ef; cursor: none; border-bottom: 1px solid rgba(239,81,82,0.55);">Web3</span>,<br>I believe thoughtful product design isn't<br>about adding more—it's about knowing what to simplify and what to leave out.</span></p>
+        <div data-reveal="up" data-delay="360" style="margin-top: clamp(30px, 5vh, 46px);">
+          <a href="https://www.linkedin.com/" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 12px; border: 1px solid rgba(244,242,239,0.28); border-radius: 999px; padding: 10px 10px 10px 22px; color: #f4f2ef; font-size: 13.5px; font-weight: 500;" style-hover="background: #f4f2ef; color: #08080a; border-color: #f4f2ef;">See my LinkedIn <span style="width: 30px; height: 30px; border-radius: 50%; background: #EF5152; display: inline-flex; align-items: center; justify-content: center;"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="#08080a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding: 0 clamp(20px, 4vw, 56px) clamp(70px, 12vh, 130px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <div data-reveal="up" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; flex-wrap: wrap; margin-bottom: clamp(28px, 5vh, 54px);">
+          <div>
+            <p style="margin: 0 0 14px; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">What I crafted so far</p>
+            <h2 style="margin: 0; font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: clamp(2.1rem, 6vw, 4.6rem); line-height: 0.92; letter-spacing: -0.04em;">Projects that deliver results</h2>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: clamp(16px, 2.6vw, 34px);">
+          <sc-for list="{{ featured }}" as="p" hint-placeholder-count="4">
+            <div data-reveal="card" data-case-card="{{ p.id }}" data-delay="{{ p.delay }}" data-magnetic="{{ p.tag }}" onClick="{{ p.open }}" style="grid-column: {{ p.col }}; margin-top: {{ p.offset }}; cursor: pointer;">
+              <div data-cardframe="1" style="position: relative; overflow: hidden; border-radius: 14px; background: #121216; border: 1px solid rgba(244,242,239,0.08); aspect-ratio: {{ p.ratio }};" style-hover="border-color: rgba(244,242,239,0.3);">
+                <image-slot id="{{ p.slot }}" shape="rect" fit="cover" src="{{ p.src }}" placeholder="{{ p.ph }}" style="width: 100%; height: 100%;"></image-slot>
+              </div>
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-top: 14px;">
+                <h3 style="margin: 0; font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: clamp(1.05rem, 1.7vw, 1.45rem); letter-spacing: -0.02em;">{{ p.title }}</h3>
+                <span style="font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(244,242,239,0.42); white-space: nowrap;">{{ p.tag }}</span>
+              </div>
+              <p style="margin: 5px 0 0; font-size: 13.5px; color: rgba(244,242,239,0.5); line-height: 1.5;">{{ p.blurb }}</p>
+            </div>
+          </sc-for>
+        </div>
+        <div data-reveal="up" style="display: flex; justify-content: center; margin-top: clamp(36px, 6vh, 64px);">
+          <span onClick="{{ goWork }}" style="display: inline-flex; align-items: center; gap: 12px; cursor: pointer; border: 1px solid rgba(244,242,239,0.28); border-radius: 999px; padding: 12px 12px 12px 26px; color: #f4f2ef; font-size: 14px; font-weight: 500;" style-hover="background: #f4f2ef; color: #08080a; border-color: #f4f2ef;">View all<span style="width: 30px; height: 30px; border-radius: 50%; background: #EF5152; display: inline-flex; align-items: center; justify-content: center;"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="#08080a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding: 0 clamp(20px, 4vw, 56px) clamp(70px, 12vh, 130px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <p data-reveal="up" style="text-align: center; margin: 0 0 clamp(26px, 5vh, 48px); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">Things I can help you with</p>
+        <div>
+          <sc-for list="{{ services }}" as="sv" hint-placeholder-count="5">
+            <div data-reveal="up" data-magnetic="1" style="position: relative; display: flex; align-items: center; gap: clamp(18px, 5vw, 60px); padding: clamp(18px, 3vh, 30px) clamp(6px, 2vw, 24px); border-top: 1px solid rgba(244,242,239,0.1); cursor: default; transition: padding-left .35s cubic-bezier(.2,.8,.2,1);" style-hover="background: rgba(244,242,239,0.04);">
+              <span style="font-size: 12px; color: rgba(244,242,239,0.4); width: 30px; letter-spacing: 0.06em;">{{ sv.n }}</span>
+              <h3 style="margin: 0; flex: 1; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: clamp(1.3rem, 3.4vw, 2.5rem); letter-spacing: -0.03em;">{{ sv.name }}</h3>
+              <span style="font-size: 13px; color: rgba(244,242,239,0.45); max-width: 300px; line-height: 1.45; text-align: right;">{{ sv.note }}</span>
+            </div>
+          </sc-for>
+          <div style="border-top: 1px solid rgba(244,242,239,0.1);"></div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding: 0 0 clamp(70px, 12vh, 130px); overflow: hidden;">
+      <p data-reveal="up" style="text-align: center; margin: 0 0 clamp(30px, 5vh, 56px); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">Tools I use at work</p>
+      <p data-reveal="up" style="text-align: center; margin: 0 0 clamp(20px, 3.4vh, 32px); font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(244,242,239,0.6);">Design driven</p>
+      <div style="position: relative; overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%); mask: linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%);">
+        <div style="display: flex; width: max-content; will-change: transform; backface-visibility: hidden; animation: marq 55s linear infinite;">
+          <div style="display: flex; align-items: stretch; gap: 20px; padding-right: 20px;">
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/figma) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/figma) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Figma</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Anything design related happens here first. Website? Yes. App? Absolutely.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/framer) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/framer) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Framer</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Where a flow becomes something clickable enough to test.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #00c4cc;">Ca</span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Canva</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Quick decks and social artwork a client can edit themselves.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #31a8ff;">Ps</span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Photoshop</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Complex photo and bitmap editing beyond what apps can do.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #ff9a00;">Ai</span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Illustrator</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">When the pen tool in Figma fails, I turn to the king of vectors.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/wordpress) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/wordpress) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">WordPress</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Content sites clients can run long after I hand them over.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/figma) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/figma) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Figma</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Anything design related happens here first. Website? Yes. App? Absolutely.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/framer) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/framer) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Framer</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Where a flow becomes something clickable enough to test.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #00c4cc;">Ca</span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Canva</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Quick decks and social artwork a client can edit themselves.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #31a8ff;">Ps</span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Photoshop</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Complex photo and bitmap editing beyond what apps can do.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #ff9a00;">Ai</span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Illustrator</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">When the pen tool in Figma fails, I turn to the king of vectors.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/wordpress) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/wordpress) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">WordPress</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Content sites clients can run long after I hand them over.</p>
+            </div>
+          </div>
+          <div aria-hidden="true" style="display: flex; align-items: stretch; gap: 20px; padding-right: 20px;">
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/figma) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/figma) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Figma</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Anything design related happens here first. Website? Yes. App? Absolutely.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/framer) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/framer) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Framer</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Where a flow becomes something clickable enough to test.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #00c4cc;">Ca</span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Canva</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Quick decks and social artwork a client can edit themselves.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #31a8ff;">Ps</span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Photoshop</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Complex photo and bitmap editing beyond what apps can do.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #ff9a00;">Ai</span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Illustrator</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">When the pen tool in Figma fails, I turn to the king of vectors.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/wordpress) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/wordpress) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">WordPress</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Content sites clients can run long after I hand them over.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/figma) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/figma) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Figma</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Anything design related happens here first. Website? Yes. App? Absolutely.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/framer) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/framer) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Framer</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Where a flow becomes something clickable enough to test.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #00c4cc;">Ca</span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Canva</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Quick decks and social artwork a client can edit themselves.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #31a8ff;">Ps</span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Photoshop</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Complex photo and bitmap editing beyond what apps can do.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #ff9a00;">Ai</span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Illustrator</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">When the pen tool in Figma fails, I turn to the king of vectors.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/wordpress) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/wordpress) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">WordPress</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Content sites clients can run long after I hand them over.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="height: clamp(34px, 5vh, 54px);"></div>
+      <p data-reveal="up" style="text-align: center; margin: 0 0 clamp(20px, 3.4vh, 32px); font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(244,242,239,0.6);">Comms &amp; collabs</p>
+      <div style="position: relative; overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%); mask: linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%);">
+        <div style="display: flex; width: max-content; will-change: transform; backface-visibility: hidden; animation: marqR 55s linear infinite;">
+          <div style="display: flex; align-items: stretch; gap: 20px; padding-right: 20px;">
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/whatsapp) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/whatsapp) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">WhatsApp</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">How most of my clients actually reach me, day to day.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #e01e5a;">Sl</span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Slack</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Join your Slack and you have access to me while we work.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/googlemeet) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/googlemeet) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Google Meet</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Where all our meetings take place with the whole team.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/notion) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/notion) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Notion</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">All of the information for your project in one dashboard.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/trello) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/trello) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Trello</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Efficient task management and day-to-day collaboration.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/jira) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/jira) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Jira</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Where design work meets the engineering backlog.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/whatsapp) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/whatsapp) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">WhatsApp</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">How most of my clients actually reach me, day to day.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #e01e5a;">Sl</span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Slack</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Join your Slack and you have access to me while we work.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/googlemeet) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/googlemeet) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Google Meet</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Where all our meetings take place with the whole team.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/notion) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/notion) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Notion</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">All of the information for your project in one dashboard.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/trello) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/trello) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Trello</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Efficient task management and day-to-day collaboration.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/jira) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/jira) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Jira</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Where design work meets the engineering backlog.</p>
+            </div>
+          </div>
+          <div aria-hidden="true" style="display: flex; align-items: stretch; gap: 20px; padding-right: 20px;">
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/whatsapp) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/whatsapp) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">WhatsApp</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">How most of my clients actually reach me, day to day.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #e01e5a;">Sl</span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Slack</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Join your Slack and you have access to me while we work.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/googlemeet) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/googlemeet) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Google Meet</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Where all our meetings take place with the whole team.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/notion) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/notion) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Notion</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">All of the information for your project in one dashboard.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/trello) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/trello) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Trello</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Efficient task management and day-to-day collaboration.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/jira) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/jira) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Jira</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Where design work meets the engineering backlog.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/whatsapp) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/whatsapp) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">WhatsApp</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">How most of my clients actually reach me, day to day.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; color: #e01e5a;">Sl</span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Slack</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Join your Slack and you have access to me while we work.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/googlemeet) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/googlemeet) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Google Meet</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Where all our meetings take place with the whole team.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/notion) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/notion) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Notion</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">All of the information for your project in one dashboard.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/trello) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/trello) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Trello</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Efficient task management and day-to-day collaboration.</p>
+            </div>
+            <div style="flex: none; width: 300px; padding: 26px; border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #16161b;">
+              <div style="width: 54px; height: 54px; border-radius: 13px; background: rgba(244,242,239,0.06); display: flex; align-items: center; justify-content: center;">
+                <span style="display: block; width: 27px; height: 27px; background: #f4f2ef; -webkit-mask: url(https://cdn.simpleicons.org/jira) no-repeat center / contain; mask: url(https://cdn.simpleicons.org/jira) no-repeat center / contain;"></span>
+              </div>
+              <h3 style="margin: 20px 0 8px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1;">Jira</h3>
+              <p style="margin: 0; font-size: 13.5px; line-height: 1.5; color: rgba(244,242,239,0.55);">Where design work meets the engineering backlog.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <dc-import name="Footer" go-work="{{ goWork }}" hint-size="100%,420px"></dc-import>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isHire }}" hint-placeholder-val="{{ false }}">
+  <div style="padding-top: 74px;">
+
+    <section style="padding: clamp(50px, 9vh, 110px) clamp(20px, 4vw, 56px) clamp(40px, 7vh, 80px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <p data-reveal="up" style="margin: 0 0 18px; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">Design subscription — 2 slots open</p>
+        <h1 data-reveal="up" data-delay="80" style="margin: 0; max-width: 16ch; font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: clamp(2.6rem, 8.6vw, 7rem); line-height: 0.88; letter-spacing: -0.045em;">A senior designer, on subscription</h1>
+        <p data-reveal="up" data-delay="160" style="margin: clamp(22px, 4vh, 34px) 0 0; max-width: 58ch; font-size: clamp(16px, 1.5vw, 18px); line-height: 1.62; color: rgba(244,242,239,0.62);">Fifteen years of product design work, billed as a flat monthly fee instead of a scoped project. Unlimited requests, one active task at a time, delivered in 48 hours. Pause the month you don't need me; cancel whenever.</p>
+        <div data-reveal="up" data-delay="220" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(26px, 4vh, 38px);">
+          <a href="mailto:hello@nethra.design?subject=Design%20subscription" style="font-size: 13.5px; font-weight: 600; color: #08080a; background: #EF5152; border-radius: 999px; padding: 13px 26px;" style-hover="background: #ffd23f;">Book an intro call</a>
+          <span onClick="{{ goWork }}" style="cursor: pointer; font-size: 13.5px; font-weight: 500; color: #f4f2ef; border: 1px solid rgba(244,242,239,0.28); border-radius: 999px; padding: 13px 26px;" style-hover="background: rgba(244,242,239,0.08);">See the work first</span>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding: 0 clamp(20px, 4vw, 56px) clamp(70px, 12vh, 130px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: clamp(18px, 2.4vw, 28px); align-items: stretch;">
+          <div data-reveal="up" style="display: flex; flex-direction: column; padding: clamp(26px, 3vw, 38px); border-radius: 18px; background: #101014; border: 1px solid rgba(244,242,239,0.1);">
+            
+            <h3 style="margin: 0 0 10px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.5rem; letter-spacing: -0.02em;">Essential</h3>
+            <p style="margin: 0 0 22px; font-size: 14px; line-height: 1.55; color: rgba(244,242,239,0.55); min-height: 44px;">One request at a time, for teams with a steady trickle of design work.</p>
+            <div style="display: flex; align-items: baseline; gap: 8px;">
+              <span style="font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: clamp(2.2rem, 4vw, 3rem); letter-spacing: -0.04em; line-height: 1;">$3,200</span>
+              <span style="font-size: 13.5px; color: rgba(244,242,239,0.5);">/ month</span>
+            </div>
+            <div style="display: grid; gap: 11px; margin: 26px 0 30px;">
+              <div style="display: flex; gap: 11px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: rgba(244,242,239,0.75);"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" style="flex: none; margin-top: 3px;"><path d="M2.5 7.4l3 3L11.5 3.8" stroke="#EF5152" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited requests and revisions</div>
+              <div style="display: flex; gap: 11px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: rgba(244,242,239,0.75);"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" style="flex: none; margin-top: 3px;"><path d="M2.5 7.4l3 3L11.5 3.8" stroke="#EF5152" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>48-hour average turnaround</div>
+              <div style="display: flex; gap: 11px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: rgba(244,242,239,0.75);"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" style="flex: none; margin-top: 3px;"><path d="M2.5 7.4l3 3L11.5 3.8" stroke="#EF5152" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Figma source files, always yours</div>
+              <div style="display: flex; gap: 11px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: rgba(244,242,239,0.75);"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" style="flex: none; margin-top: 3px;"><path d="M2.5 7.4l3 3L11.5 3.8" stroke="#EF5152" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Async updates over Slack or email</div>
+              <div style="display: flex; gap: 11px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: rgba(244,242,239,0.75);"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" style="flex: none; margin-top: 3px;"><path d="M2.5 7.4l3 3L11.5 3.8" stroke="#EF5152" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Pause or cancel any month</div>
+            </div>
+            <a href="mailto:hello@nethra.design?subject=Essential%20subscription" style="margin-top: auto; text-align: center; font-size: 13.5px; font-weight: 600; border-radius: 999px; padding: 13px 22px; color: #f4f2ef; border: 1px solid rgba(244,242,239,0.28);" style-hover="background: rgba(244,242,239,0.08);">Start Essential</a>
+          </div>
+          <div data-reveal="up" style="display: flex; flex-direction: column; padding: clamp(26px, 3vw, 38px); border-radius: 18px; background: #15100f; border: 1px solid rgba(239,81,82,0.45);">
+            <span style="align-self: flex-start; font-size: 10.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #08080a; background: #EF5152; border-radius: 999px; padding: 5px 11px; margin-bottom: 18px;">Most booked</span>
+            <h3 style="margin: 0 0 10px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.5rem; letter-spacing: -0.02em;">Product</h3>
+            <p style="margin: 0 0 22px; font-size: 14px; line-height: 1.55; color: rgba(244,242,239,0.55); min-height: 44px;">Two active requests, research included — for teams shipping continuously.</p>
+            <div style="display: flex; align-items: baseline; gap: 8px;">
+              <span style="font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: clamp(2.2rem, 4vw, 3rem); letter-spacing: -0.04em; line-height: 1;">$5,400</span>
+              <span style="font-size: 13.5px; color: rgba(244,242,239,0.5);">/ month</span>
+            </div>
+            <div style="display: grid; gap: 11px; margin: 26px 0 30px;">
+              <div style="display: flex; gap: 11px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: rgba(244,242,239,0.75);"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" style="flex: none; margin-top: 3px;"><path d="M2.5 7.4l3 3L11.5 3.8" stroke="#EF5152" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Essential</div>
+              <div style="display: flex; gap: 11px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: rgba(244,242,239,0.75);"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" style="flex: none; margin-top: 3px;"><path d="M2.5 7.4l3 3L11.5 3.8" stroke="#EF5152" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Two requests in flight at once</div>
+              <div style="display: flex; gap: 11px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: rgba(244,242,239,0.75);"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" style="flex: none; margin-top: 3px;"><path d="M2.5 7.4l3 3L11.5 3.8" stroke="#EF5152" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>User research and usability testing</div>
+              <div style="display: flex; gap: 11px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: rgba(244,242,239,0.75);"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" style="flex: none; margin-top: 3px;"><path d="M2.5 7.4l3 3L11.5 3.8" stroke="#EF5152" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Design system built and maintained</div>
+              <div style="display: flex; gap: 11px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: rgba(244,242,239,0.75);"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" style="flex: none; margin-top: 3px;"><path d="M2.5 7.4l3 3L11.5 3.8" stroke="#EF5152" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Weekly call, in your standups</div>
+              <div style="display: flex; gap: 11px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: rgba(244,242,239,0.75);"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" style="flex: none; margin-top: 3px;"><path d="M2.5 7.4l3 3L11.5 3.8" stroke="#EF5152" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Front-end build support</div>
+            </div>
+            <a href="mailto:hello@nethra.design?subject=Product%20subscription" style="margin-top: auto; text-align: center; font-size: 13.5px; font-weight: 600; border-radius: 999px; padding: 13px 22px; background: #EF5152; color: #08080a;" style-hover="background: #ffd23f;">Claim this slot</a>
+          </div>
+          <div data-reveal="up" style="display: flex; flex-direction: column; padding: clamp(26px, 3vw, 38px); border-radius: 18px; background: #101014; border: 1px solid rgba(244,242,239,0.1);">
+            
+            <h3 style="margin: 0 0 10px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.5rem; letter-spacing: -0.02em;">Sprint</h3>
+            <p style="margin: 0 0 22px; font-size: 14px; line-height: 1.55; color: rgba(244,242,239,0.55); min-height: 44px;">A fixed two-week engagement for a 0→1 push or a launch.</p>
+            <div style="display: flex; align-items: baseline; gap: 8px;">
+              <span style="font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: clamp(2.2rem, 4vw, 3rem); letter-spacing: -0.04em; line-height: 1;">$7,500</span>
+              <span style="font-size: 13.5px; color: rgba(244,242,239,0.5);">/ 2 weeks</span>
+            </div>
+            <div style="display: grid; gap: 11px; margin: 26px 0 30px;">
+              <div style="display: flex; gap: 11px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: rgba(244,242,239,0.75);"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" style="flex: none; margin-top: 3px;"><path d="M2.5 7.4l3 3L11.5 3.8" stroke="#EF5152" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Full-time attention, two weeks</div>
+              <div style="display: flex; gap: 11px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: rgba(244,242,239,0.75);"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" style="flex: none; margin-top: 3px;"><path d="M2.5 7.4l3 3L11.5 3.8" stroke="#EF5152" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Discovery through shipped UI</div>
+              <div style="display: flex; gap: 11px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: rgba(244,242,239,0.75);"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" style="flex: none; margin-top: 3px;"><path d="M2.5 7.4l3 3L11.5 3.8" stroke="#EF5152" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Daily reviews with your team</div>
+              <div style="display: flex; gap: 11px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: rgba(244,242,239,0.75);"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" style="flex: none; margin-top: 3px;"><path d="M2.5 7.4l3 3L11.5 3.8" stroke="#EF5152" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Hand-off pack for engineering</div>
+              <div style="display: flex; gap: 11px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: rgba(244,242,239,0.75);"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" style="flex: none; margin-top: 3px;"><path d="M2.5 7.4l3 3L11.5 3.8" stroke="#EF5152" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Best for launches and pitches</div>
+            </div>
+            <a href="mailto:hello@nethra.design?subject=Sprint%20subscription" style="margin-top: auto; text-align: center; font-size: 13.5px; font-weight: 600; border-radius: 999px; padding: 13px 22px; color: #f4f2ef; border: 1px solid rgba(244,242,239,0.28);" style-hover="background: rgba(244,242,239,0.08);">Start Sprint</a>
+          </div>
+        </div>
+        <p data-reveal="up" style="margin: clamp(22px, 4vh, 32px) 0 0; font-size: 13px; color: rgba(244,242,239,0.42);">Prices in USD, billed monthly. Roughly half the cost of a senior in-house hire, with no recruiting and no notice period.</p>
+      </div>
+    </section>
+
+    <section style="padding: 0 clamp(20px, 4vw, 56px) clamp(70px, 12vh, 130px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <p data-reveal="up" style="margin: 0 0 clamp(28px, 5vh, 52px); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">How it works</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: clamp(26px, 4vw, 54px);">
+          <div data-reveal="up" data-delay="0">
+            <div style="font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: 2.4rem; letter-spacing: -0.04em; color: rgba(244,242,239,0.16); line-height: 1;">01</div>
+            <h3 style="margin: 14px 0 9px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.25rem; letter-spacing: -0.02em;">Subscribe</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: rgba(244,242,239,0.58); max-width: 34ch;">Pick a plan and book a 30-minute call. I take on three clients at a time, so there is a real queue.</p>
+          </div>
+          <div data-reveal="up" data-delay="80">
+            <div style="font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: 2.4rem; letter-spacing: -0.04em; color: rgba(244,242,239,0.16); line-height: 1;">02</div>
+            <h3 style="margin: 14px 0 9px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.25rem; letter-spacing: -0.02em;">Add requests</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: rgba(244,242,239,0.58); max-width: 34ch;">Drop work into a shared board — screens, a flow, a deck, a system. Priority is yours to reorder any time.</p>
+          </div>
+          <div data-reveal="up" data-delay="160">
+            <div style="font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: 2.4rem; letter-spacing: -0.04em; color: rgba(244,242,239,0.16); line-height: 1;">03</div>
+            <h3 style="margin: 14px 0 9px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.25rem; letter-spacing: -0.02em;">Get it in 48 hours</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: rgba(244,242,239,0.58); max-width: 34ch;">One task at a time, delivered as Figma files and, where useful, working front-end. Revise until it is right.</p>
+          </div>
+          <div data-reveal="up" data-delay="240">
+            <div style="font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: 2.4rem; letter-spacing: -0.04em; color: rgba(244,242,239,0.16); line-height: 1;">04</div>
+            <h3 style="margin: 14px 0 9px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: 1.25rem; letter-spacing: -0.02em;">Pause when quiet</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: rgba(244,242,239,0.58); max-width: 34ch;">Design needs come in bursts. Pause the subscription between them and keep the unused days.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding: 0 clamp(20px, 4vw, 56px) clamp(70px, 12vh, 130px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <p data-reveal="up" style="margin: 0 0 clamp(24px, 4vh, 42px); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">What it replaces</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: clamp(20px, 4vw, 44px);">
+          <div data-reveal="up" style="border-top: 1px solid rgba(244,242,239,0.16); padding-top: 18px;">
+            <div style="font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: clamp(1.8rem, 3.4vw, 2.6rem); letter-spacing: -0.04em;">$9.6k<span style="font-weight: 400; color: #EF5152;">/mo</span></div>
+            <div style="font-size: 13.5px; color: rgba(244,242,239,0.55); margin-top: 10px; line-height: 1.5;">A senior in-house designer, all-in — plus two months to hire</div>
+          </div>
+          <div data-reveal="up" style="border-top: 1px solid rgba(244,242,239,0.16); padding-top: 18px;">
+            <div style="font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: clamp(1.8rem, 3.4vw, 2.6rem); letter-spacing: -0.04em;">$18k<span style="font-weight: 400; color: #EF5152;">+</span></div>
+            <div style="font-size: 13.5px; color: rgba(244,242,239,0.55); margin-top: 10px; line-height: 1.5;">A typical agency retainer, scoped in advance and slow to change</div>
+          </div>
+          <div data-reveal="up" style="border-top: 1px solid rgba(244,242,239,0.16); padding-top: 18px;">
+            <div style="font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: clamp(1.8rem, 3.4vw, 2.6rem); letter-spacing: -0.04em;">48<span style="font-weight: 400; color: #EF5152;">hrs</span></div>
+            <div style="font-size: 13.5px; color: rgba(244,242,239,0.55); margin-top: 10px; line-height: 1.5;">Average turnaround on a request, not a two-week sprint cycle</div>
+          </div>
+          <div data-reveal="up" style="border-top: 1px solid rgba(244,242,239,0.16); padding-top: 18px;">
+            <div style="font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: clamp(1.8rem, 3.4vw, 2.6rem); letter-spacing: -0.04em;">3<span style="font-weight: 400; color: #EF5152;"> max</span></div>
+            <div style="font-size: 13.5px; color: rgba(244,242,239,0.55); margin-top: 10px; line-height: 1.5;">Clients at a time, so nothing sits in a queue for a week</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding: 0 clamp(20px, 4vw, 56px) clamp(70px, 12vh, 130px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <p data-reveal="up" style="margin: 0 0 clamp(20px, 3.4vh, 32px); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">Questions people actually ask</p>
+          <div data-reveal="up" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: clamp(16px, 3vw, 44px); padding: clamp(20px, 3vh, 28px) 0; border-top: 1px solid rgba(244,242,239,0.1);">
+            <h3 style="margin: 0; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: clamp(1.05rem, 1.8vw, 1.35rem); letter-spacing: -0.02em; line-height: 1.25;">Is “unlimited” really unlimited?</h3>
+            <p style="margin: 0; font-size: 14.5px; line-height: 1.65; color: rgba(244,242,239,0.62); max-width: 58ch;">Unlimited describes the queue, not my hours. You can add as many requests as you like; I work through them one (or two) at a time, in the order you set. Most clients see six to twelve substantial pieces of work a month.</p>
+          </div>
+          <div data-reveal="up" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: clamp(16px, 3vw, 44px); padding: clamp(20px, 3vh, 28px) 0; border-top: 1px solid rgba(244,242,239,0.1);">
+            <h3 style="margin: 0; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: clamp(1.05rem, 1.8vw, 1.35rem); letter-spacing: -0.02em; line-height: 1.25;">What counts as one request?</h3>
+            <p style="margin: 0; font-size: 14.5px; line-height: 1.65; color: rgba(244,242,239,0.62); max-width: 58ch;">A screen set, a flow, a landing page, a deck, a component set, a research round. If something is really three jobs wearing a trench coat, I will say so and we will split it.</p>
+          </div>
+          <div data-reveal="up" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: clamp(16px, 3vw, 44px); padding: clamp(20px, 3vh, 28px) 0; border-top: 1px solid rgba(244,242,239,0.1);">
+            <h3 style="margin: 0; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: clamp(1.05rem, 1.8vw, 1.35rem); letter-spacing: -0.02em; line-height: 1.25;">Who owns the work?</h3>
+            <p style="margin: 0; font-size: 14.5px; line-height: 1.65; color: rgba(244,242,239,0.62); max-width: 58ch;">You do, from the moment it is delivered — Figma files, source assets and any code I write. No licensing, no hostage files if you leave.</p>
+          </div>
+          <div data-reveal="up" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: clamp(16px, 3vw, 44px); padding: clamp(20px, 3vh, 28px) 0; border-top: 1px solid rgba(244,242,239,0.1);">
+            <h3 style="margin: 0; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: clamp(1.05rem, 1.8vw, 1.35rem); letter-spacing: -0.02em; line-height: 1.25;">What do you not do?</h3>
+            <p style="margin: 0; font-size: 14.5px; line-height: 1.65; color: rgba(244,242,239,0.62); max-width: 58ch;">Illustration at scale, motion-heavy video editing, and print production. I will happily recommend people who are better at those than I am.</p>
+          </div>
+          <div data-reveal="up" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: clamp(16px, 3vw, 44px); padding: clamp(20px, 3vh, 28px) 0; border-top: 1px solid rgba(244,242,239,0.1);">
+            <h3 style="margin: 0; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: clamp(1.05rem, 1.8vw, 1.35rem); letter-spacing: -0.02em; line-height: 1.25;">Can I pause?</h3>
+            <p style="margin: 0; font-size: 14.5px; line-height: 1.65; color: rgba(244,242,239,0.62); max-width: 58ch;">Any month, with a week of notice. Unused days stay on your account for up to a year, so a quiet quarter does not cost you anything.</p>
+          </div>
+          <div data-reveal="up" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: clamp(16px, 3vw, 44px); padding: clamp(20px, 3vh, 28px) 0; border-top: 1px solid rgba(244,242,239,0.1);">
+            <h3 style="margin: 0; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: clamp(1.05rem, 1.8vw, 1.35rem); letter-spacing: -0.02em; line-height: 1.25;">How do we start?</h3>
+            <p style="margin: 0; font-size: 14.5px; line-height: 1.65; color: rgba(244,242,239,0.62); max-width: 58ch;">A 30-minute call to check the fit, then a shared board and a first request the same week. If the first two weeks do not work for you, I refund them.</p>
+          </div>
+        <div style="border-top: 1px solid rgba(244,242,239,0.1);"></div>
+      </div>
+    </section>
+
+    <dc-import name="Footer" go-work="{{ goWork }}" hint-size="100%,420px"></dc-import>
+  </div>
+  </sc-if>
+
+  <!-- ══ ABOUT ══ -->
+  <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+  <div style="padding-top: 74px;">
+
+    <section style="padding: clamp(50px, 9vh, 110px) clamp(20px, 4vw, 56px) clamp(40px, 7vh, 80px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <p data-reveal="up" style="margin: 0 0 18px; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">About — fifteen years in</p>
+        <h1 data-reveal="up" data-delay="80" style="margin: 0; max-width: 17ch; font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: clamp(2.6rem, 8.6vw, 7rem); line-height: 0.88; letter-spacing: -0.045em;">I design the parts nobody demos</h1>
+      </div>
+    </section>
+
+    <section style="padding: 0 clamp(20px, 4vw, 56px) clamp(70px, 12vh, 130px);">
+      <div style="max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: clamp(28px, 5vw, 70px); align-items: start;">
+        <div data-reveal="up" style="border-radius: 16px; overflow: hidden; border: 1px solid rgba(244,242,239,0.1); background: #121216; aspect-ratio: 4/5;">
+          <image-slot id="about-portrait" shape="rect" fit="cover" placeholder="Drop a portrait of yourself" style="width: 100%; height: 100%;"></image-slot>
+        </div>
+        <div>
+          <p data-reveal="up" style="margin: 0 0 1.1em; font-family: 'Clash Display', sans-serif; font-weight: 400; font-size: clamp(1.2rem, 2.3vw, 1.75rem); line-height: 1.35; letter-spacing: -0.025em; max-width: 46ch;">Vanakkam. I'm Nethra Balasubramaniam, a product designer working out of Chennai with teams across three time zones.</p>
+          <p data-reveal="up" data-delay="70" style="margin: 0 0 1.1em; font-size: clamp(15px, 1.35vw, 17.5px); line-height: 1.68; color: rgba(244,242,239,0.72); max-width: 62ch; text-wrap: pretty;">Fifteen years, roughly two hundred projects, ten-odd domains. What that adds up to is a fairly narrow specialism: I'm good at the unglamorous middle of a product — the empty state, the resumable form, the permission model, the review loop — which is where products are actually won or abandoned.</p>
+          <p data-reveal="up" data-delay="140" style="margin: 0 0 1.1em; font-size: clamp(15px, 1.35vw, 17.5px); line-height: 1.68; color: rgba(244,242,239,0.72); max-width: 62ch; text-wrap: pretty;">I started on the agency side drawing brand work, moved into enterprise UX at Accenture and Tech Mahindra where I learned to design inside constraints I couldn't negotiate, then spent five years leading product design in studio and client teams. Since 2021 I've worked independently, mostly with GenAI, FinTech and HealthTech teams who need someone senior in the room early.</p>
+          <p data-reveal="up" data-delay="210" style="margin: 0; font-size: clamp(15px, 1.35vw, 17.5px); line-height: 1.68; color: rgba(244,242,239,0.72); max-width: 62ch; text-wrap: pretty;">I also write front-end. Not because designers must code, but because implementing my own interfaces taught me which details survive hand-off and which quietly don't.</p>
+          <div data-reveal="up" data-delay="280" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(26px, 4vh, 38px);">
+            <a href="mailto:hello@nethra.design" style="font-size: 13px; font-weight: 600; color: #08080a; background: #EF5152; border-radius: 999px; padding: 11px 22px;" style-hover="background: #ffd23f;">Start a project</a>
+            <span data-magnetic="1" onClick="{{ goWork }}" style="cursor: pointer; font-size: 13px; font-weight: 500; color: #f4f2ef; border: 1px solid rgba(244,242,239,0.28); border-radius: 999px; padding: 11px 22px;" style-hover="background: rgba(244,242,239,0.08);">Read the case studies</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding: 0 clamp(20px, 4vw, 56px) clamp(70px, 12vh, 130px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <h2 data-reveal="up" style="margin: 0 0 clamp(28px, 5vh, 52px); font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: clamp(2rem, 5.4vw, 4rem); line-height: 0.94; letter-spacing: -0.04em;">Where I've worked</h2>
+        <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="5">
+          <div class="timeline-row" data-reveal="up" style="display: grid; grid-template-columns: minmax(120px, 0.5fr) minmax(0, 1fr) minmax(0, 1.3fr); gap: clamp(16px, 3vw, 44px); padding: clamp(20px, 3vh, 30px) 0; border-top: 1px solid rgba(244,242,239,0.1);">
+            <span style="font-size: 13px; color: rgba(244,242,239,0.42); letter-spacing: 0.02em;">{{ t.years }}</span>
+            <div>
+              <h3 style="margin: 0; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: clamp(1.1rem, 2.1vw, 1.6rem); letter-spacing: -0.025em; line-height: 1.1;">{{ t.role }}</h3>
+              <div style="font-size: 13px; color: #ffd23f; margin-top: 7px;">{{ t.org }}</div>
+            </div>
+            <p style="margin: 0; font-size: 14.5px; line-height: 1.6; color: rgba(244,242,239,0.62); max-width: 52ch;">{{ t.note }}</p>
+          </div>
+        </sc-for>
+        <div style="border-top: 1px solid rgba(244,242,239,0.1);"></div>
+      </div>
+    </section>
+
+    <section style="padding: 0 clamp(20px, 4vw, 56px) clamp(70px, 12vh, 130px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <h2 data-reveal="up" style="margin: 0 0 clamp(28px, 5vh, 52px); font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: clamp(2rem, 5.4vw, 4rem); line-height: 0.94; letter-spacing: -0.04em;">How I work</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: clamp(26px, 4vw, 56px);">
+          <sc-for list="{{ beliefs }}" as="b" hint-placeholder-count="4">
+            <div data-reveal="up">
+              <div style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #EF5152;">{{ b.n }}</div>
+              <h3 style="margin: 12px 0 10px; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: clamp(1.15rem, 2vw, 1.55rem); letter-spacing: -0.025em; line-height: 1.15;">{{ b.t }}</h3>
+              <p style="margin: 0; font-size: 14.5px; line-height: 1.62; color: rgba(244,242,239,0.62); max-width: 42ch;">{{ b.b }}</p>
+            </div>
+          </sc-for>
+        </div>
+        <div data-reveal="up" style="display: flex; justify-content: center; margin-top: clamp(36px, 6vh, 64px);">
+          <span onClick="{{ goWork }}" style="display: inline-flex; align-items: center; gap: 12px; cursor: pointer; border: 1px solid rgba(244,242,239,0.28); border-radius: 999px; padding: 12px 12px 12px 26px; color: #f4f2ef; font-size: 14px; font-weight: 500;" style-hover="background: #f4f2ef; color: #08080a; border-color: #f4f2ef;">View all<span style="width: 30px; height: 30px; border-radius: 50%; background: #EF5152; display: inline-flex; align-items: center; justify-content: center;"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="#08080a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding: 0 clamp(20px, 4vw, 56px) clamp(70px, 12vh, 130px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <h2 data-reveal="up" style="margin: 0 0 clamp(28px, 5vh, 52px); font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: clamp(2rem, 5.4vw, 4rem); line-height: 0.94; letter-spacing: -0.04em;">What I bring</h2>
+        <sc-for list="{{ capabilities }}" as="c" hint-placeholder-count="6">
+          <div class="capability-row" data-reveal="up" style="display: grid; grid-template-columns: minmax(120px, 0.4fr) minmax(0, 1.6fr); gap: clamp(16px, 3vw, 44px); padding: clamp(16px, 2.4vh, 24px) 0; border-top: 1px solid rgba(244,242,239,0.1);">
+            <span style="font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(244,242,239,0.42);">{{ c.k }}</span>
+            <span style="font-size: clamp(14.5px, 1.6vw, 18px); line-height: 1.5; color: rgba(244,242,239,0.82);">{{ c.v }}</span>
+          </div>
+        </sc-for>
+        <div style="border-top: 1px solid rgba(244,242,239,0.1);"></div>
+      </div>
+    </section>
+
+    <dc-import name="Footer" go-work="{{ goWork }}" hint-size="100%,420px"></dc-import>
+  </div>
+  </sc-if>
+
+  <!-- ══ CASE STUDIES INDEX ══ -->
+  <sc-if value="{{ isWork }}" hint-placeholder-val="{{ false }}">
+  <div style="padding-top: 74px;">
+    <section style="padding: clamp(50px, 9vh, 110px) clamp(20px, 4vw, 56px) clamp(40px, 7vh, 80px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <p data-reveal="up" style="margin: 0 0 18px; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">Case Studies — 2019 to 2026</p>
+        <h1 data-reveal="up" data-delay="80" style="margin: 0; max-width: 15ch; font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: clamp(2.6rem, 9vw, 7.4rem); line-height: 0.88; letter-spacing: -0.045em;">Work worth reading about</h1>
+        <p data-reveal="up" data-delay="160" style="margin: clamp(22px, 4vh, 34px) 0 0; max-width: 56ch; font-size: clamp(15px, 1.4vw, 17px); line-height: 1.6; color: rgba(244,242,239,0.55);">Six projects, each written up end to end — the constraint I started with, the research that changed my mind, and what shipped. Available for freelance and contract engagements.</p>
+      </div>
+    </section>
+
+    <section style="padding: 0 clamp(20px, 4vw, 56px) clamp(70px, 12vh, 130px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <sc-for list="{{ cases }}" as="c" hint-placeholder-count="5">
+          <div class="work-card" data-reveal="up" data-magnetic="View" onClick="{{ c.open }}" style="display: grid; grid-template-columns: 1fr auto; align-items: center; gap: clamp(16px, 3vw, 40px); padding: clamp(20px, 3vh, 32px) 20px; border-radius: 14px; border-top: 1px solid rgba(244,242,239,0.1); cursor: pointer; transition: background .25s ease;" style-hover="background: rgba(244,242,239,0.04);">
+            <div>
+              <h2 style="margin: 0; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: clamp(1.5rem, 4vw, 3rem); letter-spacing: -0.035em; line-height: 1;">{{ c.title }}</h2>
+              <p style="margin: 9px 0 0; font-size: 13.5px; color: rgba(244,242,239,0.5); max-width: 62ch; line-height: 1.5;">{{ c.blurb }}</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
+                <sc-for list="{{ c.chips }}" as="ch" hint-placeholder-count="3">
+                  <span style="font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(244,242,239,0.55); border: 1px solid rgba(244,242,239,0.16); border-radius: 999px; padding: 4px 10px;">{{ ch }}</span>
+                </sc-for>
+              </div>
+            </div>
+            <div class="work-card-thumb" style="width: clamp(120px, 20vw, 260px); aspect-ratio: 4/3; border-radius: 12px; overflow: hidden; background: #121216; border: 1px solid rgba(244,242,239,0.08);">
+              <image-slot id="{{ c.slot }}" shape="rect" fit="cover" src="{{ c.src }}" placeholder="{{ c.ph }}" style="width: 100%; height: 100%;"></image-slot>
+            </div>
+          </div>
+        </sc-for>
+        <div style="border-top: 1px solid rgba(244,242,239,0.1);"></div>
+      </div>
+    </section>
+
+    <dc-import name="Footer" go-work="{{ goWork }}" hint-size="100%,420px"></dc-import>
+  </div>
+  </sc-if>
+
+  <!-- ══ DESIGN PLAYGROUND DRIBBBLE 3-COLUMN GALLERY PAGE ══ -->
+  <sc-if value="{{ isPlayground }}" hint-placeholder-val="{{ false }}">
+  <div style="padding-top: 74px;">
+    <section style="padding: clamp(50px, 9vh, 110px) clamp(20px, 4vw, 56px) clamp(30px, 6vh, 60px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <p data-reveal="up" style="margin: 0 0 18px; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">Crafting design experience since 2005</p>
+        <h1 data-reveal="up" data-delay="80" style="margin: 0; max-width: 18ch; font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: clamp(2.6rem, 9vw, 7.4rem); line-height: 0.88; letter-spacing: -0.045em;">My Playground</h1>
+        <p data-reveal="up" data-delay="160" style="margin: clamp(22px, 4vh, 34px) 0 0; max-width: 58ch; font-size: clamp(15px, 1.4vw, 17px); line-height: 1.6; color: rgba(244,242,239,0.58);">A collection of everyday design explorations, experiments, and creative work. From social media and visuals to concepts I create along the way.</p>
+      </div>
+    </section>
+
+    <section style="padding: 0 clamp(20px, 4vw, 56px) clamp(70px, 12vh, 130px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <div class="dribbble-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; width: 100%;">
+          <sc-for list="{{ playgroundItems }}" as="pg" hint-placeholder-count="8">
+            <div class="dribbble-shot" data-reveal="up" onClick="{{ pg.open }}">
+              <!-- 4:3 DRIBBBLE SHOT THUMBNAIL FRAME -->
+              <div class="dribbble-shot-frame" style="border-radius: 8px !important; overflow: hidden !important;">
+                <image-slot id="{{ pg.slot }}" shape="rect" fit="cover" src="{{ pg.src }}" placeholder="{{ pg.ph }}" editable style="width: 100%; height: 100%; border-radius: 8px !important; overflow: hidden !important;"></image-slot>
+              </div>
+
+              <!-- DRIBBBLE TITLE DIRECTLY BELOW THUMBNAIL -->
+              <div style="margin-top: 12px;">
+                <span style="font-size: 13.5px; font-weight: 600; color: #f4f2ef; line-height: 1.35; display: block;">{{ pg.title }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ LIGHTBOX IMAGE ZOOM PREVIEW MODAL ══ -->
+    <sc-if value="{{ lightboxOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 9999; background: rgba(8, 8, 10, 0.94); backdrop-filter: blur(20px); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; animation: lightboxFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);" onClick="{{ closeLightbox }}">
+      <!-- Top Header Controls -->
+      <div style="position: absolute; top: 24px; left: 28px; right: 28px; display: flex; align-items: center; justify-content: space-between; z-index: 10000; pointer-events: auto;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #EF5152; border: 1px solid rgba(239,81,82,0.35); border-radius: 999px; padding: 3px 10px; font-weight: 600;">{{ lightboxItem.tag }}</span>
+          <h3 style="margin: 0; font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: clamp(1.1rem, 2vw, 1.4rem); color: #f4f2ef;">{{ lightboxItem.title }}</h3>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button onClick="{{ toggleZoom }}" style="background: rgba(244,242,239,0.1); border: 1px solid rgba(244,242,239,0.18); color: #f4f2ef; border-radius: 8px; padding: 8px 14px; font-size: 12.5px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s ease;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="{{ isZoomed ? 'M8 11h6' : 'M11 8v6M8 11h6' }}"/></svg>
+            {{ isZoomed ? 'Zoom Out (100%)' : 'Zoom In (180%)' }}
+          </button>
+          <button onClick="{{ closeLightbox }}" style="background: rgba(239,81,82,0.15); border: 1px solid rgba(239,81,82,0.4); color: #EF5152; border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s ease;">✕</button>
+        </div>
+      </div>
+
+      <!-- Lightbox Image Stage with Zoom -->
+      <div style="width: min(1100px, 92vw); height: min(760px, 76vh); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 20px; border: 1px solid rgba(244,242,239,0.12); background: #0c0c10; box-shadow: 0 30px 80px rgba(0,0,0,0.95); cursor: {{ isZoomed ? 'zoom-out' : 'zoom-in' }};" onClick="{{ toggleZoom }}">
+        <div style="width: 100%; height: 100%; transform: scale({{ isZoomed ? 1.8 : 1 }}); transform-origin: center center; transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); display: flex; align-items: center; justify-content: center; padding: 20px;">
+          <sc-if value="{{ hasActiveImageSrc }}" hint-placeholder-val="{{ false }}">
+            <img src="{{ activeImageSrc }}" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.85);" />
+          </sc-if>
+          <sc-if value="{{ !hasActiveImageSrc }}" hint-placeholder-val="{{ false }}">
+            <image-slot id="{{ lightboxSlot }}" shape="rect" fit="contain" src="{{ lightboxItem.src }}" placeholder="{{ lightboxItem.ph }}" style="width: 100%; height: 100%; border-radius: 18px;"></image-slot>
+          </sc-if>
+        </div>
+      </div>
+      
+      <p style="margin: 14px 0 0; font-size: 12px; color: rgba(244,242,239,0.48); letter-spacing: 0.04em;">Click image to toggle 1.8x zoom preview · Click anywhere outside to close</p>
+    </div>
+    </sc-if>
+      </div>
+    </section>
+
+    <dc-import name="Footer" go-work="{{ goWork }}" hint-size="100%,420px"></dc-import>
+  </div>
+  </sc-if>
+
+  <!-- ══ CASE DETAIL ══ -->
+  <sc-if value="{{ isCase }}" hint-placeholder-val="{{ false }}">
+    <section style="padding: 74px clamp(20px, 4vw, 56px) clamp(40px, 6vh, 70px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <!-- Top Back Button & Tag -->
+        <span data-magnetic="1" onClick="{{ goWork }}" style="cursor: pointer; font-size: 13px; color: rgba(244,242,239,0.5); display: inline-block; margin-top: 8px;" style-hover="color: #ffd23f;">← All case studies</span>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 12px;">
+          <p data-reveal="up" style="margin: 0; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">{{ active.tag }}</p>
+          <span style="font-size: 12px; letter-spacing: 0.1em; color: rgba(244,242,239,0.4); font-weight: 600;">{{ active.n }} / 06</span>
+        </div>
+        
+        <!-- Headline -->
+        <h1 data-reveal="up" data-delay="70" style="margin: 12px 0 16px; max-width: 26ch; font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: clamp(2rem, 4.2vw, 3.6rem); line-height: 1.05; letter-spacing: -0.035em;">{{ active.headline }}</h1>
+
+        <!-- Lede Subtext -->
+        <p data-reveal="up" data-delay="140" style="margin: 0 0 28px; width: 100%; max-width: 78ch; font-size: clamp(15px, 1.4vw, 18px); line-height: 1.6; color: rgba(244,242,239,0.62);">{{ active.lede }}</p>
+
+        <!-- ══ ROLE, CLIENT, DURATION, SCOPE METADATA GRID ══ -->
+        <div class="meta-grid" data-reveal="up" data-delay="200" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: clamp(16px, 3vw, 34px); padding-top: 24px; border-top: 1px solid rgba(244,242,239,0.12);">
+          <sc-for list="{{ active.meta }}" as="m" hint-placeholder-count="4">
+            <div>
+              <div style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(244,242,239,0.4);">{{ m.k }}</div>
+              <div style="font-size: 15px; margin-top: 7px; line-height: 1.4;">{{ m.v }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <sc-if value="{{ active.pillars }}" hint-placeholder-val="{{ false }}">
+    <section style="padding: 0 clamp(20px, 4vw, 56px) clamp(30px, 5vh, 60px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <p data-reveal="up" style="margin: 0 0 clamp(28px, 4vh, 44px); font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #EF5152;">What the platform does</p>
+
+        <!-- 3-COLUMN GRID MATCHING REFERENCE IMAGE -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: clamp(18px, 2.5vw, 28px);">
+          <sc-for list="{{ active.pillars }}" as="pl" hint-placeholder-count="6">
+            <div data-reveal="up" style="padding: clamp(26px, 2.8vw, 36px); border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #141419;">
+              <div style="font-size: 13px; font-weight: 600; font-family: monospace; letter-spacing: 0.08em; color: #EF5152; margin-bottom: 18px;">{{ pl.num }}</div>
+              <h3 style="margin: 0 0 12px; font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: clamp(1.25rem, 2.2vw, 1.45rem); color: #f4f2ef; line-height: 1.25; letter-spacing: -0.02em;">{{ pl.t }}</h3>
+              <p style="margin: 0; font-size: 14px; line-height: 1.6; color: rgba(244,242,239,0.55);">{{ pl.b }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+    </sc-if>
+
+    <!-- ══ MAIN STICKY CHAPTER NAVIGATION WRAPPER ══ -->
+    <div style="position: relative;">
+      <sc-if value="{{ activeTabs.length }}" hint-placeholder-val="{{ false }}">
+      <div class="sticky-tabs-bar" style="position: sticky; top: 68px; z-index: 790; background: #08080a; padding: 12px clamp(20px, 4vw, 56px); border-top: 1px solid rgba(244,242,239,0.08); border-bottom: 1px solid rgba(244,242,239,0.08);">
+        <div style="max-width: 1240px; margin: 0 auto;">
+          <div class="no-scrollbar" style="display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; padding-bottom: 2px; -webkit-overflow-scrolling: touch; scroll-behavior: smooth;">
+            <sc-for list="{{ activeTabs }}" as="tb">
+              <button onClick="{{ tb.onClick }}" style="flex: none; padding: 9px 20px; border-radius: 30px; background: #101014; border: 1px solid rgba(244,242,239,0.14); font-family: 'Clash Display', sans-serif; font-size: 11.5px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(244,242,239,0.7); cursor: pointer; white-space: nowrap; transition: all .25s ease;" style-hover="color: #f4f2ef; border-color: #EF5152; background: #1a1a22;">
+                <span style="color: #EF5152; margin-right: 8px;">{{ tb.num }}</span>{{ tb.label }}
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <section style="padding: clamp(40px, 6vh, 80px) clamp(20px, 4vw, 56px) clamp(50px, 9vh, 100px);">
+      <div style="max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(60px, 10vh, 120px);">
+        <sc-for list="{{ active.chapters }}" as="ch" hint-placeholder-count="4">
+          <div id="{{ ch.tabId }}" class="chapter-grid" style="display: grid; grid-template-columns: minmax(220px, 0.72fr) minmax(0, 1.6fr); gap: clamp(24px, 5vw, 70px); align-items: start; scroll-margin-top: 135px;">
+            <div style="position: sticky; top: 135px;">
+              <div data-reveal="up" style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #ffd23f;">{{ ch.n }}</div>
+              <h2 data-reveal="up" data-delay="60" style="margin: 12px 0 0; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: clamp(1.5rem, 3.2vw, 2.4rem); line-height: 1.02; letter-spacing: -0.035em;">{{ ch.title }}</h2>
+            </div>
+            <div>
+              <sc-for list="{{ ch.paras }}" as="para" hint-placeholder-count="3">
+                <p data-reveal="up" style="margin: 0 0 1.1em; font-size: clamp(15px, 1.35vw, 17.5px); line-height: 1.68; color: rgba(244,242,239,0.72); max-width: 66ch; text-wrap: pretty;">{{ para }}</p>
+              </sc-for>
+              <sc-if value="{{ ch.pull }}" hint-placeholder-val="{{ false }}">
+                <p data-reveal="up" style="margin: clamp(24px, 4vh, 38px) 0 0; font-family: 'Clash Display', sans-serif; font-weight: 400; font-size: clamp(1.25rem, 2.4vw, 1.8rem); line-height: 1.32; letter-spacing: -0.025em; color: #f4f2ef; border-left: 2px solid #EF5152; padding-left: clamp(16px, 2vw, 26px); max-width: 40ch;">{{ ch.pull }}</p>
+              </sc-if>
+              <sc-if value="{{ ch.sub }}" hint-placeholder-val="{{ false }}">
+                <h3 data-reveal="up" style="margin: clamp(26px, 5vh, 44px) 0 -8px; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">{{ ch.sub }}</h3>
+              </sc-if>
+              <sc-if value="{{ ch.slot }}" hint-placeholder-val="{{ false }}">
+                <div data-reveal="up" style="margin-top: clamp(26px, 5vh, 44px); border-radius: 14px; overflow: hidden; border: 1px solid rgba(244,242,239,0.1); background: #121216; display: flex; justify-content: center; width: 100%;">
+                  <image-slot id="{{ ch.slot }}" shape="rect" fit="cover" src="{{ ch.src }}" placeholder="{{ ch.ph }}" editable style="width: 100%; height: 100%;"></image-slot>
+                </div>
+              </sc-if>
+              <sc-if value="{{ ch.slot1b }}" hint-placeholder-val="{{ false }}">
+                <div data-reveal="up" style="margin-top: clamp(26px, 5vh, 44px); border-radius: 14px; overflow: hidden; border: 1px solid rgba(244,242,239,0.1); background: #121216; display: flex; justify-content: center; width: 100%;">
+                  <image-slot id="{{ ch.slot1b }}" shape="rect" fit="cover" src="{{ ch.src1b }}" placeholder="{{ ch.ph1b }}" editable style="width: 100%; height: 100%;"></image-slot>
+                </div>
+              </sc-if>
+              <sc-if value="{{ ch.sub2 }}" hint-placeholder-val="{{ false }}">
+                <h3 data-reveal="up" style="margin: clamp(30px, 5.4vh, 50px) 0 -8px; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">{{ ch.sub2 }}</h3>
+              </sc-if>
+              <sc-if value="{{ ch.slot2 }}" hint-placeholder-val="{{ false }}">
+                <div data-reveal="up" style="margin-top: clamp(26px, 5vh, 44px); border-radius: 14px; overflow: hidden; border: 1px solid rgba(244,242,239,0.1); background: #121216; width: 100%;">
+                  <image-slot id="{{ ch.slot2 }}" shape="rect" fit="cover" src="{{ ch.src2 }}" placeholder="{{ ch.ph2 }}" editable style="width: 100%; height: 100%;"></image-slot>
+                </div>
+              </sc-if>
+              <sc-if value="{{ ch.slot2b }}" hint-placeholder-val="{{ false }}">
+                <div data-reveal="up" style="margin-top: clamp(26px, 5vh, 44px); border-radius: 14px; overflow: hidden; border: 1px solid rgba(244,242,239,0.1); background: #121216; display: flex; justify-content: center; width: 100%;">
+                  <image-slot id="{{ ch.slot2b }}" shape="rect" fit="cover" src="{{ ch.src2b }}" placeholder="{{ ch.ph2b }}" editable style="width: 100%; height: 100%;"></image-slot>
+                </div>
+              </sc-if>
+              <sc-if value="{{ ch.slot2c }}" hint-placeholder-val="{{ false }}">
+                <div data-reveal="up" style="margin-top: clamp(26px, 5vh, 44px); border-radius: 14px; overflow: hidden; border: 1px solid rgba(244,242,239,0.1); background: #121216; display: flex; justify-content: center; width: 100%;">
+                  <image-slot id="{{ ch.slot2c }}" shape="rect" fit="cover" src="{{ ch.src2c }}" placeholder="{{ ch.ph2c }}" editable style="width: 100%; height: 100%;"></image-slot>
+                </div>
+              </sc-if>
+              <sc-if value="{{ ch.sub3 }}" hint-placeholder-val="{{ false }}">
+                <h3 data-reveal="up" style="margin: clamp(30px, 5.4vh, 50px) 0 -8px; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">{{ ch.sub3 }}</h3>
+              </sc-if>
+              <sc-if value="{{ ch.slot3 }}" hint-placeholder-val="{{ false }}">
+                <div data-reveal="up" style="margin-top: clamp(26px, 5vh, 44px); border-radius: 14px; overflow: hidden; border: 1px solid rgba(244,242,239,0.1); background: #121216; width: 100%;">
+                  <image-slot id="{{ ch.slot3 }}" shape="rect" fit="cover" src="{{ ch.src3 }}" placeholder="{{ ch.ph3 }}" editable style="width: 100%; height: 100%;"></image-slot>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="padding: 0 clamp(20px, 4vw, 56px) clamp(70px, 12vh, 130px);">
+      <div id="chapter-outcome" style="max-width: 1240px; margin: 0 auto; scroll-margin-top: 110px;">
+        <p data-reveal="up" style="margin: 0 0 clamp(24px, 4vh, 40px); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">Outcome</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: clamp(20px, 4vw, 44px);">
+          <sc-for list="{{ active.metrics }}" as="mt" hint-placeholder-count="4">
+            <div data-reveal="up" style="border-top: 1px solid rgba(244,242,239,0.16); padding-top: 18px;">
+              <div style="font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: clamp(2.1rem, 4.6vw, 3.4rem); letter-spacing: -0.04em; line-height: 1;"><span data-count="{{ mt.n }}">0</span><span style="color: #EF5152;">{{ mt.suffix }}</span></div>
+              <div style="font-size: 13.5px; color: rgba(244,242,239,0.55); margin-top: 10px; line-height: 1.5;">{{ mt.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div data-reveal="up" style="display: flex; justify-content: center; margin-top: clamp(36px, 6vh, 64px);">
+          <span onClick="{{ goWork }}" style="display: inline-flex; align-items: center; gap: 12px; cursor: pointer; border: 1px solid rgba(244,242,239,0.28); border-radius: 999px; padding: 12px 12px 12px 26px; color: #f4f2ef; font-size: 14px; font-weight: 500;" style-hover="background: #f4f2ef; color: #08080a; border-color: #f4f2ef;">View all<span style="width: 30px; height: 30px; border-radius: 50%; background: #EF5152; display: inline-flex; align-items: center; justify-content: center;"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="#08080a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+        </div>
+      </div>
+    </section>
+    </div>
+
+    <section style="padding: 0 clamp(20px, 4vw, 56px) clamp(60px, 10vh, 110px);">
+      <div data-reveal="up" data-magnetic="Next" onClick="{{ openNext }}" style="max-width: 1240px; margin: 0 auto; border-top: 1px solid rgba(244,242,239,0.12); padding-top: clamp(22px, 4vh, 34px); cursor: pointer;">
+        <div style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244,242,239,0.4);">Next case study</div>
+        <h2 style="margin: 12px 0 0; font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: clamp(1.9rem, 6vw, 4.4rem); letter-spacing: -0.04em; line-height: 0.95;">{{ nextTitle }} <span style="color: #EF5152;">→</span></h2>
+      </div>
+    </section>
+
+    <dc-import name="Footer" go-work="{{ goWork }}" hint-size="100%,420px"></dc-import>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1000}}">
+const CASES = [
+  {
+    id: 'dsphere', n: '01', tag: 'Circular Fashion Platform',
+    title: 'D/Sphere',
+    headline: 'Designing the end-to-end UI of an AI-powered circular fashion co-creation ecosystem.',
+    blurb: 'A multi-role platform enabling brands, independent designers, garment makers, and conscious consumers to co-create sustainable fashion.',
+    chips: ['Circular Fashion', 'Multi-Role Platform', 'Design System', 'AI Customizer', 'Shipped'],
+    slot: 'cs-dsphere', heroSlot: 'cs-dsphere-hero',
+    src: 'uploads/assets-1785591852320.jpg',
+    ph: 'D/Sphere platform — hero showcase',
+    lede: 'Linear fashion follows a destructive pattern: extract, produce, consume, discard. D/Sphere replaces this fragmented pipeline with an interconnected digital workspace where brands launch circular collections, designers work against real material inventory, manufacturers track production, and consumers co-create garments they cherish. Leading design end-to-end—from discovery research to design system architecture and developer hand-off—the core UX challenge was unifying four radically different user mindsets into a single, cohesive interface.',
+    meta: [
+      { k: 'Role', v: 'Lead Product Designer & Strategist' },
+      { k: 'Client', v: 'AppyHub / Dhana' },
+      { k: 'Duration', v: '4 Months (Discovery to Handoff)' },
+      { k: 'Scope', v: 'Research, IA, Role-Based Workspaces, Panel Customizer, UI System' }
+    ],
+    pillars: [
+      { num: '01', t: 'AI-Guided Upcycled Customization', b: 'Production-ready design variations generated against available fabric inventory instead of an unconstrained blank canvas.' },
+      { num: '02', t: 'Unified Co-Creator Workspaces', b: 'Brands, independent designers, factories, and buyers collaborating inside one synchronized web application.' },
+      { num: '03', t: 'End-to-End Material Traceability', b: 'Transparent provenance and per-garment carbon savings, turning compliance data into customer trust.' },
+      { num: '04', t: 'Emotional Narrative Embedding', b: 'Personal memory stories preserved inside upcycled garments, shifting perception from disposable to heirloom.' },
+      { num: '05', t: 'Role-Scoped System Architecture', b: 'One design system driving four tailored views — consumer, designer, manufacturer, brand admin — with zero UI friction.' },
+      { num: '06', t: 'Verifiable Impact Metrics', b: 'Auditable circularity benchmarks integrated directly into purchase and production confirmation steps.' }
+    ],
+    chapters: [
+      {
+        n: '01 / Strategy & Context',
+        title: 'Reframing Circularity from Compliance to Narrative',
+        paras: [
+          'D/Sphere originated from Dhana\'s mission to bridge the gap between humanity and the planet through circular design principles. The mandate was clear: build a scalable B2B2C digital platform to accelerate textile upcycling, making circular fashion economically viable for enterprise brands while empowering independent designers and consumers.',
+          'Traditional industry workflows operated in silos: fashion brands managed inventory in spreadsheets, designers worked in disconnected CAD tools, and consumers had no visibility into material origin. D/Sphere was conceptualized to unite these stakeholders into a continuous circular loop.'
+        ],
+        pull: 'The strategic imperative was transforming circularity from a dry compliance metric into a compelling co-creation narrative.'
+      },
+      {
+        n: '02 / Discovery & Pivot',
+        title: 'The Pivot Insight: People Preserve Memories, Not Fabric',
+        sub: 'Quantitative & Qualitative Discovery',
+        paras: [
+          'Through stakeholder interviews, quantitative surveys, and competitive mapping across fashion buyers and eco-conscious shoppers, we uncovered a profound behavioral insight: people hold onto old clothing not because of fabric quality, but because garments carry emotional memories.',
+          'This discovery fundamentally shifted our product roadmap. Upcycling could not just be about material reuse—it had to be about memory preservation. Consequently, "Stories" was promoted to a top-tier core module alongside "Studio" and "Store" in the global navigation.'
+        ],
+        pull: 'Ask a user to cut up an old shirt, and they feel like they are destroying a memory—unless the new upcycled garment explicitly preserves and honors that story.',
+        slot: 'cs-dsphere-research',
+        src: 'uploads/pasted-1785656836338-0.png',
+        ph: 'User research synthesis, quantitative survey metrics, and journey pivot',
+        slot2: 'cs-dsphere-discovery-2',
+        src2: 'uploads/pasted-1785653215281-0.png',
+        ph2: 'Qualitative research mapping & stakeholder behavioral insights'
+      },
+      {
+        n: '03 / User Archetypes & Empathy',
+        title: 'Designing for Four Distinct User Mindsets',
+        paras: [
+          'To ensure seamless co-creation, I built detailed behavioral personas and empathy maps for our primary actors: the Conscious Co-Creator bringing sentimental garments, and the Independent Designer building upcycled collections against real-time fabric stock.',
+          'Mapping their emotional trajectories highlighted critical friction points around trust and fear of irreversible design choices. We solved this by designing transparent material provenance cards and non-destructive customization state machines.'
+        ],
+        sub: 'User Persona Mapping',
+        slot: 'cs-dsphere-persona-1',
+        src: 'uploads/pasted-1785653215281-0.png',
+        ph: 'User Personas and Empathy Mapping — Co-Creator & Independent Designer',
+        slot1b: 'cs-dsphere-persona-2',
+        src1b: 'uploads/pasted-1785656836338-0.png',
+        ph1b: 'Secondary User Persona & Mindset Mapping',
+        sub2: 'Empathy & Interaction Trajectory',
+        slot2: 'cs-dsphere-empathy',
+        ph2: 'Empathy Map — Behavioral synthesis & decision triggers'
+      },
+      {
+        n: '04 / Brand & Visual Identity',
+        title: 'A Closed-Loop Identity System',
+        paras: [
+          'The visual identity required a delicate balance: it needed to feel authoritative for luxury brand sustainability teams, yet approachable and warm for everyday retail buyers. The resulting mark symbolizes a closed circular ecosystem—built to scale effortlessly from woven garment tags to mobile viewports.',
+          'Color, typography (Clash Display & Instrument Sans), and spatial hierarchy were codified into design tokens, serving as the foundational skin for all four role-based UI views.'
+        ],
+        pull: 'The visual language bridges corporate sustainability credibility with consumer warmth.',
+        sub: 'Brand Identity & Tokens',
+        slot: 'cs-dsphere-brand',
+        src: 'uploads/pasted-1785597857919-0.png',
+        ph: 'D/Sphere Brand Identity, Mark Construction & Palette Tokens'
+      },
+      {
+        n: '05 / Information Architecture',
+        title: 'One Platform, Four Tailored Workspaces',
+        paras: [
+          'Designing for four distinct roles with vastly different technical mental models meant avoiding a monolithic UI. We created scoped role-based workspaces driven by a unified navigation framework. Each stakeholder sees only the tools required for their immediate job, while terminology and component behaviors remain perfectly consistent.',
+          'As a garment moves from design to production and retail, its digital twin updates state in real-time, eliminating redundant communication and data loss.'
+        ],
+        sub: 'Ecosystem Architecture & Flow',
+        slot: 'cs-dsphere-ia',
+        ph: 'Information Architecture & Role-Based UX Task Flows'
+      },
+      {
+        n: '06 / Customizer Engine',
+        title: 'Translating Physical Garment Seams into Software Constraints',
+        paras: [
+          'Physical garments consist of discrete fabric panels, seams, and structural constraints. Standard 3D customizers often allow impossible combinations that factories cannot physically manufacture. D/Sphere solves this with an intelligent panel customizer engine.',
+          'The engine dynamically exposes only valid panel variations based on real fabric inventory and sewing pattern rules, rendering invalid combinations impossible to select. This constraint-driven UX ensures every design created on screen is 100% manufacturable.'
+        ],
+        pull: 'You can draw anything digitally, but you can only sew valid geometry. The UX makes physical constraints feel like creative guidance.',
+        sub2: 'Panel Customization UI',
+        slot2: 'cs-dsphere-panels',
+        ph2: 'Interactive Garment Panel Customizer UI & Validation Rules'
+      },
+      {
+        n: '07 / Provenance & Impact UX',
+        title: 'Making Circular Impact Verifiable & Engaging',
+        paras: [
+          'Complex supply chain data is typically buried in PDF compliance reports. D/Sphere turns circular metrics into interactive narrative cards. Every garment includes a digital story passport displaying water saved, carbon offset, and maker credits.',
+          'By embedding verifiable impact data directly into the purchasing flow, we transformed sustainability from an abstract marketing claim into a transparent, audit-backed value proposition.'
+        ],
+        sub: 'Provenance Wireframes',
+        slot: 'cs-dsphere-stories',
+        ph: 'Stories Module — Material Provenance & Memory Cards',
+        sub2: 'Production UI Design',
+        slot2: 'cs-dsphere-ui',
+        ph2: 'Final UI — Provenance Passport & Impact Analytics',
+        slot2b: 'cs-dsphere-ui-2',
+        ph2b: 'Production UI Design — Secondary Interface Screens',
+        slot2c: 'cs-dsphere-ui-3',
+        ph2c: 'Production UI Design — Additional Interface Views'
+      },
+      {
+        n: '08 / System & Validation',
+        title: 'Scalable Component Library & Measurable Results',
+        paras: [
+          'The UI design system was constructed in tandem with core features, establishing tokenized components, interaction states, and accessibility specs (WCAG AA compliant). Rapid prototyping and remote usability sessions validated navigation efficiency and panel customizer clarity prior to engineering hand-off.',
+          'The platform launched successfully with 4 unified user roles, 5 core modules, and an extensible design system in active production today.'
+        ],
+        pull: 'Validating novel interaction mechanics early is the single highest-leverage investment in product design.',
+        sub: 'Design System Tokens',
+        slot: 'cs-dsphere-system',
+        ph: 'Design System Tokens & Interaction Specs',
+        sub2: 'UI Component Library',
+        slot2: 'cs-dsphere-components',
+        ph2: 'Component Library & Hand-off Documentation'
+      }
+    ],
+    metrics: [
+      { n: 4, suffix: ' User Roles', label: 'Brands, Designers, Factories & Consumers unified in 1 ecosystem' },
+      { n: 5, suffix: ' Core Modules', label: 'Home, Store, Studio, Stories, and Account workflows' },
+      { n: 100, suffix: '%', label: 'Manufacturable designs guaranteed by customizer logic' },
+      { n: 1, suffix: ' Design System', label: 'Scalable tokenized UI library deployed in production' }
+    ]
+  },
+  {
+    id: 'merchant', n: '02', tag: 'FinTech',
+    title: 'Merchant QR Payments',
+    headline: 'Onboarding a street merchant in under four minutes',
+    blurb: 'QR acceptance and bill payments for small merchants — onboarding rebuilt around low literacy, low bandwidth and shared phones.',
+    chips: ['FinTech', 'Mobile', 'Onboarding'],
+    slot: 'cs-merchant', heroSlot: 'cs-merchant-hero',
+    src: 'https://images.unsplash.com/photo-1556742049-0a67daf64f42?q=80&w=1200&auto=format&fit=crop',
+    ph: 'Merchant app screens',
+    lede: 'A payments client was losing two thirds of merchant sign-ups midway through KYC. I rebuilt onboarding around the constraints we found in the field rather than the ones assumed in the office.',
+    meta: [
+      { k: 'Role', v: 'Senior Product Designer' },
+      { k: 'Team', v: '1 designer, 4 engineers' },
+      { k: 'Duration', v: '5 months' },
+      { k: 'Scope', v: 'Field research, flows, UI, localisation' }
+    ],
+    chapters: [
+      { n: 'Chapter 01', title: 'Where sign-ups died', paras: [
+        'Funnel data pointed at document upload. Two days of shop-floor observation pointed somewhere else: merchants abandoned at the step that asked them to leave the app to find a number they kept on paper elsewhere. The upload failure was a symptom of asking for the wrong thing at the wrong moment.',
+        'We also found phones shared between a shop owner and two staff, which broke every assumption in the session model.'
+      ], pull: 'The funnel told us where people stopped. Only the shop floor told us why.' },
+      { n: 'Chapter 02', title: 'Rebuilt as a resumable form', paras: [
+        'Onboarding became four short steps that save on every field and resume on any device, with document capture guided by an on-camera frame and instant legibility feedback so a merchant learns in two seconds instead of two failed submissions.',
+        'Copy was rewritten at a grade-five reading level in three languages, with numerals never spelled out — a detail that came directly from watching people scan for digits.'
+      ], slot: 'cs-merchant-flow', ph: 'Onboarding flow screens' }
+    ],
+    metrics: [
+      { n: 3, suffix: 'm 40s', label: 'Median time to complete onboarding' },
+      { n: 71, suffix: '%', label: 'Completion rate, up from 34%' },
+      { n: 3, suffix: '', label: 'Languages shipped at launch' },
+      { n: 12, suffix: 'k', label: 'Merchants onboarded in the first quarter' }
+    ]
+  },
+  {
+    id: 'console', n: '03', tag: 'Enterprise',
+    title: 'Analytics Console',
+    headline: 'One dashboard for four teams that wanted four dashboards',
+    blurb: 'An operations analytics console for an enterprise client — configurable views instead of five competing dashboards.',
+    chips: ['Enterprise', 'Data viz', 'Web app'],
+    slot: 'cs-console', heroSlot: 'cs-console-hero',
+    src: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop',
+    ph: 'Analytics console screen',
+    lede: 'Four internal teams each maintained their own reporting surface. I designed one console with configurable views, and — harder — a governance model that stopped it fragmenting again within a year.',
+    meta: [
+      { k: 'Role', v: 'Product Designer' },
+      { k: 'Team', v: '2 designers, 7 engineers' },
+      { k: 'Duration', v: '7 months' },
+      { k: 'Scope', v: 'Stakeholder research, IA, data viz, component library' }
+    ],
+    chapters: [
+      { n: 'Chapter 01', title: 'Interviewing the disagreement', paras: [
+        'I interviewed all four teams and mapped what each actually decided with their numbers. Overlap was 80%; the differences were in default time window, alert thresholds and one team\'s need for row-level export. That was a configuration problem, not four products.'
+      ], pull: 'Every team said their needs were unique. Their decisions were 80% identical.' },
+      { n: 'Chapter 02', title: 'Views, not forks', paras: [
+        'The console ships one canonical data layer with saved views layered on top: a view owns its filters, its chart set and its thresholds, and any view can be shared read-only. Chart types were reduced to five, each with a written rule for when it is correct.',
+        'Governance mattered more than pixels — a small review step for new metrics is why the console still has one source of truth two years on.'
+      ], slot: 'cs-console-views', ph: 'Saved views / chart set' }
+    ],
+    metrics: [
+      { n: 5, suffix: '→1', label: 'Reporting surfaces consolidated' },
+      { n: 40, suffix: '%', label: 'Less time spent assembling weekly reporting' },
+      { n: 5, suffix: '', label: 'Chart types, each with a usage rule' },
+      { n: 2, suffix: ' yrs', label: 'Still a single source of truth' }
+    ]
+  },
+  {
+    id: 'agent', n: '04', tag: 'Marketplace',
+    title: 'Field Agent Finder',
+    headline: 'Matching customers to a nearby agent they can trust',
+    blurb: 'A mobile marketplace pairing customers with vetted field agents — trust signals designed before features.',
+    chips: ['Marketplace', 'iOS & Android', 'Trust'],
+    slot: 'cs-agent', heroSlot: 'cs-agent-hero',
+    src: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop',
+    ph: 'Agent finder app screens',
+    lede: 'Supply existed and demand existed; the gap was trust. I designed the matching experience around the three signals customers said they actually used to decide.',
+    meta: [
+      { k: 'Role', v: 'Product Designer' },
+      { k: 'Team', v: '1 designer, 5 engineers' },
+      { k: 'Duration', v: '4 months' },
+      { k: 'Scope', v: 'Research, flows, UI, motion spec' }
+    ],
+    chapters: [
+      { n: 'Chapter 01', title: 'What people check before booking', paras: [
+        'Interviews with 18 customers produced a consistent shortlist: distance right now, a real photo, and evidence of a completed job nearby. Ratings mattered far less than expected once a photo and a recent local job were visible.'
+      ], pull: 'A five-star average convinced nobody. A job finished two streets away convinced everybody.' },
+      { n: 'Chapter 02', title: 'Designing the match card', paras: [
+        'The agent card leads with those three signals and nothing else; everything secondary moved to the profile. Live availability uses a plain sentence rather than a coloured dot, because a dot means different things in different apps.'
+      ], slot: 'cs-agent-card', ph: 'Agent match card / result list' }
+    ],
+    metrics: [
+      { n: 2, suffix: '.4×', label: 'Booking conversion versus the previous list view' },
+      { n: 18, suffix: '', label: 'Customer interviews behind the trust model' },
+      { n: 3, suffix: '', label: 'Signals on the match card' },
+      { n: 44, suffix: '%', label: 'Drop in pre-booking support contacts' }
+    ]
+  },
+  {
+    id: 'care', n: '05', tag: 'HealthTech',
+    title: 'Care Network Portal',
+    headline: 'Clinical scheduling that respects a twelve-hour shift',
+    blurb: 'A scheduling and referral portal for a clinical network, designed around interruption rather than focus.',
+    chips: ['HealthTech', 'Web app', 'Accessibility'],
+    slot: 'cs-care', heroSlot: 'cs-care-hero',
+    src: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1200&auto=format&fit=crop',
+    ph: 'Care portal screen',
+    lede: 'Clinical staff do not work in uninterrupted blocks. I designed a scheduling portal whose core assumption is that any task will be abandoned halfway and resumed twenty minutes later.',
+    meta: [
+      { k: 'Role', v: 'Senior Product Designer' },
+      { k: 'Team', v: '2 designers, 6 engineers, clinical advisor' },
+      { k: 'Duration', v: '6 months' },
+      { k: 'Scope', v: 'Contextual research, flows, UI, WCAG AA audit' }
+    ],
+    chapters: [
+      { n: 'Chapter 01', title: 'Shadowing a shift', paras: [
+        'Across three shadowed shifts, the median uninterrupted stretch at a workstation was under ninety seconds. Any flow requiring sustained attention was going to fail, no matter how elegant it looked in review.'
+      ], pull: 'Ninety seconds. That number decided almost every screen that followed.' },
+      { n: 'Chapter 02', title: 'Built for resumption', paras: [
+        'Every form autosaves and shows plainly where it was left. Referrals became a checklist with visible remaining items rather than a wizard, so a colleague can pick up someone else\'s half-finished work without guessing.',
+        'The portal was audited to WCAG AA including keyboard-only completion of every core task — staff frequently work at shared terminals where a mouse is genuinely inconvenient.'
+      ], slot: 'cs-care-flow', ph: 'Referral checklist screens' }
+    ],
+    metrics: [
+      { n: 90, suffix: 's', label: 'Median uninterrupted work window we designed for' },
+      { n: 100, suffix: '%', label: 'Core tasks completable keyboard-only' },
+      { n: 31, suffix: '%', label: 'Fewer abandoned referrals' },
+      { n: 0, suffix: ' AA fails', label: 'At launch audit' }
+    ]
+  },
+  {
+    id: 'vault', n: '06', tag: 'Web3',
+    title: 'Custody Vault',
+    headline: 'Self-custody that survives a bad day',
+    blurb: 'A multi-signature wallet for treasury teams — designed so the scariest actions are the hardest to get wrong.',
+    chips: ['Web3', 'Security', 'Web app'],
+    slot: 'cs-vault', heroSlot: 'cs-vault-hero',
+    src: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1200&auto=format&fit=crop',
+    ph: 'Custody vault screens',
+    lede: 'Treasury teams hold real money in software most of them do not trust. I designed a multi-signature vault where every irreversible action is slow, legible and reviewable by a second pair of eyes.',
+    meta: [
+      { k: 'Role', v: 'Lead Product Designer' },
+      { k: 'Team', v: '1 designer, 5 engineers' },
+      { k: 'Duration', v: '6 months' },
+      { k: 'Scope', v: 'Research, flows, UI, security copy' }
+    ],
+    chapters: [
+      { n: 'Chapter 01', title: 'Fear is the primary user state', paras: [
+        'Every finance lead I interviewed described a moment of hesitation before signing. Nobody could explain, in their own words, what they were approving — the interface showed a hash where a sentence belonged.'
+      ], pull: 'If a user cannot say aloud what they are about to approve, the design has already failed.' },
+      { n: 'Chapter 02', title: 'Plain-language signing', paras: [
+        'Every transaction resolves to one readable sentence — who is paying whom, how much, and what changes afterwards — with the raw payload one tap away for anyone who wants it. Approval thresholds are shown as faces, not numbers.',
+        'Recovery was designed first rather than last, because the day it matters is the day nobody is thinking clearly.'
+      ], slot: 'cs-vault-flow', ph: 'Signing flow screens' }
+    ],
+    metrics: [
+      { n: 0, suffix: '', label: 'Mis-signed transactions in the first year' },
+      { n: 78, suffix: '%', label: 'Of users could explain what they signed, up from 21%' },
+      { n: 6, suffix: '', label: 'Months to launch' },
+      { n: 3, suffix: '', label: 'Independent security reviews passed' }
+    ]
+  }
+];
+
+class Component extends DCLogic {
+  updateSeo(route, caseId) {
+    if (typeof document === 'undefined') return;
+    if (route === 'case') {
+      const active = typeof CASES !== 'undefined' ? (CASES.find((c) => c.id === caseId) || CASES[0]) : null;
+      if (active) {
+        document.title = active.title + ' — ' + active.tag + ' Case Study | Nethra Balasubramaniam';
+        let metaDesc = document.querySelector('meta[name="description"]');
+        if (!metaDesc) {
+          metaDesc = document.createElement('meta');
+          metaDesc.name = 'description';
+          document.head.appendChild(metaDesc);
+        }
+        metaDesc.content = active.title + ': ' + active.headline + ' — ' + active.blurb;
+      }
+    } else if (route === 'work') {
+      document.title = 'Case Studies & Projects | Nethra Balasubramaniam';
+    } else if (route === 'design-playground' || route === 'playground') {
+      document.title = 'Design Playground & Experiments | Nethra Balasubramaniam';
+    } else if (route === 'about') {
+      document.title = 'About Nethra Balasubramaniam — Product Designer';
+    } else if (route === 'hire') {
+      document.title = 'Hire Nethra Balasubramaniam — Product Designer & Developer';
+    } else {
+      document.title = 'Nethra Balasubramaniam — Creative Product Designer';
+    }
+  }
+
+  getRouteUrl(route, caseId) {
+    if (route === 'case' && caseId) return '/' + caseId + '-case-study';
+    if (route === 'home') return '/';
+    return '/' + route;
+  }
+
+  parsePath() {
+    const rawPath = (typeof window !== 'undefined' ? window.location.pathname : '').replace(/^\/+|\/+$/g, '');
+    if (!rawPath) return { route: 'home', caseId: 'dsphere' };
+    
+    let norm = rawPath.toLowerCase();
+    if (norm === 'playground') norm = 'design-playground';
+    if (norm.startsWith('case-studies/')) norm = norm.replace('case-studies/', '');
+    if (norm.startsWith('case-study/')) norm = norm.replace('case-study/', '');
+    if (norm.endsWith('-case-study')) norm = norm.replace(/-case-study$/, '');
+    if (norm.endsWith('-case-studies')) norm = norm.replace(/-case-studies$/, '');
+
+    const caseMatch = typeof CASES !== 'undefined' ? CASES.find((c) => c.id.toLowerCase() === norm) : null;
+    if (caseMatch) return { route: 'case', caseId: caseMatch.id };
+    if (['work', 'about', 'hire', 'design-playground'].includes(norm)) return { route: norm, caseId: 'dsphere' };
+    return { route: 'home', caseId: 'dsphere' };
+  }
+
+  state = (() => {
+    const rawPath = (typeof window !== 'undefined' ? window.location.pathname : '').replace(/^\/+|\/+$/g, '');
+    let norm = rawPath.toLowerCase();
+    if (norm === 'playground') norm = 'design-playground';
+    if (norm.startsWith('case-studies/')) norm = norm.replace('case-studies/', '');
+    if (norm.startsWith('case-study/')) norm = norm.replace('case-study/', '');
+    if (norm.endsWith('-case-study')) norm = norm.replace(/-case-study$/, '');
+    if (norm.endsWith('-case-studies')) norm = norm.replace(/-case-studies$/, '');
+
+    const caseMatch = typeof CASES !== 'undefined' ? CASES.find((c) => c.id.toLowerCase() === norm) : null;
+    let initialRoute = 'home';
+    let initialCaseId = 'dsphere';
+    if (caseMatch) { initialRoute = 'case'; initialCaseId = caseMatch.id; }
+    else if (['work', 'about', 'hire', 'design-playground'].includes(norm)) { initialRoute = norm; }
+
+    return { route: initialRoute, caseId: initialCaseId, isWorksOpen: false, activeHoverItem: 'cases', lightboxOpen: false, lightboxItem: null, isZoomed: false };
+  })();
+
+  wrap = React.createRef();
+  ov = React.createRef();
+  dot = React.createRef();
+  ring = React.createRef();
+  ringLabel = React.createRef();
+  bar = React.createRef();
+  greet = React.createRef();
+  heroCur = React.createRef();
+  hoverPrev = React.createRef();
+  preload = React.createRef();
+  plTop = React.createRef();
+  plBot = React.createRef();
+  inHero = false;
+  prevKey = '';
+  greetings = ['Vanakkam', 'Vandanam', 'Namaste', 'Nomoskar', 'Hello'];
+  gi = 0;
+  mouse = { x: -100, y: -100 };
+  pos = { x: -100, y: -100 };
+  hoverLabel = '';
+
+  componentDidMount() {
+    this.updateSeo(this.state.route, this.state.caseId);
+    window.addEventListener('popstate', () => {
+      const parsed = this.parsePath();
+      this.go(parsed.route, parsed.caseId, true);
+    });
+
+    this.onOutsideClick = (e) => {
+      if (this.state.isWorksOpen && !e.target.closest('.nav-my-works-wrap')) {
+        this.setState({ isWorksOpen: false });
+      }
+    };
+    document.addEventListener('click', this.onOutsideClick);
+
+    this.onMove = (e) => {
+      this.mouse.x = e.clientX; this.mouse.y = e.clientY;
+      const hero = e.target && e.target.closest ? !!e.target.closest('[data-hero]') : false;
+      if (hero !== this.inHero) {
+        this.inHero = hero;
+        const hc = this.heroCur.current, d = this.dot.current, r = this.ring.current;
+        if (hc) hc.style.opacity = hero ? '1' : '0';
+        if (d) d.style.visibility = hero ? 'hidden' : 'visible';
+        if (r) r.style.visibility = hero ? 'hidden' : 'visible';
+      }
+      const hi = e.target && e.target.closest ? e.target.closest('[data-hoverimg]') : null;
+      const key = hi ? hi.getAttribute('data-hoverimg') : '';
+      if (key !== this.prevKey) {
+        this.prevKey = key;
+        const p = this.hoverPrev.current;
+        const card = p ? p.querySelector('[data-prevcard]') : null;
+        if (p && card) {
+          const show = () => {
+            p.querySelectorAll('[data-prev]').forEach((n) => {
+              n.style.display = n.getAttribute('data-prev') === key ? 'block' : 'none';
+            });
+            card.style.animation = 'none';
+            void card.offsetWidth;
+            card.style.animation = 'prevIn .52s cubic-bezier(.2,.85,.2,1) forwards';
+          };
+          clearTimeout(this.prevT);
+          if (!key) {
+            card.style.animation = 'prevOut .3s cubic-bezier(.4,0,1,1) forwards';
+            this.prevT = setTimeout(() => {
+              if (!this.prevKey) p.querySelectorAll('[data-prev]').forEach((n) => { n.style.display = 'none'; });
+            }, 300);
+          } else if (card.style.animation && card.style.animation.indexOf('prevIn') === 0) {
+            card.style.animation = 'prevOut .18s cubic-bezier(.4,0,1,1) forwards';
+            this.prevT = setTimeout(show, 180);
+          } else {
+            show();
+          }
+        }
+      }
+      const t = e.target && e.target.closest ? e.target.closest('[data-magnetic]') : null;
+      const label = t ? (t.getAttribute('data-magnetic') || '') : '';
+      if (label !== this.hoverLabel) {
+        this.hoverLabel = label;
+        const r = this.ring.current, l = this.ringLabel.current;
+        if (r) {
+          const on = !!t;
+          const wide = on && label.length > 2;
+          r.style.transition = 'width .28s cubic-bezier(.2,.8,.2,1), height .28s cubic-bezier(.2,.8,.2,1), margin .28s cubic-bezier(.2,.8,.2,1), background-color .2s, border-color .2s, padding .28s';
+          r.style.width = wide ? 'auto' : (on ? '62px' : '44px');
+          r.style.height = wide ? '30px' : (on ? '62px' : '44px');
+          r.style.padding = wide ? '0 14px' : '0';
+          r.style.borderRadius = '999px';
+          r.style.margin = wide ? '-15px 0 0 -40px' : (on ? '-31px 0 0 -31px' : '-22px 0 0 -22px');
+          r.style.backgroundColor = on ? '#ffd23f' : 'transparent';
+          r.style.borderColor = on ? '#ffd23f' : 'rgba(244,242,239,0.35)';
+          if (l) l.textContent = wide ? label : '';
+        }
+        const d = this.dot.current;
+        if (d) { d.style.transition = 'opacity .2s'; d.style.opacity = t ? '0' : '1'; }
+      }
+    };
+    window.addEventListener('mousemove', this.onMove, { passive: true });
+
+    const tick = () => {
+      this.pos.x += (this.mouse.x - this.pos.x) * 0.18;
+      this.pos.y += (this.mouse.y - this.pos.y) * 0.18;
+      const d = this.dot.current, r = this.ring.current;
+      if (d) d.style.transform = 'translate(' + this.mouse.x + 'px,' + this.mouse.y + 'px)';
+      if (r) r.style.transform = 'translate(' + this.pos.x + 'px,' + this.pos.y + 'px)';
+      const hc = this.heroCur.current;
+      if (hc) hc.style.transform = 'translate(' + this.mouse.x + 'px,' + this.mouse.y + 'px)';
+      const hp = this.hoverPrev.current;
+      if (hp && this.prevKey) hp.style.transform = 'translate(' + this.pos.x + 'px,' + this.pos.y + 'px)';
+      this.frame = (this.frame || 0) + 1;
+      this.lastTick = Date.now();
+      if (this.frame % 10 === 0) this.sweep();
+      this.raf = requestAnimationFrame(tick);
+    };
+    this.tick = tick;
+    this.raf = requestAnimationFrame(tick);
+
+    this.onScroll = () => {
+      if (this.prevKey) {
+        const p = this.hoverPrev.current;
+        const card = p ? p.querySelector('[data-prevcard]') : null;
+        this.prevKey = '';
+        if (card) {
+          clearTimeout(this.prevT);
+          card.style.animation = 'prevOut .22s cubic-bezier(.4,0,1,1) forwards';
+          this.prevT = setTimeout(() => {
+            if (!this.prevKey) p.querySelectorAll('[data-prev]').forEach((n) => { n.style.display = 'none'; });
+          }, 220);
+        }
+      }
+      this.sweep();
+      const b = this.bar.current;
+      if (!b) return;
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      b.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+
+    this.io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        this.reveal(en.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+
+    this.countIo = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        const el = en.target;
+        this.countIo.unobserve(el);
+        if (this.plDone) this.count(el);
+        else (this.countQueue = this.countQueue || []).push(() => this.count(el));
+      });
+    }, { threshold: 0.4 });
+
+    this.greetTimer = setInterval(() => {
+      const el = this.greet.current;
+      if (!el) return;
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(-7px)';
+      setTimeout(() => {
+        this.gi = (this.gi + 1) % this.greetings.length;
+        el.textContent = this.greetings[this.gi];
+        el.style.transform = 'translateY(7px)';
+        requestAnimationFrame(() => {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        });
+      }, 320);
+    }, 2400);
+
+    this.plTimer = setTimeout(() => {
+      const t = this.plTop.current, b = this.plBot.current, w = this.preload.current;
+      const ease = 'transform 1.05s cubic-bezier(.76,0,.24,1)';
+      if (t) { t.style.transition = ease; t.style.transform = 'translateY(-100%)'; }
+      if (b) { b.style.transition = ease; b.style.transform = 'translateY(100%)'; }
+      this.plTimer2 = setTimeout(() => {
+        if (w) w.style.display = 'none';
+        this.plDone = true;
+        (this.countQueue || []).forEach((fn) => fn());
+        this.countQueue = [];
+        this.sweep();
+      }, 700);
+    }, 1650);
+
+    this.lastTick = Date.now();
+    this.scan();
+    this.sweepTimers = [80, 400, 1200, 2600].map((t) => setTimeout(() => this.sweep(), t));
+    window.addEventListener('resize', this.onScroll, { passive: true });
+  }
+
+  componentDidUpdate() {
+    if (this.tick && (!this.lastTick || Date.now() - this.lastTick > 400)) {
+      cancelAnimationFrame(this.raf);
+      this.raf = requestAnimationFrame(this.tick);
+    }
+    this.scan();
+    requestAnimationFrame(() => this.sweep());
+  }
+
+  componentWillUnmount() {
+    if (this.onOutsideClick) document.removeEventListener('click', this.onOutsideClick);
+    window.removeEventListener('mousemove', this.onMove);
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onScroll);
+    this.raf = null;
+    (this.sweepTimers || []).forEach(clearTimeout);
+    cancelAnimationFrame(this.raf);
+    clearInterval(this.greetTimer);
+    clearTimeout(this.prevT);
+    clearTimeout(this.plTimer);
+    clearTimeout(this.plTimer2);
+    if (this.io) this.io.disconnect();
+    if (this.countIo) this.countIo.disconnect();
+  }
+
+  reveal(el) {
+    if (el.__rvDone) return;
+    el.__rvDone = 1;
+    if (this.io) this.io.unobserve(el);
+    const d = parseInt(el.getAttribute('data-delay') || '0', 10);
+    const card = el.getAttribute('data-reveal') === 'card';
+    setTimeout(() => {
+      el.style.transition = card
+        ? 'opacity .9s cubic-bezier(.2,.8,.2,1), transform 1.05s cubic-bezier(.2,.85,.2,1), clip-path 1.05s cubic-bezier(.76,0,.24,1), filter .9s ease'
+        : 'opacity .8s cubic-bezier(.2,.8,.2,1), transform .8s cubic-bezier(.2,.8,.2,1), filter .8s ease';
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+      el.style.filter = 'none';
+      if (card) {
+        el.style.clipPath = 'inset(0% 0 0 0)';
+        const img = el.querySelector('[data-cardframe]');
+        if (img) {
+          img.style.transition = 'transform 1.3s cubic-bezier(.2,.8,.2,1)';
+          img.style.transform = 'none';
+        }
+      }
+    }, d);
+  }
+
+  sweep() {
+    const root = this.wrap.current;
+    if (!root) return;
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    root.querySelectorAll('[data-reveal]').forEach((el) => {
+      if (el.__rvDone) return;
+      const r = el.getBoundingClientRect();
+      if (r.top < vh && r.bottom > -vh) this.reveal(el);
+    });
+    if (!this.plDone) return;
+    if (this.countQueue && this.countQueue.length) {
+      this.countQueue.forEach((fn) => fn());
+      this.countQueue = [];
+    }
+    root.querySelectorAll('[data-count]').forEach((el) => {
+      if (el.__ctDone) return;
+      const r = el.getBoundingClientRect();
+      if (r.top < vh && r.bottom > 0) this.count(el);
+    });
+  }
+
+  count(el) {
+    if (el.__ctDone) return;
+    el.__ctDone = 1;
+    if (this.countIo) this.countIo.unobserve(el);
+    const target = parseFloat(el.getAttribute('data-count')) || 0;
+    const dur = 1700, t0 = performance.now();
+    const step = (now) => {
+      const p = Math.min(1, (now - t0) / dur);
+      const e = 1 - Math.pow(1 - p, 4);
+      const v = target * e;
+      el.textContent = target % 1 === 0 ? String(Math.round(v)) : v.toFixed(1);
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  scan() {
+    const root = this.wrap.current;
+    if (!root || !this.io) return;
+    this.lastTick = Date.now();
+    root.querySelectorAll('[data-reveal]').forEach((el) => {
+      if (el.__rv) return;
+      el.__rv = 1;
+      const mode = el.getAttribute('data-reveal');
+      el.style.opacity = '0';
+      if (mode === 'card') {
+        el.style.transform = 'translateY(54px) scale(.965)';
+        el.style.clipPath = 'inset(18% 0 0 0)';
+        el.style.filter = 'blur(4px)';
+        const img = el.querySelector('[data-cardframe]');
+        if (img) img.style.transform = 'scale(1.12)';
+      } else {
+        el.style.transform = mode === 'fade' ? 'none' : 'translateY(26px)';
+        el.style.filter = 'blur(6px)';
+      }
+      this.io.observe(el);
+    });
+    root.querySelectorAll('[data-count]').forEach((el) => {
+      if (el.__ct) return;
+      el.__ct = 1;
+      this.countIo.observe(el);
+    });
+    this.sweep();
+  }
+
+  go(route, caseId, skipPush) {
+    const targetCaseId = caseId || this.state.caseId;
+    if (route === this.state.route && (!caseId || caseId === this.state.caseId)) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (!skipPush && typeof window !== 'undefined' && window.history && window.history.pushState) {
+      const targetUrl = this.getRouteUrl(route, targetCaseId);
+      if (window.location.pathname !== targetUrl) {
+        window.history.pushState({ route: route, caseId: targetCaseId }, '', targetUrl);
+      }
+    }
+    const ov = this.ov.current;
+    const swap = () => {
+      this.setState({ route: route, caseId: targetCaseId });
+      this.updateSeo(route, targetCaseId);
+      window.scrollTo(0, 0);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        this.sweep();
+      }, 50);
+      setTimeout(() => {
+        this.sweep();
+      }, 250);
+    };
+    if (!ov) { swap(); return; }
+    ov.style.transition = 'transform .52s cubic-bezier(.76,0,.24,1)';
+    ov.style.transform = 'translateY(0)';
+    setTimeout(() => {
+      swap();
+      requestAnimationFrame(() => { ov.style.transform = 'translateY(-100%)'; });
+      setTimeout(() => {
+        ov.style.transition = 'none';
+        ov.style.transform = 'translateY(100%)';
+        this.sweep();
+      }, 560);
+    }, 540);
+  }
+
+  scrollToChapter(id, btnTarget) {
+    if (typeof document === 'undefined') return;
+    if (btnTarget && typeof btnTarget.scrollIntoView === 'function') {
+      btnTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+    const el = document.getElementById(id);
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 135;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+  }
+
+  renderVals() {
+    const route = this.state.route;
+    const activeRaw = CASES.find((c) => c.id === this.state.caseId) || CASES[0];
+    const idx = CASES.indexOf(activeRaw);
+    const next = CASES[(idx + 1) % CASES.length];
+    const dim = 'rgba(244,242,239,0.55)';
+    const cases = CASES.map((c) => Object.assign({}, c, { open: () => this.go('case', c.id) }));
+    const featured = cases.map((c, i) => Object.assign({}, c, { col: 'span 6', offset: '0px', ratio: '4/3', delay: (i % 2) * 120 }));
+
+    const activeChapters = (activeRaw.chapters || []).map((ch, i) => Object.assign({}, ch, { tabId: 'chapter-' + i }));
+    const active = Object.assign({}, activeRaw, { chapters: activeChapters });
+
+    const activeTabs = activeChapters.map((ch, i) => {
+      const parts = (ch.n || '').split('/');
+      const num = parts[0] ? parts[0].trim() : String(i + 1).padStart(2, '0');
+      let label = (parts[1] ? parts[1].trim() : ch.title).toUpperCase();
+
+      return {
+        num: num,
+        label: label,
+        onClick: (e) => this.scrollToChapter('chapter-' + i, e ? (e.currentTarget || e.target) : null)
+      };
+    });
+
+    if (active.metrics && active.metrics.length) {
+      activeTabs.push({
+        num: String(activeTabs.length + 1).padStart(2, '0'),
+        label: 'REFLECTION & OUTCOME',
+        onClick: (e) => this.scrollToChapter('chapter-outcome', e ? (e.currentTarget || e.target) : null)
+      });
+    }
+
+    let previewTitle = 'Product Case Studies';
+    let previewBlurb = 'End-to-end design for fintech, consumer & enterprise platforms.';
+    let previewSlot = 'preview-cases';
+    let previewSrc = 'uploads/hero.jpg';
+    let previewPh = 'Product Case Studies Cover';
+
+    if (this.state.activeHoverItem === 'ai') {
+      previewTitle = 'AI × Design';
+      previewBlurb = 'Experiments at the intersection of AI and product thinking.';
+      previewSlot = 'preview-ai';
+      previewSrc = 'uploads/dsphere-hero.jpg';
+      previewPh = 'AI Co-Creation Ecosystem Interface';
+    } else if (this.state.activeHoverItem === 'playground') {
+      previewTitle = 'Design Playground';
+      previewBlurb = 'Interactive micro-interactions, components, and UI experiments.';
+      previewSlot = 'preview-playground';
+      previewSrc = 'uploads/hero.jpg';
+      previewPh = 'Design Systems & Micro-Interactions';
+    }
+
+    const rawPgItems = [
+      { title: 'Spatial Garment Customizer 3D', tag: '3D & WebGL', slot: 'pg-slot-1', ph: '3D Canvas Garment Panel Customizer UI', desc: 'Real-time fabric shader & interactive pattern placement system built in Three.js.', likes: '142', views: '2.4k' },
+      { title: 'GenAI Prompt Builder & Canvas', tag: 'AI × UI', slot: 'pg-slot-2', ph: 'AI Co-Creation Canvas Node Graph', desc: 'Node-based AI prompt flow editor with real-time feedback loops.', likes: '98', views: '1.8k' },
+      { title: 'Glassmorphic Mobile Controls', tag: 'Micro-Interactions', slot: 'pg-slot-3', ph: 'Mobile Control Center & Haptic Sliders', desc: 'Dynamic blurred backdrop sliders with sub-pixel haptic animation feedback.', likes: '215', views: '3.6k' },
+      { title: 'Tokenized Design System Specs', tag: 'Design System', slot: 'pg-slot-4', ph: 'Color Tokens & Component Variants Sheet', desc: 'Automated Figma to CSS custom properties pipeline with WCAG contrast checking.', likes: '84', views: '1.2k' },
+      { title: 'Circular Supply Chain Flow', tag: 'Information Architecture', slot: 'pg-slot-5', ph: 'Provenance Journey & Material Passport Cards', desc: 'Interactive timeline tracing garment lifecycle from recycled yarn to consumer.', likes: '112', views: '1.9k' },
+      { title: 'Real-Time Risk Analytics Dashboard', tag: 'FinTech UX', slot: 'pg-slot-6', ph: 'Portfolio Risk & Analytics Chart View', desc: 'High-density financial metrics visualizer with fluid gesture transitions.', likes: '167', views: '2.8k' },
+      { title: 'Fluid Physics Micro-Button', tag: 'Motion', slot: 'pg-slot-7', ph: 'Spring Physics CTA State Machine', desc: '60fps vector physics state machine running natively on web & iOS.', likes: '274', views: '4.1k' },
+      { title: 'Contextual AI Command Bar', tag: 'AI × UI', slot: 'pg-slot-8', ph: 'Command Palette & Contextual Suggestions', desc: 'Keyboard-first predictive command bar with inline diff previews.', likes: '189', views: '3.1k' },
+      { title: 'Dynamic Theme Switcher Component', tag: 'UI Component', slot: 'pg-slot-9', ph: 'Dark Light Glass Theme Toggle Animation', desc: 'Smooth spring physics theme toggle with fluid icon morphing.', likes: '135', views: '2.1k' }
+    ];
+
+    const playgroundItems = rawPgItems.map((item) => Object.assign({}, item, {
+      open: (e) => {
+        if (e) e.stopPropagation();
+        let clickedSrc = item.src || '';
+        if (typeof document !== 'undefined') {
+          const targetSlotEl = document.getElementById(item.slot);
+          if (targetSlotEl) {
+            const img = targetSlotEl.querySelector('img');
+            if (img && img.src) clickedSrc = img.src;
+          }
+        }
+        if (!clickedSrc && e && e.currentTarget) {
+          const img = e.currentTarget.querySelector('img');
+          if (img && img.src) clickedSrc = img.src;
+        }
+        this.setState({ lightboxOpen: true, lightboxItem: item, activeImageSrc: clickedSrc, isZoomed: false });
+      }
+    }));
+
+    const activeImageSrc = this.state.activeImageSrc || (this.state.lightboxItem ? this.state.lightboxItem.src : '');
+
+    return {
+      wrap: this.wrap, ov: this.ov, dot: this.dot, ring: this.ring, ringLabel: this.ringLabel, bar: this.bar, greet: this.greet, heroCur: this.heroCur, hoverPrev: this.hoverPrev, preload: this.preload, plTop: this.plTop, plBot: this.plBot,
+      isHome: route === 'home', isWork: route === 'work', isCase: route === 'case', isAbout: route === 'about', isPlayground: route === 'design-playground' || route === 'playground',
+      homeInk: route === 'home' ? '#f4f2ef' : dim,
+      workInk: (route === 'work' || route === 'case' || route === 'design-playground' || route === 'playground') ? '#f4f2ef' : dim,
+      aboutInk: route === 'about' ? '#f4f2ef' : dim,
+      isHire: route === 'hire',
+      hireInk: route === 'hire' ? '#EF5152' : '#f4f2ef',
+      isWorksOpen: !!this.state.isWorksOpen,
+      activeHoverItem: this.state.activeHoverItem || 'cases',
+      toggleWorksMenu: (e) => { e.stopPropagation(); this.setState({ isWorksOpen: !this.state.isWorksOpen }); },
+      hoverCaseStudies: () => this.setState({ activeHoverItem: 'cases' }),
+      hoverAiExplorations: () => this.setState({ activeHoverItem: 'ai' }),
+      hoverPlayground: () => this.setState({ activeHoverItem: 'playground' }),
+      navCaseStudies: () => { this.setState({ isWorksOpen: false }); this.go('work'); },
+      navAiExplorations: () => { this.setState({ isWorksOpen: false }); this.go('case', 'dsphere'); },
+      navPlayground: () => { this.setState({ isWorksOpen: false }); this.go('design-playground'); },
+      previewTitle: previewTitle,
+      previewBlurb: previewBlurb,
+      previewSlot: previewSlot,
+      previewSrc: previewSrc,
+      previewPh: previewPh,
+      playgroundItems: playgroundItems,
+      lightboxOpen: !!this.state.lightboxOpen,
+      lightboxItem: this.state.lightboxItem || {},
+      lightboxSlot: this.state.lightboxItem ? this.state.lightboxItem.slot + '-zoom' : 'zoom-slot',
+      activeImageSrc: activeImageSrc,
+      hasActiveImageSrc: !!activeImageSrc,
+      isZoomed: !!this.state.isZoomed,
+      closeLightbox: (e) => { if (e) e.stopPropagation(); this.setState({ lightboxOpen: false, lightboxItem: null, activeImageSrc: '', isZoomed: false }); },
+      toggleZoom: (e) => { if (e) e.stopPropagation(); this.setState({ isZoomed: !this.state.isZoomed }); },
+      goHire: () => this.go('hire'),
+      goHome: () => this.go('home'),
+      goWork: () => this.go('work'),
+      goAbout: () => this.go('about'),
+      activeTabs: activeTabs,
+      timeline: [
+        { years: '2021 — now', role: 'Independent Product Designer', org: 'Freelance & contract', note: 'GenAI SaaS, FinTech and HealthTech teams — usually brought in for 0→1 work or to untangle a product that grew faster than its structure.' },
+        { years: '2018 — 2021', role: 'Lead Product Designer', org: 'Unthink', note: 'Led design on client platforms end to end, built the studio\'s first shared component library, and mentored three designers into senior roles.' },
+        { years: '2015 — 2018', role: 'Senior UX Designer', org: 'Tech Mahindra', note: 'Enterprise web applications for telecom and manufacturing clients. Ran the research practice for two account teams.' },
+        { years: '2012 — 2015', role: 'UX Designer', org: 'Accenture', note: 'Large-scale internal tooling and customer portals, working inside strict compliance and accessibility constraints.' },
+        { years: '2011 — 2012', role: 'Visual & Interaction Designer', org: 'Agency side', note: 'Brand identity, campaign sites and the beginnings of a habit of building what I design.' }
+      ],
+      beliefs: [
+        { n: '01', t: 'Research earns the right to design', b: 'I would rather lose two weeks to interviews than six months to a confident wrong answer. Every project here changed direction because of something a user said.' },
+        { n: '02', t: 'Constraints are the brief', b: 'Bandwidth, shift length, literacy, shared devices, compliance. The real constraint is almost never the one in the kickoff deck, and finding it is most of the job.' },
+        { n: '03', t: 'I build what I design', b: 'I write front-end. It keeps my specs honest, shortens hand-off, and means the details that usually get lost survive to production.' },
+        { n: '04', t: 'Subtract before you add', b: 'The most valuable thing a senior designer does is argue for the feature that should not ship.' }
+      ],
+      capabilities: [
+        { k: 'Research', v: 'Diary studies, contextual enquiry, usability testing, synthesis' },
+        { k: 'Product', v: 'IA, flows, prototyping, roadmap shaping, workshop facilitation' },
+        { k: 'Craft', v: 'Interface design, design systems, motion, accessibility to WCAG AA' },
+        { k: 'Build', v: 'HTML, CSS, JavaScript, React, WordPress, Framer' },
+        { k: 'Tools', v: 'Figma, Rive, After Effects, Maze, Notion' },
+        { k: 'Domains', v: 'GenAI SaaS, FinTech, HealthTech, Web3, telecom, retail, automotive' }
+      ],
+      openNext: () => this.go('case', next.id),
+      nextTitle: next.title,
+      cases: cases, featured: featured, active: active,
+      stats: [
+        { n: 10, suffix: '+', label: 'Product domains' },
+        { n: 15, suffix: 'yrs+', label: 'Experience' },
+        { n: 200, suffix: '+', label: 'Projects done' }
+      ],
+      services: [
+        { n: '01', name: 'Brand Identity', note: 'Positioning, mark, type and the system that holds it together.' },
+        { n: '02', name: 'Product & UX Design', note: 'End-to-end: research, flows, interface, validation.' },
+        { n: '03', name: 'Design Systems', note: 'Tokens, components and the governance that keeps them alive.' },
+        { n: '04', name: 'Web & Mobile Applications', note: 'iOS, Android and responsive web, shipped with engineers.' },
+        { n: '05', name: 'Front-End Build', note: 'I implement the details that specs always lose.' },
+        { n: '06', name: 'Design Leadership', note: 'Team direction, critique culture, hiring and process.' },
+        { n: '07', name: 'Social Media Marketing', note: 'Campaign systems, templates and content that stays on brand.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

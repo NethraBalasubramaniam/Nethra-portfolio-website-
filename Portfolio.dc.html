@@ -31,6 +31,7 @@
   @keyframes drift { from { background-position: 0 0; } to { background-position: 60px 60px; } }
   @keyframes dropIn { from { opacity: 0; transform: translate(-50%, -10px); } to { opacity: 1; transform: translate(-50%, 0); } }
   @keyframes lightboxFadeIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+  @keyframes slideRevealIn { from { opacity: 0; transform: scale(1.06); } to { opacity: 1; transform: scale(1); } }
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   .works-dropdown-item {
@@ -206,6 +207,15 @@
   </nav>
 
   <div ref="{{ bar }}" style="position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: #ffd23f; z-index: 850;"></div>
+
+  <!-- ══ FULL-PAGE PROJECT VIEW ══ -->
+  <sc-if value="{{ slideshowOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeSlideshow }}" style="position: fixed; inset: 0; z-index: 9998; background: #08080a; overflow: hidden; cursor: pointer;">
+    <div style="position: absolute; inset: 0; animation: slideRevealIn .6s cubic-bezier(.16,1,.3,1);">
+      <image-slot id="{{ slideshowItem.slideSlot }}" shape="rect" fit="cover" src="{{ slideshowItem.src }}" placeholder="{{ slideshowItem.ph }}" style="width: 100%; height: 100%;"></image-slot>
+    </div>
+  </div>
+  </sc-if>
 
   <!-- ══ HOME ══ -->
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
@@ -1589,7 +1599,7 @@ class Component extends DCLogic {
     if (caseMatch) { initialRoute = 'case'; initialCaseId = caseMatch.id; }
     else if (['work', 'about', 'hire', 'design-playground'].includes(norm)) { initialRoute = norm; }
 
-    return { route: initialRoute, caseId: initialCaseId, isWorksOpen: false, activeHoverItem: 'cases', lightboxOpen: false, lightboxItem: null, isZoomed: false };
+    return { route: initialRoute, caseId: initialCaseId, isWorksOpen: false, activeHoverItem: 'cases', lightboxOpen: false, lightboxItem: null, isZoomed: false, slideshowOpen: false, slideshowIndex: 0 };
   })();
 
   wrap = React.createRef();
@@ -1935,6 +1945,15 @@ class Component extends DCLogic {
     }, 540);
   }
 
+  openSlideshow(index) {
+    this.setState({ slideshowOpen: true, slideshowIndex: index });
+  }
+
+  closeSlideshow(e) {
+    if (e) e.stopPropagation();
+    this.setState({ slideshowOpen: false });
+  }
+
   scrollToChapter(id, btnTarget) {
     if (typeof document === 'undefined') return;
     if (btnTarget && typeof btnTarget.scrollIntoView === 'function') {
@@ -1953,8 +1972,10 @@ class Component extends DCLogic {
     const idx = CASES.indexOf(activeRaw);
     const next = CASES[(idx + 1) % CASES.length];
     const dim = 'rgba(244,242,239,0.55)';
-    const cases = CASES.map((c) => Object.assign({}, c, { open: () => this.go('case', c.id) }));
-    const featured = cases.map((c, i) => Object.assign({}, c, { col: 'span 6', offset: '0px', ratio: '4/3', delay: (i % 2) * 120 }));
+    const cases = CASES.map((c) => Object.assign({}, c, { slideSlot: 'slide-' + c.slot, open: () => this.go('case', c.id) }));
+    const featured = cases.map((c, i) => Object.assign({}, c, { col: 'span 6', offset: '0px', ratio: '4/3', delay: (i % 2) * 120, open: () => this.openSlideshow(i) }));
+    const slideshowIndex = this.state.slideshowIndex || 0;
+    const slideshowItem = cases[slideshowIndex] || cases[0] || {};
 
     const activeChapters = (activeRaw.chapters || []).map((ch, i) => Object.assign({}, ch, { tabId: 'chapter-' + i }));
     const active = Object.assign({}, activeRaw, { chapters: activeChapters });
@@ -2091,6 +2112,10 @@ class Component extends DCLogic {
       ],
       openNext: () => this.go('case', next.id),
       nextTitle: next.title,
+      slideshowOpen: !!this.state.slideshowOpen,
+      slideshowIndex: slideshowIndex,
+      slideshowItem: slideshowItem,
+      closeSlideshow: (e) => this.closeSlideshow(e),
       cases: cases, featured: featured, active: active,
       stats: [
         { n: 10, suffix: '+', label: 'Product domains' },

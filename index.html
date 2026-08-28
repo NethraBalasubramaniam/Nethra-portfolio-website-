@@ -31,7 +31,6 @@
   @keyframes drift { from { background-position: 0 0; } to { background-position: 60px 60px; } }
   @keyframes dropIn { from { opacity: 0; transform: translate(-50%, -10px); } to { opacity: 1; transform: translate(-50%, 0); } }
   @keyframes lightboxFadeIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
-  @keyframes slideRevealIn { 0% { opacity: 0; transform: scale(1.16); filter: blur(18px); clip-path: inset(12% round 22px); } 100% { opacity: 1; transform: scale(1); filter: blur(0); clip-path: inset(0 round 0px); } }
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   .works-dropdown-item {
@@ -208,15 +207,6 @@
   </nav>
 
   <div ref="{{ bar }}" style="position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: #ffd23f; z-index: 850;"></div>
-
-  <!-- ══ FULL-PAGE PROJECT VIEW ══ -->
-  <sc-if value="{{ slideshowOpen }}" hint-placeholder-val="{{ false }}">
-  <div onClick="{{ closeSlideshow }}" style="position: fixed; inset: 0; z-index: 9998; background: #08080a; overflow: hidden; cursor: pointer; animation: lightboxFadeIn .35s ease;">
-    <div style="position: absolute; inset: 0; animation: slideRevealIn 1.1s cubic-bezier(.76,0,.24,1);">
-      <image-slot id="{{ slideshowItem.slideSlot }}" shape="rect" fit="cover" src="{{ slideshowItem.src }}" placeholder="{{ slideshowItem.ph }}" style="width: 100%; height: 100%;"></image-slot>
-    </div>
-  </div>
-  </sc-if>
 
   <!-- ══ HOME ══ -->
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
@@ -1143,8 +1133,8 @@
       <section style="padding: clamp(40px, 6vh, 80px) clamp(20px, 4vw, 56px) clamp(50px, 9vh, 100px);">
       <div style="max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(60px, 10vh, 120px);">
         <sc-for list="{{ active.chapters }}" as="ch" hint-placeholder-count="4">
-          <div id="{{ ch.tabId }}" class="chapter-grid" style="display: grid; grid-template-columns: minmax(220px, 0.72fr) minmax(0, 1.6fr); gap: clamp(24px, 5vw, 70px); align-items: start; scroll-margin-top: 135px;">
-            <div style="position: sticky; top: 135px;">
+          <div id="{{ ch.tabId }}" class="chapter-grid" style="display: grid; gap: clamp(24px, 5vw, 70px); align-items: start; scroll-margin-top: 135px;">
+            <div >
               <div data-reveal="up" style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #ffd23f;">{{ ch.n }}</div>
               <h2 data-reveal="up" data-delay="60" style="margin: 12px 0 0; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: clamp(1.5rem, 3.2vw, 2.4rem); line-height: 1.02; letter-spacing: -0.035em;">{{ ch.title }}</h2>
             </div>
@@ -1345,7 +1335,7 @@ class Component extends DCLogic {
       pendingSlug = norm;
     }
 
-    return { route: initialRoute, caseId: initialCaseId, pendingSlug: pendingSlug, isWorksOpen: false, activeHoverItem: 'cases', lightboxOpen: false, lightboxItem: null, isZoomed: false, slideshowOpen: false, slideshowIndex: 0, cases: [], playgroundData: [] };
+    return { route: initialRoute, caseId: initialCaseId, pendingSlug: pendingSlug, isWorksOpen: false, activeHoverItem: 'cases', lightboxOpen: false, lightboxItem: null, isZoomed: false, cases: [], playgroundData: [] };
   })();
 
   wrap = React.createRef();
@@ -1694,15 +1684,6 @@ class Component extends DCLogic {
     }, 540);
   }
 
-  openSlideshow(index) {
-    this.setState({ slideshowOpen: true, slideshowIndex: index });
-  }
-
-  closeSlideshow(e) {
-    if (e) e.stopPropagation();
-    this.setState({ slideshowOpen: false });
-  }
-
   // All case studies and playground pieces live in the `nethra-portfolio`
   // MySQL database (data/cases.php, data/playground.php) — nothing is
   // hardcoded in this file. The admin panel writes to the same tables.
@@ -1755,10 +1736,8 @@ class Component extends DCLogic {
     const next = allCases.length ? allCases[(idx + 1) % allCases.length] : {};
     const totalCasesLabel = String(allCases.length).padStart(2, '0');
     const dim = 'rgba(244,242,239,0.55)';
-    const cases = allCases.map((c) => Object.assign({}, c, { slideSlot: 'slide-' + c.slot, open: () => this.go('case', c.id) }));
-    const featured = cases.map((c, i) => Object.assign({}, c, { col: 'span 6', offset: '0px', ratio: '4/3', delay: (i % 2) * 120, open: () => this.openSlideshow(i) }));
-    const slideshowIndex = this.state.slideshowIndex || 0;
-    const slideshowItem = cases[slideshowIndex] || cases[0] || {};
+    const cases = allCases.map((c) => Object.assign({}, c, { open: () => this.go('case', c.id) }));
+    const featured = cases.map((c, i) => Object.assign({}, c, { col: 'span 6', offset: '0px', ratio: '4/3', delay: (i % 2) * 120 }));
 
     const activeChapters = (activeRaw.chapters || []).map((ch, i) => Object.assign({}, ch, { tabId: 'chapter-' + i }));
     const activePillars = activeRaw.pillars
@@ -1890,10 +1869,6 @@ class Component extends DCLogic {
       ],
       openNext: () => this.go('case', next.id),
       nextTitle: next.title,
-      slideshowOpen: !!this.state.slideshowOpen,
-      slideshowIndex: slideshowIndex,
-      slideshowItem: slideshowItem,
-      closeSlideshow: (e) => this.closeSlideshow(e),
       cases: cases, featured: featured, active: active, totalCasesLabel: totalCasesLabel,
       stats: [
         { n: 10, suffix: '+', label: 'Product domains' },

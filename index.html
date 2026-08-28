@@ -31,7 +31,7 @@
   @keyframes drift { from { background-position: 0 0; } to { background-position: 60px 60px; } }
   @keyframes dropIn { from { opacity: 0; transform: translate(-50%, -10px); } to { opacity: 1; transform: translate(-50%, 0); } }
   @keyframes lightboxFadeIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
-  @keyframes slideRevealIn { from { opacity: 0; transform: scale(1.06); } to { opacity: 1; transform: scale(1); } }
+  @keyframes slideRevealIn { 0% { opacity: 0; transform: scale(1.16); filter: blur(18px); clip-path: inset(12% round 22px); } 100% { opacity: 1; transform: scale(1); filter: blur(0); clip-path: inset(0 round 0px); } }
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   .works-dropdown-item {
@@ -66,6 +66,7 @@
     .work-card { grid-template-columns: 1fr !important; gap: 16px !important; }
     .work-card-thumb { width: 100% !important; aspect-ratio: 16/9 !important; }
     .sticky-tabs-bar { top: 60px !important; }
+  }
   /* Dribbble 3-Column Gallery Layout */
   .dribbble-grid {
     display: grid !important;
@@ -98,7 +99,7 @@
     overflow: hidden !important;
     border: 1px solid rgba(244,242,239,0.08) !important;
     position: relative !important;
-    transition: transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s ease, box-shadow .3s ease !important;
+    transition: transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s ease, box-shadow .3s ease;
   }
   .dribbble-shot:hover .dribbble-shot-frame {
     transform: translateY(-6px) !important;
@@ -210,8 +211,8 @@
 
   <!-- ══ FULL-PAGE PROJECT VIEW ══ -->
   <sc-if value="{{ slideshowOpen }}" hint-placeholder-val="{{ false }}">
-  <div onClick="{{ closeSlideshow }}" style="position: fixed; inset: 0; z-index: 9998; background: #08080a; overflow: hidden; cursor: pointer;">
-    <div style="position: absolute; inset: 0; animation: slideRevealIn .6s cubic-bezier(.16,1,.3,1);">
+  <div onClick="{{ closeSlideshow }}" style="position: fixed; inset: 0; z-index: 9998; background: #08080a; overflow: hidden; cursor: pointer; animation: lightboxFadeIn .35s ease;">
+    <div style="position: absolute; inset: 0; animation: slideRevealIn 1.1s cubic-bezier(.76,0,.24,1);">
       <image-slot id="{{ slideshowItem.slideSlot }}" shape="rect" fit="cover" src="{{ slideshowItem.src }}" placeholder="{{ slideshowItem.ph }}" style="width: 100%; height: 100%;"></image-slot>
     </div>
   </div>
@@ -976,7 +977,7 @@
     <section style="padding: 0 clamp(20px, 4vw, 56px) clamp(70px, 12vh, 130px);">
       <div style="max-width: 1240px; margin: 0 auto;">
         <sc-for list="{{ cases }}" as="c" hint-placeholder-count="5">
-          <div class="work-card" data-reveal="up" data-magnetic="View" onClick="{{ c.open }}" style="display: grid; grid-template-columns: 1fr auto; align-items: center; gap: clamp(16px, 3vw, 40px); padding: clamp(20px, 3vh, 32px) 20px; border-radius: 14px; border-top: 1px solid rgba(244,242,239,0.1); cursor: pointer; transition: background .25s ease;" style-hover="background: rgba(244,242,239,0.04);">
+          <div class="work-card" data-reveal="card" data-magnetic="View" onClick="{{ c.open }}" style="display: grid; grid-template-columns: 1fr auto; align-items: center; gap: clamp(16px, 3vw, 40px); padding: clamp(20px, 3vh, 32px) 20px; border-radius: 14px; border-top: 1px solid rgba(244,242,239,0.1); cursor: pointer; transition: background .25s ease;" style-hover="background: rgba(244,242,239,0.04);">
             <div>
               <h2 style="margin: 0; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: clamp(1.5rem, 4vw, 3rem); letter-spacing: -0.035em; line-height: 1;">{{ c.title }}</h2>
               <p style="margin: 9px 0 0; font-size: 13.5px; color: rgba(244,242,239,0.5); max-width: 62ch; line-height: 1.5;">{{ c.blurb }}</p>
@@ -986,7 +987,7 @@
                 </sc-for>
               </div>
             </div>
-            <div class="work-card-thumb" style="width: clamp(120px, 20vw, 260px); aspect-ratio: 4/3; border-radius: 12px; overflow: hidden; background: #121216; border: 1px solid rgba(244,242,239,0.08);">
+            <div data-cardframe="1" class="work-card-thumb" style="width: clamp(120px, 20vw, 260px); aspect-ratio: 4/3; border-radius: 12px; overflow: hidden; background: #121216; border: 1px solid rgba(244,242,239,0.08);">
               <image-slot id="{{ c.slot }}" shape="rect" fit="cover" src="{{ c.src }}" placeholder="{{ c.ph }}" style="width: 100%; height: 100%;"></image-slot>
             </div>
           </div>
@@ -1014,9 +1015,9 @@
       <div style="max-width: 1240px; margin: 0 auto;">
         <div class="dribbble-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; width: 100%;">
           <sc-for list="{{ playgroundItems }}" as="pg" hint-placeholder-count="8">
-            <div class="dribbble-shot" data-reveal="up" onClick="{{ pg.open }}">
+            <div class="dribbble-shot" data-reveal="card" onClick="{{ pg.open }}">
               <!-- 4:3 DRIBBBLE SHOT THUMBNAIL FRAME -->
-              <div class="dribbble-shot-frame" style="border-radius: 8px !important; overflow: hidden !important;">
+              <div data-cardframe="1" class="dribbble-shot-frame" style="border-radius: 8px !important; overflow: hidden !important;">
                 <image-slot id="{{ pg.slot }}" shape="rect" fit="cover" src="{{ pg.src }}" placeholder="{{ pg.ph }}" editable style="width: 100%; height: 100%; border-radius: 8px !important; overflow: hidden !important;"></image-slot>
               </div>
 
@@ -1078,7 +1079,7 @@
         <span data-magnetic="1" onClick="{{ goWork }}" style="cursor: pointer; font-size: 13px; color: rgba(244,242,239,0.5); display: inline-block; margin-top: 8px;" style-hover="color: #ffd23f;">← All case studies</span>
         <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 12px;">
           <p data-reveal="up" style="margin: 0; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">{{ active.tag }}</p>
-          <span style="font-size: 12px; letter-spacing: 0.1em; color: rgba(244,242,239,0.4); font-weight: 600;">{{ active.n }} / 06</span>
+          <span style="font-size: 12px; letter-spacing: 0.1em; color: rgba(244,242,239,0.4); font-weight: 600;">{{ active.n }} / {{ totalCasesLabel }}</span>
         </div>
         
         <!-- Headline -->
@@ -1108,6 +1109,11 @@
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: clamp(18px, 2.5vw, 28px);">
           <sc-for list="{{ active.pillars }}" as="pl" hint-placeholder-count="6">
             <div data-reveal="up" style="padding: clamp(26px, 2.8vw, 36px); border-radius: 16px; background: #101014; border: 1px solid rgba(244,242,239,0.08); transition: border-color .3s ease, background .3s ease;" style-hover="border-color: rgba(244,242,239,0.24); background: #141419;">
+              <sc-if value="{{ pl.src }}" hint-placeholder-val="{{ false }}">
+                <div style="border-radius: 10px; overflow: hidden; background: #0c0c10; aspect-ratio: 16/10; margin-bottom: 20px;">
+                  <image-slot id="{{ pl.slot }}" shape="rect" fit="cover" src="{{ pl.src }}" placeholder="{{ pl.ph }}" style="width: 100%; height: 100%;"></image-slot>
+                </div>
+              </sc-if>
               <div style="font-size: 13px; font-weight: 600; font-family: monospace; letter-spacing: 0.08em; color: #EF5152; margin-bottom: 18px;">{{ pl.num }}</div>
               <h3 style="margin: 0 0 12px; font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: clamp(1.25rem, 2.2vw, 1.45rem); color: #f4f2ef; line-height: 1.25; letter-spacing: -0.02em;">{{ pl.t }}</h3>
               <p style="margin: 0; font-size: 14px; line-height: 1.6; color: rgba(244,242,239,0.55);">{{ pl.b }}</p>
@@ -1152,6 +1158,18 @@
               <sc-if value="{{ ch.sub }}" hint-placeholder-val="{{ false }}">
                 <h3 data-reveal="up" style="margin: clamp(26px, 5vh, 44px) 0 -8px; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">{{ ch.sub }}</h3>
               </sc-if>
+              <!-- Admin-edited chapters carry a flat ch.images list; hand-authored
+                   ones use the original named-slot fields below, untouched. -->
+              <sc-if value="{{ ch.images }}" hint-placeholder-val="{{ false }}">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: clamp(26px, 5vh, 44px);">
+                  <sc-for list="{{ ch.images }}" as="img" hint-placeholder-count="2">
+                    <div data-reveal="up" style="border-radius: 14px; overflow: hidden; border: 1px solid rgba(244,242,239,0.1); background: #121216; aspect-ratio: 4/3;">
+                      <image-slot id="{{ img.slot }}" shape="rect" fit="cover" src="{{ img.src }}" placeholder="{{ img.ph }}" style="width: 100%; height: 100%;"></image-slot>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{ !ch.images }}" hint-placeholder-val="{{ false }}">
               <sc-if value="{{ ch.slot }}" hint-placeholder-val="{{ false }}">
                 <div data-reveal="up" style="margin-top: clamp(26px, 5vh, 44px); border-radius: 14px; overflow: hidden; border: 1px solid rgba(244,242,239,0.1); background: #121216; display: flex; justify-content: center; width: 100%;">
                   <image-slot id="{{ ch.slot }}" shape="rect" fit="cover" src="{{ ch.src }}" placeholder="{{ ch.ph }}" editable style="width: 100%; height: 100%;"></image-slot>
@@ -1188,6 +1206,7 @@
                   <image-slot id="{{ ch.slot3 }}" shape="rect" fit="cover" src="{{ ch.src3 }}" placeholder="{{ ch.ph3 }}" editable style="width: 100%; height: 100%;"></image-slot>
                 </div>
               </sc-if>
+              </sc-if>
             </div>
           </div>
         </sc-for>
@@ -1196,6 +1215,7 @@
 
     <section style="padding: 0 clamp(20px, 4vw, 56px) clamp(70px, 12vh, 130px);">
       <div id="chapter-outcome" style="max-width: 1240px; margin: 0 auto; scroll-margin-top: 110px;">
+        <sc-if value="{{ active.metrics.length }}" hint-placeholder-val="{{ false }}">
         <p data-reveal="up" style="margin: 0 0 clamp(24px, 4vh, 40px); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">Outcome</p>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: clamp(20px, 4vw, 44px);">
           <sc-for list="{{ active.metrics }}" as="mt" hint-placeholder-count="4">
@@ -1205,6 +1225,7 @@
             </div>
           </sc-for>
         </div>
+        </sc-if>
         <div data-reveal="up" style="display: flex; justify-content: center; margin-top: clamp(36px, 6vh, 64px);">
           <span onClick="{{ goWork }}" style="display: inline-flex; align-items: center; gap: 12px; cursor: pointer; border: 1px solid rgba(244,242,239,0.28); border-radius: 999px; padding: 12px 12px 12px 26px; color: #f4f2ef; font-size: 14px; font-weight: 500;" style-hover="background: #f4f2ef; color: #08080a; border-color: #f4f2ef;">View all<span style="width: 30px; height: 30px; border-radius: 50%; background: #EF5152; display: inline-flex; align-items: center; justify-content: center;"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="#08080a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
         </div>
@@ -1225,320 +1246,31 @@
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1000}}">
-const CASES = [
-  {
-    id: 'dsphere', n: '01', tag: 'Circular Fashion Platform',
-    title: 'D/Sphere',
-    headline: 'Designing the end-to-end UI of an AI-powered circular fashion co-creation ecosystem.',
-    blurb: 'A multi-role platform enabling brands, independent designers, garment makers, and conscious consumers to co-create sustainable fashion.',
-    chips: ['Circular Fashion', 'Multi-Role Platform', 'Design System', 'AI Customizer', 'Shipped'],
-    slot: 'cs-dsphere', heroSlot: 'cs-dsphere-hero',
-    src: 'uploads/assets-1785591852320.jpg',
-    ph: 'D/Sphere platform — hero showcase',
-    lede: 'Linear fashion follows a destructive pattern: extract, produce, consume, discard. D/Sphere replaces this fragmented pipeline with an interconnected digital workspace where brands launch circular collections, designers work against real material inventory, manufacturers track production, and consumers co-create garments they cherish. Leading design end-to-end—from discovery research to design system architecture and developer hand-off—the core UX challenge was unifying four radically different user mindsets into a single, cohesive interface.',
-    meta: [
-      { k: 'Role', v: 'Lead Product Designer & Strategist' },
-      { k: 'Client', v: 'AppyHub / Dhana' },
-      { k: 'Duration', v: '4 Months (Discovery to Handoff)' },
-      { k: 'Scope', v: 'Research, IA, Role-Based Workspaces, Panel Customizer, UI System' }
-    ],
-    pillars: [
-      { num: '01', t: 'AI-Guided Upcycled Customization', b: 'Production-ready design variations generated against available fabric inventory instead of an unconstrained blank canvas.' },
-      { num: '02', t: 'Unified Co-Creator Workspaces', b: 'Brands, independent designers, factories, and buyers collaborating inside one synchronized web application.' },
-      { num: '03', t: 'End-to-End Material Traceability', b: 'Transparent provenance and per-garment carbon savings, turning compliance data into customer trust.' },
-      { num: '04', t: 'Emotional Narrative Embedding', b: 'Personal memory stories preserved inside upcycled garments, shifting perception from disposable to heirloom.' },
-      { num: '05', t: 'Role-Scoped System Architecture', b: 'One design system driving four tailored views — consumer, designer, manufacturer, brand admin — with zero UI friction.' },
-      { num: '06', t: 'Verifiable Impact Metrics', b: 'Auditable circularity benchmarks integrated directly into purchase and production confirmation steps.' }
-    ],
-    chapters: [
-      {
-        n: '01 / Strategy & Context',
-        title: 'Reframing Circularity from Compliance to Narrative',
-        paras: [
-          'D/Sphere originated from Dhana\'s mission to bridge the gap between humanity and the planet through circular design principles. The mandate was clear: build a scalable B2B2C digital platform to accelerate textile upcycling, making circular fashion economically viable for enterprise brands while empowering independent designers and consumers.',
-          'Traditional industry workflows operated in silos: fashion brands managed inventory in spreadsheets, designers worked in disconnected CAD tools, and consumers had no visibility into material origin. D/Sphere was conceptualized to unite these stakeholders into a continuous circular loop.'
-        ],
-        pull: 'The strategic imperative was transforming circularity from a dry compliance metric into a compelling co-creation narrative.'
-      },
-      {
-        n: '02 / Discovery & Pivot',
-        title: 'The Pivot Insight: People Preserve Memories, Not Fabric',
-        sub: 'Quantitative & Qualitative Discovery',
-        paras: [
-          'Through stakeholder interviews, quantitative surveys, and competitive mapping across fashion buyers and eco-conscious shoppers, we uncovered a profound behavioral insight: people hold onto old clothing not because of fabric quality, but because garments carry emotional memories.',
-          'This discovery fundamentally shifted our product roadmap. Upcycling could not just be about material reuse—it had to be about memory preservation. Consequently, "Stories" was promoted to a top-tier core module alongside "Studio" and "Store" in the global navigation.'
-        ],
-        pull: 'Ask a user to cut up an old shirt, and they feel like they are destroying a memory—unless the new upcycled garment explicitly preserves and honors that story.',
-        slot: 'cs-dsphere-research',
-        src: 'uploads/pasted-1785656836338-0.png',
-        ph: 'User research synthesis, quantitative survey metrics, and journey pivot',
-        slot2: 'cs-dsphere-discovery-2',
-        src2: 'uploads/pasted-1785653215281-0.png',
-        ph2: 'Qualitative research mapping & stakeholder behavioral insights'
-      },
-      {
-        n: '03 / User Archetypes & Empathy',
-        title: 'Designing for Four Distinct User Mindsets',
-        paras: [
-          'To ensure seamless co-creation, I built detailed behavioral personas and empathy maps for our primary actors: the Conscious Co-Creator bringing sentimental garments, and the Independent Designer building upcycled collections against real-time fabric stock.',
-          'Mapping their emotional trajectories highlighted critical friction points around trust and fear of irreversible design choices. We solved this by designing transparent material provenance cards and non-destructive customization state machines.'
-        ],
-        sub: 'User Persona Mapping',
-        slot: 'cs-dsphere-persona-1',
-        src: 'uploads/pasted-1785653215281-0.png',
-        ph: 'User Personas and Empathy Mapping — Co-Creator & Independent Designer',
-        slot1b: 'cs-dsphere-persona-2',
-        src1b: 'uploads/pasted-1785656836338-0.png',
-        ph1b: 'Secondary User Persona & Mindset Mapping',
-        sub2: 'Empathy & Interaction Trajectory',
-        slot2: 'cs-dsphere-empathy',
-        ph2: 'Empathy Map — Behavioral synthesis & decision triggers'
-      },
-      {
-        n: '04 / Brand & Visual Identity',
-        title: 'A Closed-Loop Identity System',
-        paras: [
-          'The visual identity required a delicate balance: it needed to feel authoritative for luxury brand sustainability teams, yet approachable and warm for everyday retail buyers. The resulting mark symbolizes a closed circular ecosystem—built to scale effortlessly from woven garment tags to mobile viewports.',
-          'Color, typography (Clash Display & Instrument Sans), and spatial hierarchy were codified into design tokens, serving as the foundational skin for all four role-based UI views.'
-        ],
-        pull: 'The visual language bridges corporate sustainability credibility with consumer warmth.',
-        sub: 'Brand Identity & Tokens',
-        slot: 'cs-dsphere-brand',
-        src: 'uploads/pasted-1785597857919-0.png',
-        ph: 'D/Sphere Brand Identity, Mark Construction & Palette Tokens'
-      },
-      {
-        n: '05 / Information Architecture',
-        title: 'One Platform, Four Tailored Workspaces',
-        paras: [
-          'Designing for four distinct roles with vastly different technical mental models meant avoiding a monolithic UI. We created scoped role-based workspaces driven by a unified navigation framework. Each stakeholder sees only the tools required for their immediate job, while terminology and component behaviors remain perfectly consistent.',
-          'As a garment moves from design to production and retail, its digital twin updates state in real-time, eliminating redundant communication and data loss.'
-        ],
-        sub: 'Ecosystem Architecture & Flow',
-        slot: 'cs-dsphere-ia',
-        ph: 'Information Architecture & Role-Based UX Task Flows'
-      },
-      {
-        n: '06 / Customizer Engine',
-        title: 'Translating Physical Garment Seams into Software Constraints',
-        paras: [
-          'Physical garments consist of discrete fabric panels, seams, and structural constraints. Standard 3D customizers often allow impossible combinations that factories cannot physically manufacture. D/Sphere solves this with an intelligent panel customizer engine.',
-          'The engine dynamically exposes only valid panel variations based on real fabric inventory and sewing pattern rules, rendering invalid combinations impossible to select. This constraint-driven UX ensures every design created on screen is 100% manufacturable.'
-        ],
-        pull: 'You can draw anything digitally, but you can only sew valid geometry. The UX makes physical constraints feel like creative guidance.',
-        sub2: 'Panel Customization UI',
-        slot2: 'cs-dsphere-panels',
-        ph2: 'Interactive Garment Panel Customizer UI & Validation Rules'
-      },
-      {
-        n: '07 / Provenance & Impact UX',
-        title: 'Making Circular Impact Verifiable & Engaging',
-        paras: [
-          'Complex supply chain data is typically buried in PDF compliance reports. D/Sphere turns circular metrics into interactive narrative cards. Every garment includes a digital story passport displaying water saved, carbon offset, and maker credits.',
-          'By embedding verifiable impact data directly into the purchasing flow, we transformed sustainability from an abstract marketing claim into a transparent, audit-backed value proposition.'
-        ],
-        sub: 'Provenance Wireframes',
-        slot: 'cs-dsphere-stories',
-        ph: 'Stories Module — Material Provenance & Memory Cards',
-        sub2: 'Production UI Design',
-        slot2: 'cs-dsphere-ui',
-        ph2: 'Final UI — Provenance Passport & Impact Analytics',
-        slot2b: 'cs-dsphere-ui-2',
-        ph2b: 'Production UI Design — Secondary Interface Screens',
-        slot2c: 'cs-dsphere-ui-3',
-        ph2c: 'Production UI Design — Additional Interface Views'
-      },
-      {
-        n: '08 / System & Validation',
-        title: 'Scalable Component Library & Measurable Results',
-        paras: [
-          'The UI design system was constructed in tandem with core features, establishing tokenized components, interaction states, and accessibility specs (WCAG AA compliant). Rapid prototyping and remote usability sessions validated navigation efficiency and panel customizer clarity prior to engineering hand-off.',
-          'The platform launched successfully with 4 unified user roles, 5 core modules, and an extensible design system in active production today.'
-        ],
-        pull: 'Validating novel interaction mechanics early is the single highest-leverage investment in product design.',
-        sub: 'Design System Tokens',
-        slot: 'cs-dsphere-system',
-        ph: 'Design System Tokens & Interaction Specs',
-        sub2: 'UI Component Library',
-        slot2: 'cs-dsphere-components',
-        ph2: 'Component Library & Hand-off Documentation'
-      }
-    ],
-    metrics: [
-      { n: 4, suffix: ' User Roles', label: 'Brands, Designers, Factories & Consumers unified in 1 ecosystem' },
-      { n: 5, suffix: ' Core Modules', label: 'Home, Store, Studio, Stories, and Account workflows' },
-      { n: 100, suffix: '%', label: 'Manufacturable designs guaranteed by customizer logic' },
-      { n: 1, suffix: ' Design System', label: 'Scalable tokenized UI library deployed in production' }
-    ]
-  },
-  {
-    id: 'merchant', n: '02', tag: 'FinTech',
-    title: 'Merchant QR Payments',
-    headline: 'Onboarding a street merchant in under four minutes',
-    blurb: 'QR acceptance and bill payments for small merchants — onboarding rebuilt around low literacy, low bandwidth and shared phones.',
-    chips: ['FinTech', 'Mobile', 'Onboarding'],
-    slot: 'cs-merchant', heroSlot: 'cs-merchant-hero',
-    src: 'https://images.unsplash.com/photo-1556742049-0a67daf64f42?q=80&w=1200&auto=format&fit=crop',
-    ph: 'Merchant app screens',
-    lede: 'A payments client was losing two thirds of merchant sign-ups midway through KYC. I rebuilt onboarding around the constraints we found in the field rather than the ones assumed in the office.',
-    meta: [
-      { k: 'Role', v: 'Senior Product Designer' },
-      { k: 'Team', v: '1 designer, 4 engineers' },
-      { k: 'Duration', v: '5 months' },
-      { k: 'Scope', v: 'Field research, flows, UI, localisation' }
-    ],
-    chapters: [
-      { n: 'Chapter 01', title: 'Where sign-ups died', paras: [
-        'Funnel data pointed at document upload. Two days of shop-floor observation pointed somewhere else: merchants abandoned at the step that asked them to leave the app to find a number they kept on paper elsewhere. The upload failure was a symptom of asking for the wrong thing at the wrong moment.',
-        'We also found phones shared between a shop owner and two staff, which broke every assumption in the session model.'
-      ], pull: 'The funnel told us where people stopped. Only the shop floor told us why.' },
-      { n: 'Chapter 02', title: 'Rebuilt as a resumable form', paras: [
-        'Onboarding became four short steps that save on every field and resume on any device, with document capture guided by an on-camera frame and instant legibility feedback so a merchant learns in two seconds instead of two failed submissions.',
-        'Copy was rewritten at a grade-five reading level in three languages, with numerals never spelled out — a detail that came directly from watching people scan for digits.'
-      ], slot: 'cs-merchant-flow', ph: 'Onboarding flow screens' }
-    ],
-    metrics: [
-      { n: 3, suffix: 'm 40s', label: 'Median time to complete onboarding' },
-      { n: 71, suffix: '%', label: 'Completion rate, up from 34%' },
-      { n: 3, suffix: '', label: 'Languages shipped at launch' },
-      { n: 12, suffix: 'k', label: 'Merchants onboarded in the first quarter' }
-    ]
-  },
-  {
-    id: 'console', n: '03', tag: 'Enterprise',
-    title: 'Analytics Console',
-    headline: 'One dashboard for four teams that wanted four dashboards',
-    blurb: 'An operations analytics console for an enterprise client — configurable views instead of five competing dashboards.',
-    chips: ['Enterprise', 'Data viz', 'Web app'],
-    slot: 'cs-console', heroSlot: 'cs-console-hero',
-    src: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop',
-    ph: 'Analytics console screen',
-    lede: 'Four internal teams each maintained their own reporting surface. I designed one console with configurable views, and — harder — a governance model that stopped it fragmenting again within a year.',
-    meta: [
-      { k: 'Role', v: 'Product Designer' },
-      { k: 'Team', v: '2 designers, 7 engineers' },
-      { k: 'Duration', v: '7 months' },
-      { k: 'Scope', v: 'Stakeholder research, IA, data viz, component library' }
-    ],
-    chapters: [
-      { n: 'Chapter 01', title: 'Interviewing the disagreement', paras: [
-        'I interviewed all four teams and mapped what each actually decided with their numbers. Overlap was 80%; the differences were in default time window, alert thresholds and one team\'s need for row-level export. That was a configuration problem, not four products.'
-      ], pull: 'Every team said their needs were unique. Their decisions were 80% identical.' },
-      { n: 'Chapter 02', title: 'Views, not forks', paras: [
-        'The console ships one canonical data layer with saved views layered on top: a view owns its filters, its chart set and its thresholds, and any view can be shared read-only. Chart types were reduced to five, each with a written rule for when it is correct.',
-        'Governance mattered more than pixels — a small review step for new metrics is why the console still has one source of truth two years on.'
-      ], slot: 'cs-console-views', ph: 'Saved views / chart set' }
-    ],
-    metrics: [
-      { n: 5, suffix: '→1', label: 'Reporting surfaces consolidated' },
-      { n: 40, suffix: '%', label: 'Less time spent assembling weekly reporting' },
-      { n: 5, suffix: '', label: 'Chart types, each with a usage rule' },
-      { n: 2, suffix: ' yrs', label: 'Still a single source of truth' }
-    ]
-  },
-  {
-    id: 'agent', n: '04', tag: 'Marketplace',
-    title: 'Field Agent Finder',
-    headline: 'Matching customers to a nearby agent they can trust',
-    blurb: 'A mobile marketplace pairing customers with vetted field agents — trust signals designed before features.',
-    chips: ['Marketplace', 'iOS & Android', 'Trust'],
-    slot: 'cs-agent', heroSlot: 'cs-agent-hero',
-    src: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop',
-    ph: 'Agent finder app screens',
-    lede: 'Supply existed and demand existed; the gap was trust. I designed the matching experience around the three signals customers said they actually used to decide.',
-    meta: [
-      { k: 'Role', v: 'Product Designer' },
-      { k: 'Team', v: '1 designer, 5 engineers' },
-      { k: 'Duration', v: '4 months' },
-      { k: 'Scope', v: 'Research, flows, UI, motion spec' }
-    ],
-    chapters: [
-      { n: 'Chapter 01', title: 'What people check before booking', paras: [
-        'Interviews with 18 customers produced a consistent shortlist: distance right now, a real photo, and evidence of a completed job nearby. Ratings mattered far less than expected once a photo and a recent local job were visible.'
-      ], pull: 'A five-star average convinced nobody. A job finished two streets away convinced everybody.' },
-      { n: 'Chapter 02', title: 'Designing the match card', paras: [
-        'The agent card leads with those three signals and nothing else; everything secondary moved to the profile. Live availability uses a plain sentence rather than a coloured dot, because a dot means different things in different apps.'
-      ], slot: 'cs-agent-card', ph: 'Agent match card / result list' }
-    ],
-    metrics: [
-      { n: 2, suffix: '.4×', label: 'Booking conversion versus the previous list view' },
-      { n: 18, suffix: '', label: 'Customer interviews behind the trust model' },
-      { n: 3, suffix: '', label: 'Signals on the match card' },
-      { n: 44, suffix: '%', label: 'Drop in pre-booking support contacts' }
-    ]
-  },
-  {
-    id: 'care', n: '05', tag: 'HealthTech',
-    title: 'Care Network Portal',
-    headline: 'Clinical scheduling that respects a twelve-hour shift',
-    blurb: 'A scheduling and referral portal for a clinical network, designed around interruption rather than focus.',
-    chips: ['HealthTech', 'Web app', 'Accessibility'],
-    slot: 'cs-care', heroSlot: 'cs-care-hero',
-    src: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1200&auto=format&fit=crop',
-    ph: 'Care portal screen',
-    lede: 'Clinical staff do not work in uninterrupted blocks. I designed a scheduling portal whose core assumption is that any task will be abandoned halfway and resumed twenty minutes later.',
-    meta: [
-      { k: 'Role', v: 'Senior Product Designer' },
-      { k: 'Team', v: '2 designers, 6 engineers, clinical advisor' },
-      { k: 'Duration', v: '6 months' },
-      { k: 'Scope', v: 'Contextual research, flows, UI, WCAG AA audit' }
-    ],
-    chapters: [
-      { n: 'Chapter 01', title: 'Shadowing a shift', paras: [
-        'Across three shadowed shifts, the median uninterrupted stretch at a workstation was under ninety seconds. Any flow requiring sustained attention was going to fail, no matter how elegant it looked in review.'
-      ], pull: 'Ninety seconds. That number decided almost every screen that followed.' },
-      { n: 'Chapter 02', title: 'Built for resumption', paras: [
-        'Every form autosaves and shows plainly where it was left. Referrals became a checklist with visible remaining items rather than a wizard, so a colleague can pick up someone else\'s half-finished work without guessing.',
-        'The portal was audited to WCAG AA including keyboard-only completion of every core task — staff frequently work at shared terminals where a mouse is genuinely inconvenient.'
-      ], slot: 'cs-care-flow', ph: 'Referral checklist screens' }
-    ],
-    metrics: [
-      { n: 90, suffix: 's', label: 'Median uninterrupted work window we designed for' },
-      { n: 100, suffix: '%', label: 'Core tasks completable keyboard-only' },
-      { n: 31, suffix: '%', label: 'Fewer abandoned referrals' },
-      { n: 0, suffix: ' AA fails', label: 'At launch audit' }
-    ]
-  },
-  {
-    id: 'vault', n: '06', tag: 'Web3',
-    title: 'Custody Vault',
-    headline: 'Self-custody that survives a bad day',
-    blurb: 'A multi-signature wallet for treasury teams — designed so the scariest actions are the hardest to get wrong.',
-    chips: ['Web3', 'Security', 'Web app'],
-    slot: 'cs-vault', heroSlot: 'cs-vault-hero',
-    src: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1200&auto=format&fit=crop',
-    ph: 'Custody vault screens',
-    lede: 'Treasury teams hold real money in software most of them do not trust. I designed a multi-signature vault where every irreversible action is slow, legible and reviewable by a second pair of eyes.',
-    meta: [
-      { k: 'Role', v: 'Lead Product Designer' },
-      { k: 'Team', v: '1 designer, 5 engineers' },
-      { k: 'Duration', v: '6 months' },
-      { k: 'Scope', v: 'Research, flows, UI, security copy' }
-    ],
-    chapters: [
-      { n: 'Chapter 01', title: 'Fear is the primary user state', paras: [
-        'Every finance lead I interviewed described a moment of hesitation before signing. Nobody could explain, in their own words, what they were approving — the interface showed a hash where a sentence belonged.'
-      ], pull: 'If a user cannot say aloud what they are about to approve, the design has already failed.' },
-      { n: 'Chapter 02', title: 'Plain-language signing', paras: [
-        'Every transaction resolves to one readable sentence — who is paying whom, how much, and what changes afterwards — with the raw payload one tap away for anyone who wants it. Approval thresholds are shown as faces, not numbers.',
-        'Recovery was designed first rather than last, because the day it matters is the day nobody is thinking clearly.'
-      ], slot: 'cs-vault-flow', ph: 'Signing flow screens' }
-    ],
-    metrics: [
-      { n: 0, suffix: '', label: 'Mis-signed transactions in the first year' },
-      { n: 78, suffix: '%', label: 'Of users could explain what they signed, up from 21%' },
-      { n: 6, suffix: '', label: 'Months to launch' },
-      { n: 3, suffix: '', label: 'Independent security reviews passed' }
-    ]
+// Where this app is actually mounted — '' at a domain root, '/some-folder'
+// when served from a subdirectory (e.g. XAMPP's http://localhost/<project>/).
+// Derived from support.js's own resolved <script src> rather than hardcoded,
+// so the same build works at either location. Routes are always pushed and
+// parsed relative to this.
+function getBasePath() {
+  if (typeof document === 'undefined') return '';
+  const s = document.querySelector('script[src$="support.js"]');
+  if (!s) return '';
+  try {
+    const path = new URL(s.src, document.baseURI).pathname.replace(/support\.js$/, '');
+    return path === '/' ? '' : path.replace(/\/$/, '');
+  } catch (e) {
+    return '';
   }
-];
+}
 
 class Component extends DCLogic {
   updateSeo(route, caseId) {
     if (typeof document === 'undefined') return;
     if (route === 'case') {
-      const active = typeof CASES !== 'undefined' ? (CASES.find((c) => c.id === caseId) || CASES[0]) : null;
+      const list = this.state.cases || [];
+      const active = list.find((c) => c.id === caseId) || list[0] || null;
       if (active) {
+        const headline = active.headline || active.title;
         document.title = active.title + ' — ' + active.tag + ' Case Study | Nethra Balasubramaniam';
         let metaDesc = document.querySelector('meta[name="description"]');
         if (!metaDesc) {
@@ -1546,7 +1278,7 @@ class Component extends DCLogic {
           metaDesc.name = 'description';
           document.head.appendChild(metaDesc);
         }
-        metaDesc.content = active.title + ': ' + active.headline + ' — ' + active.blurb;
+        metaDesc.content = active.title + ': ' + headline + ' — ' + active.blurb;
       }
     } else if (route === 'work') {
       document.title = 'Case Studies & Projects | Nethra Balasubramaniam';
@@ -1562,15 +1294,19 @@ class Component extends DCLogic {
   }
 
   getRouteUrl(route, caseId) {
-    if (route === 'case' && caseId) return '/' + caseId + '-case-study';
-    if (route === 'home') return '/';
-    return '/' + route;
+    const base = getBasePath();
+    if (route === 'case' && caseId) return base + '/' + caseId + '-case-study';
+    if (route === 'home') return base + '/';
+    return base + '/' + route;
   }
 
   parsePath() {
-    const rawPath = (typeof window !== 'undefined' ? window.location.pathname : '').replace(/^\/+|\/+$/g, '');
+    let pathname = typeof window !== 'undefined' ? window.location.pathname : '';
+    const base = getBasePath();
+    if (base && pathname.indexOf(base) === 0) pathname = pathname.slice(base.length);
+    const rawPath = pathname.replace(/^\/+|\/+$/g, '');
     if (!rawPath) return { route: 'home', caseId: 'dsphere' };
-    
+
     let norm = rawPath.toLowerCase();
     if (norm === 'playground') norm = 'design-playground';
     if (norm.startsWith('case-studies/')) norm = norm.replace('case-studies/', '');
@@ -1578,14 +1314,17 @@ class Component extends DCLogic {
     if (norm.endsWith('-case-study')) norm = norm.replace(/-case-study$/, '');
     if (norm.endsWith('-case-studies')) norm = norm.replace(/-case-studies$/, '');
 
-    const caseMatch = typeof CASES !== 'undefined' ? CASES.find((c) => c.id.toLowerCase() === norm) : null;
+    const caseMatch = (this.state.cases || []).find((c) => c.id.toLowerCase() === norm);
     if (caseMatch) return { route: 'case', caseId: caseMatch.id };
     if (['work', 'about', 'hire', 'design-playground'].includes(norm)) return { route: norm, caseId: 'dsphere' };
     return { route: 'home', caseId: 'dsphere' };
   }
 
   state = (() => {
-    const rawPath = (typeof window !== 'undefined' ? window.location.pathname : '').replace(/^\/+|\/+$/g, '');
+    let pathname = typeof window !== 'undefined' ? window.location.pathname : '';
+    const base = getBasePath();
+    if (base && pathname.indexOf(base) === 0) pathname = pathname.slice(base.length);
+    const rawPath = pathname.replace(/^\/+|\/+$/g, '');
     let norm = rawPath.toLowerCase();
     if (norm === 'playground') norm = 'design-playground';
     if (norm.startsWith('case-studies/')) norm = norm.replace('case-studies/', '');
@@ -1593,13 +1332,20 @@ class Component extends DCLogic {
     if (norm.endsWith('-case-study')) norm = norm.replace(/-case-study$/, '');
     if (norm.endsWith('-case-studies')) norm = norm.replace(/-case-studies$/, '');
 
-    const caseMatch = typeof CASES !== 'undefined' ? CASES.find((c) => c.id.toLowerCase() === norm) : null;
     let initialRoute = 'home';
     let initialCaseId = 'dsphere';
-    if (caseMatch) { initialRoute = 'case'; initialCaseId = caseMatch.id; }
-    else if (['work', 'about', 'hire', 'design-playground'].includes(norm)) { initialRoute = norm; }
+    let pendingSlug = null;
+    if (norm && ['work', 'about', 'hire', 'design-playground'].includes(norm)) {
+      initialRoute = norm;
+    } else if (norm) {
+      // All case data now lives in the database and is fetched in
+      // componentDidMount — hold rendering until it resolves instead of
+      // guessing 'home' and flashing to the right page a moment later.
+      initialRoute = 'pending';
+      pendingSlug = norm;
+    }
 
-    return { route: initialRoute, caseId: initialCaseId, isWorksOpen: false, activeHoverItem: 'cases', lightboxOpen: false, lightboxItem: null, isZoomed: false, slideshowOpen: false, slideshowIndex: 0 };
+    return { route: initialRoute, caseId: initialCaseId, pendingSlug: pendingSlug, isWorksOpen: false, activeHoverItem: 'cases', lightboxOpen: false, lightboxItem: null, isZoomed: false, slideshowOpen: false, slideshowIndex: 0, cases: [], playgroundData: [] };
   })();
 
   wrap = React.createRef();
@@ -1628,6 +1374,8 @@ class Component extends DCLogic {
       const parsed = this.parsePath();
       this.go(parsed.route, parsed.caseId, true);
     });
+
+    this._loadContent();
 
     this.onOutsideClick = (e) => {
       if (this.state.isWorksOpen && !e.target.closest('.nav-my-works-wrap')) {
@@ -1835,6 +1583,7 @@ class Component extends DCLogic {
         if (img) {
           img.style.transition = 'transform 1.3s cubic-bezier(.2,.8,.2,1)';
           img.style.transform = 'none';
+          setTimeout(() => { img.style.transition = ''; }, 1300);
         }
       }
     }, d);
@@ -1954,6 +1703,33 @@ class Component extends DCLogic {
     this.setState({ slideshowOpen: false });
   }
 
+  // All case studies and playground pieces live in the `nethra-portfolio`
+  // MySQL database (data/cases.php, data/playground.php) — nothing is
+  // hardcoded in this file. The admin panel writes to the same tables.
+  _loadContent() {
+    if (typeof fetch === 'undefined') return;
+    const loadOne = (url) => fetch(url, { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : []))
+      .then((j) => (Array.isArray(j) ? j : []))
+      .catch(() => []);
+
+    Promise.all([loadOne('data/cases.php'), loadOne('data/playground.php')]).then(([cases, playgroundData]) => {
+      this.setState({ cases: cases, playgroundData: playgroundData }, () => {
+        // A hard-load of a case-study URL can't resolve synchronously (the
+        // state initializer has no case data yet) — it's parked as route
+        // 'pending' until this fetch lands, so resolve it now.
+        if (this.state.route === 'pending') {
+          const slug = this.state.pendingSlug;
+          const match = slug ? cases.find((c) => (c.id || '').toLowerCase() === slug) : null;
+          if (match) this.setState({ route: 'case', caseId: match.id, pendingSlug: null });
+          else this.setState({ route: 'home', caseId: 'dsphere', pendingSlug: null });
+          this.updateSeo(match ? 'case' : 'home', match ? match.id : null);
+        }
+        this.sweep();
+      });
+    });
+  }
+
   scrollToChapter(id, btnTarget) {
     if (typeof document === 'undefined') return;
     if (btnTarget && typeof btnTarget.scrollIntoView === 'function') {
@@ -1968,17 +1744,27 @@ class Component extends DCLogic {
 
   renderVals() {
     const route = this.state.route;
-    const activeRaw = CASES.find((c) => c.id === this.state.caseId) || CASES[0];
-    const idx = CASES.indexOf(activeRaw);
-    const next = CASES[(idx + 1) % CASES.length];
+    // Every case study comes from the `cases` table (data/cases.php) — see
+    // _loadContent(). db_row_to_case() on the PHP side already fills in
+    // headline/lede/meta/pillars/chapters/metrics defaults for simple
+    // admin-created cases, so nothing needs defaulting here; `n` (the
+    // ordinal shown on the case-detail page) is just the row's position.
+    const allCases = (this.state.cases || []).map((c, i) => Object.assign({}, c, { n: String(i + 1).padStart(2, '0') }));
+    const activeRaw = allCases.find((c) => c.id === this.state.caseId) || allCases[0] || {};
+    const idx = allCases.indexOf(activeRaw);
+    const next = allCases.length ? allCases[(idx + 1) % allCases.length] : {};
+    const totalCasesLabel = String(allCases.length).padStart(2, '0');
     const dim = 'rgba(244,242,239,0.55)';
-    const cases = CASES.map((c) => Object.assign({}, c, { slideSlot: 'slide-' + c.slot, open: () => this.go('case', c.id) }));
+    const cases = allCases.map((c) => Object.assign({}, c, { slideSlot: 'slide-' + c.slot, open: () => this.go('case', c.id) }));
     const featured = cases.map((c, i) => Object.assign({}, c, { col: 'span 6', offset: '0px', ratio: '4/3', delay: (i % 2) * 120, open: () => this.openSlideshow(i) }));
     const slideshowIndex = this.state.slideshowIndex || 0;
     const slideshowItem = cases[slideshowIndex] || cases[0] || {};
 
     const activeChapters = (activeRaw.chapters || []).map((ch, i) => Object.assign({}, ch, { tabId: 'chapter-' + i }));
-    const active = Object.assign({}, activeRaw, { chapters: activeChapters });
+    const activePillars = activeRaw.pillars
+      ? activeRaw.pillars.map((pl, i) => Object.assign({}, pl, { slot: 'pillar-' + activeRaw.id + '-' + i }))
+      : null;
+    const active = Object.assign({}, activeRaw, { chapters: activeChapters, pillars: activePillars });
 
     const activeTabs = activeChapters.map((ch, i) => {
       const parts = (ch.n || '').split('/');
@@ -2020,17 +1806,9 @@ class Component extends DCLogic {
       previewPh = 'Design Systems & Micro-Interactions';
     }
 
-    const rawPgItems = [
-      { title: 'Spatial Garment Customizer 3D', tag: '3D & WebGL', slot: 'pg-slot-1', ph: '3D Canvas Garment Panel Customizer UI', desc: 'Real-time fabric shader & interactive pattern placement system built in Three.js.', likes: '142', views: '2.4k' },
-      { title: 'GenAI Prompt Builder & Canvas', tag: 'AI × UI', slot: 'pg-slot-2', ph: 'AI Co-Creation Canvas Node Graph', desc: 'Node-based AI prompt flow editor with real-time feedback loops.', likes: '98', views: '1.8k' },
-      { title: 'Glassmorphic Mobile Controls', tag: 'Micro-Interactions', slot: 'pg-slot-3', ph: 'Mobile Control Center & Haptic Sliders', desc: 'Dynamic blurred backdrop sliders with sub-pixel haptic animation feedback.', likes: '215', views: '3.6k' },
-      { title: 'Tokenized Design System Specs', tag: 'Design System', slot: 'pg-slot-4', ph: 'Color Tokens & Component Variants Sheet', desc: 'Automated Figma to CSS custom properties pipeline with WCAG contrast checking.', likes: '84', views: '1.2k' },
-      { title: 'Circular Supply Chain Flow', tag: 'Information Architecture', slot: 'pg-slot-5', ph: 'Provenance Journey & Material Passport Cards', desc: 'Interactive timeline tracing garment lifecycle from recycled yarn to consumer.', likes: '112', views: '1.9k' },
-      { title: 'Real-Time Risk Analytics Dashboard', tag: 'FinTech UX', slot: 'pg-slot-6', ph: 'Portfolio Risk & Analytics Chart View', desc: 'High-density financial metrics visualizer with fluid gesture transitions.', likes: '167', views: '2.8k' },
-      { title: 'Fluid Physics Micro-Button', tag: 'Motion', slot: 'pg-slot-7', ph: 'Spring Physics CTA State Machine', desc: '60fps vector physics state machine running natively on web & iOS.', likes: '274', views: '4.1k' },
-      { title: 'Contextual AI Command Bar', tag: 'AI × UI', slot: 'pg-slot-8', ph: 'Command Palette & Contextual Suggestions', desc: 'Keyboard-first predictive command bar with inline diff previews.', likes: '189', views: '3.1k' },
-      { title: 'Dynamic Theme Switcher Component', tag: 'UI Component', slot: 'pg-slot-9', ph: 'Dark Light Glass Theme Toggle Animation', desc: 'Smooth spring physics theme toggle with fluid icon morphing.', likes: '135', views: '2.1k' }
-    ];
+    // Every playground piece comes from the `playground_items` table
+    // (data/playground.php) — see _loadContent().
+    const rawPgItems = this.state.playgroundData || [];
 
     const playgroundItems = rawPgItems.map((item) => Object.assign({}, item, {
       open: (e) => {
@@ -2116,7 +1894,7 @@ class Component extends DCLogic {
       slideshowIndex: slideshowIndex,
       slideshowItem: slideshowItem,
       closeSlideshow: (e) => this.closeSlideshow(e),
-      cases: cases, featured: featured, active: active,
+      cases: cases, featured: featured, active: active, totalCasesLabel: totalCasesLabel,
       stats: [
         { n: 10, suffix: '+', label: 'Product domains' },
         { n: 15, suffix: 'yrs+', label: 'Experience' },

@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Real files and directories (uploads/*, admin/*.php, data/*.php, images,
+  # fonts, etc.) are served as-is.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Everything else is a client-side route (/work, /about, /dsphere-case-study,
+  # ...) — serve index.html and let the front-end router take over, the same
+  # fallback server.ps1 does for local preview.
+  RewriteRule ^ index.html [L]
+</IfModule>

@@ -1096,7 +1096,7 @@
       this._ring.style.display = mask ? 'none' : '';
 
       // Controls and reframe entry gate.
-      const editable = true;
+      const editable = this.hasAttribute('editable');
       this.toggleAttribute('data-editable', editable);
       this._sub.style.display = editable ? '' : 'none';
 

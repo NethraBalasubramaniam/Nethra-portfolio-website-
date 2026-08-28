@@ -5,9 +5,12 @@ declare(strict_types=1);
 // install (root, no password). Change here if your MySQL is configured
 // differently.
 const DB_HOST = 'localhost';
-const DB_NAME = 'u269004420_nethra';
-const DB_USER = 'u269004420_nethra';
-const DB_PASS = 'g!J0!h4Ru$';
+const DB_NAME = 'nethra-portfolio';
+const DB_USER = 'root';
+const DB_PASS = '';
+// const DB_NAME = 'u269004420_nethra';
+// const DB_USER = 'u269004420_nethra';
+// const DB_PASS = 'g!J0!h4Ru$';
 
 function db(): PDO {
     static $pdo = null;

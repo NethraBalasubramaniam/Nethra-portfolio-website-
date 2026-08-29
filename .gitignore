@@ -1,0 +1,4 @@
+# Secrets — never commit these. See README/commit history note: if you're
+# reading this after admin/db.php or admin/config.php were ever committed,
+# treat those credentials as compromised and rotate them.
+admin/db.php

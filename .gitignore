@@ -2,3 +2,8 @@
 # reading this after admin/db.php or admin/config.php were ever committed,
 # treat those credentials as compromised and rotate them.
 admin/db.php
+
+# Images uploaded through the admin panel (admin/api.php's handle_upload) —
+# user content, not source. The site's own design assets in uploads/ (logos,
+# hero images, etc.) aren't touched by this pattern and stay tracked.
+uploads/admin-*

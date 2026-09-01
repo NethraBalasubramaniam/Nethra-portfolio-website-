@@ -23,6 +23,8 @@ $chapters = $c['chapters'] ?? [];
       <?php if (!empty($ch['sub2']) || !empty($ch['sub3'])): ?>
         <p class="chapter-warn">Has secondary sub-heading(s) from the original write-up (<?= h(trim(($ch['sub2'] ?? '') . ' ' . ($ch['sub3'] ?? ''))) ?>) not shown here — saving this section drops them.</p>
       <?php endif; ?>
+      <label>Eyebrow text (optional)</label>
+      <input type="text" name="chapter_eyebrow[]" value="<?= h(chapter_eyebrow_for_display($ch)) ?>" placeholder="Short label shown above the title, e.g. Discovery &amp; Pivot — leave blank to show just the number">
       <div class="row2">
         <div><label>Title</label><input type="text" name="chapter_title[]" value="<?= h($ch['title'] ?? '') ?>"></div>
         <div><label>Sub-heading (optional)</label><input type="text" name="chapter_sub[]" value="<?= h($ch['sub'] ?? '') ?>"></div>
@@ -47,6 +49,8 @@ $chapters = $c['chapters'] ?? [];
 </div>
 <template id="chapters-tpl-<?= h($formId) ?>">
   <div class="chapter-block">
+    <label>Eyebrow text (optional)</label>
+    <input type="text" name="chapter_eyebrow[]" placeholder="Short label shown above the title, e.g. Discovery &amp; Pivot — leave blank to show just the number">
     <div class="row2">
       <div><label>Title</label><input type="text" name="chapter_title[]"></div>
       <div><label>Sub-heading (optional)</label><input type="text" name="chapter_sub[]"></div>

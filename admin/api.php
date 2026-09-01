@@ -146,6 +146,7 @@ function build_metrics(): array {
 function build_chapters(): array {
     $titles = $_POST['chapter_title'] ?? [];
     $subs = $_POST['chapter_sub'] ?? [];
+    $eyebrows = $_POST['chapter_eyebrow'] ?? [];
     $parasRaw = $_POST['chapter_paras'] ?? [];
     $pulls = $_POST['chapter_pull'] ?? [];
     $imgSrcs = [];
@@ -159,6 +160,7 @@ function build_chapters(): array {
     for ($i = 0; $i < count($titles); $i++) {
         $title = trim((string)($titles[$i] ?? ''));
         $sub = trim((string)($subs[$i] ?? ''));
+        $eyebrow = trim((string)($eyebrows[$i] ?? ''));
         $pull = trim((string)($pulls[$i] ?? ''));
         $parasText = (string)($parasRaw[$i] ?? '');
         $paras = array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $parasText)), fn($p) => $p !== ''));
@@ -174,8 +176,12 @@ function build_chapters(): array {
 
         if ($title === '' && !$paras && $pull === '' && !$images) continue;
 
+        $num = str_pad((string)(count($out) + 1), 2, '0', STR_PAD_LEFT);
         $chapter = [
-            'n' => str_pad((string)(count($out) + 1), 2, '0', STR_PAD_LEFT) . ' / ' . ($title !== '' ? $title : 'Chapter'),
+            // Bare number when no eyebrow is set, rather than repeating the
+            // title — the eyebrow and title are two different labels shown
+            // one above the other on the case page.
+            'n' => $num . ($eyebrow !== '' ? ' / ' . mb_substr($eyebrow, 0, 120) : ''),
             'title' => mb_substr($title, 0, 200),
             'paras' => array_map(fn($p) => mb_substr($p, 0, 2000), $paras),
             'images' => $images,

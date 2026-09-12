@@ -53,8 +53,18 @@ require __DIR__ . '/_chrome_top.php';
             </div>
             <label>Summary</label>
             <textarea name="blurb"><?= h($c['blurb'] ?? '') ?></textarea>
-            <label>Cover image (leave blank to keep current)</label>
-            <input type="file" name="image" accept="image/png,image/jpeg,image/webp,image/gif">
+            <div class="row2">
+              <div>
+                <label>Cover image (leave blank to keep current)</label>
+                <?php if (!empty($c['src'])): ?><img src="../<?= h($c['src']) ?>" alt="" class="pillar-thumb" style="height:60px;margin-bottom:8px;"><?php endif; ?>
+                <input type="file" name="image" accept="image/png,image/jpeg,image/webp,image/gif">
+              </div>
+              <div>
+                <label>Banner image (optional, leave blank to keep current)</label>
+                <?php if (!empty($c['bannerSrc'])): ?><img src="../<?= h($c['bannerSrc']) ?>" alt="" class="pillar-thumb" style="height:60px;margin-bottom:8px;"><?php else: ?><p class="note" style="margin:0 0 8px;">None set — falls back to the cover image.</p><?php endif; ?>
+                <input type="file" name="banner_image" accept="image/png,image/jpeg,image/webp,image/gif">
+              </div>
+            </div>
 
             <?php $formId = $c['id']; require __DIR__ . '/_case_form_fields.php'; ?>
 

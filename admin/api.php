@@ -201,6 +201,7 @@ switch ($action) {
         if ($title === '') die('Title is required.');
         $id = db_unique_id('cases', slugify($title));
         $src = handle_upload($_FILES['image'] ?? null);
+        $bannerSrc = handle_upload($_FILES['banner_image'] ?? null);
         db_insert_case([
             'id' => $id,
             'title' => $title,
@@ -215,6 +216,7 @@ switch ($action) {
             'chapters' => build_chapters(),
             'slot' => 'admin-case-' . $id,
             'src' => $src ?? '',
+            'bannerSrc' => $bannerSrc ?? '',
             'ph' => clean_text($_POST['ph'] ?? $title, 160),
         ]);
         break;
@@ -226,6 +228,7 @@ switch ($action) {
         // _case_chapters_fields.php for why they're a separate save.
         $id = (string)($_POST['id'] ?? '');
         $src = handle_upload($_FILES['image'] ?? null);
+        $bannerSrc = handle_upload($_FILES['banner_image'] ?? null);
         $fields = [
             'title' => clean_text($_POST['title'] ?? '', 120),
             'tag' => clean_text($_POST['tag'] ?? '', 60),
@@ -238,6 +241,7 @@ switch ($action) {
             'metrics' => build_metrics(),
         ];
         if ($src) $fields['src'] = $src;
+        if ($bannerSrc) $fields['bannerSrc'] = $bannerSrc;
         if (!db_update_case($id, $fields)) die('Case study not found.');
         break;
     }

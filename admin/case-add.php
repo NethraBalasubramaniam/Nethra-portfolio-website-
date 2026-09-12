@@ -27,8 +27,18 @@ require __DIR__ . '/_chrome_top.php';
       </div>
       <label>Summary</label>
       <textarea name="blurb" placeholder="One or two sentences shown on the card"></textarea>
-      <label>Cover image</label>
-      <input type="file" name="image" accept="image/png,image/jpeg,image/webp,image/gif">
+      <div class="row2">
+        <div>
+          <label>Cover image</label>
+          <p class="note" style="margin:-4px 0 6px;">Shown on the homepage grid and work list.</p>
+          <input type="file" name="image" accept="image/png,image/jpeg,image/webp,image/gif">
+        </div>
+        <div>
+          <label>Banner image (optional)</label>
+          <p class="note" style="margin:-4px 0 6px;">Shown at the top of the case-detail page. Falls back to the cover image if left blank.</p>
+          <input type="file" name="banner_image" accept="image/png,image/jpeg,image/webp,image/gif">
+        </div>
+      </div>
 
       <?php $c = []; $formId = 'new'; require __DIR__ . '/_case_form_fields.php'; require __DIR__ . '/_case_chapters_fields.php'; ?>
 

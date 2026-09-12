@@ -1,7 +1,7 @@
 # Secrets — never commit these. See README/commit history note: if you're
 # reading this after admin/db.php or admin/config.php were ever committed,
 # treat those credentials as compromised and rotate them.
-admin/db.php
+# admin/db.php
 
 # Images uploaded through the admin panel (admin/api.php's handle_upload) —
 # user content, not source. The site's own design assets in uploads/ (logos,

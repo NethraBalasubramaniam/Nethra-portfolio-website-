@@ -1073,15 +1073,15 @@
         <!-- Headline -->
         <h1 data-reveal="up" data-delay="70" style="margin: 12px 0 16px; max-width: 26ch; font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: clamp(2rem, 4.2vw, 3.6rem); line-height: 1.05; letter-spacing: -0.035em;">{{ active.headline }}</h1>
 
-        <!-- Lede Subtext -->
-        <p data-reveal="up" data-delay="140" style="margin: 0 0 28px; width: 100%; max-width: 78ch; font-size: clamp(15px, 1.4vw, 18px); line-height: 1.6; color: rgba(244,242,239,0.62);">{{ active.lede }}</p>
-
         <!-- ══ HERO IMAGE (dedicated banner, falls back to cover image) ══ -->
         <sc-if value="{{ active.heroSrc }}" hint-placeholder-val="{{ false }}">
-          <div data-reveal="up" data-delay="180" style="margin: 0 0 clamp(32px, 5vh, 48px); border-radius: 18px; overflow: hidden; border: 1px solid rgba(244,242,239,0.1); background: #121216; aspect-ratio: 16/9; width: 100%;">
+          <div data-reveal="up" data-delay="140" style="margin: 0 0 clamp(32px, 5vh, 48px); border-radius: 18px; overflow: hidden; border: 1px solid rgba(244,242,239,0.1); background: #121216; aspect-ratio: 16/9; width: 100%;">
             <image-slot id="{{ active.heroSlot }}" shape="rect" fit="cover" src="{{ active.heroSrc }}" placeholder="{{ active.ph }}" style="width: 100%; height: 100%;"></image-slot>
           </div>
         </sc-if>
+
+        <!-- Lede Subtext -->
+        <p data-reveal="up" data-delay="180" style="margin: 0 0 28px; width: 100%; font-size: clamp(15px, 1.4vw, 18px); line-height: 1.6; color: rgba(244,242,239,0.62);">{{ active.lede }}</p>
 
         <!-- ══ ROLE, CLIENT, DURATION, SCOPE METADATA GRID ══ -->
         <div class="meta-grid" data-reveal="up" data-delay="200" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: clamp(16px, 3vw, 34px); padding-top: 24px; border-top: 1px solid rgba(244,242,239,0.12);">
@@ -1266,14 +1266,14 @@ class Component extends DCLogic {
       const active = list.find((c) => c.id === caseId) || list[0] || null;
       if (active) {
         const headline = active.headline || active.title;
-        document.title = active.title + ' — ' + active.tag + ' Case Study | Nethra Balasubramaniam';
+        document.title = active.metaTitle || (active.title + ' — ' + active.tag + ' Case Study | Nethra Balasubramaniam');
         let metaDesc = document.querySelector('meta[name="description"]');
         if (!metaDesc) {
           metaDesc = document.createElement('meta');
           metaDesc.name = 'description';
           document.head.appendChild(metaDesc);
         }
-        metaDesc.content = active.title + ': ' + headline + ' — ' + active.blurb;
+        metaDesc.content = active.metaDescription || (active.title + ': ' + headline + ' — ' + active.blurb);
       }
     } else if (route === 'work') {
       document.title = 'Case Studies & Projects | Nethra Balasubramaniam';
@@ -1290,7 +1290,11 @@ class Component extends DCLogic {
 
   getRouteUrl(route, caseId) {
     const base = getBasePath();
-    if (route === 'case' && caseId) return base + '/' + caseId + '-case-study';
+    if (route === 'case' && caseId) {
+      const c = (this.state.cases || []).find((c) => c.id === caseId);
+      const slug = (c && c.slug) || caseId;
+      return base + '/' + slug;
+    }
     if (route === 'home') return base + '/';
     return base + '/' + route;
   }
@@ -1309,7 +1313,12 @@ class Component extends DCLogic {
     if (norm.endsWith('-case-study')) norm = norm.replace(/-case-study$/, '');
     if (norm.endsWith('-case-studies')) norm = norm.replace(/-case-studies$/, '');
 
-    const caseMatch = (this.state.cases || []).find((c) => c.id.toLowerCase() === norm);
+    // Match on slug only — never fall back to id here. id never changes, so
+    // an id fallback would keep a case's old URL resolving forever even
+    // after its slug is renamed, which defeats the point of renaming it.
+    // slug is always populated (backfilled to id, kept unique on every
+    // insert/update), so this is never empty in practice.
+    const caseMatch = (this.state.cases || []).find((c) => (c.slug || '').toLowerCase() === norm);
     if (caseMatch) return { route: 'case', caseId: caseMatch.id };
     if (['work', 'about', 'hire', 'design-playground'].includes(norm)) return { route: norm, caseId: 'dsphere' };
     return { route: 'home', caseId: 'dsphere' };
@@ -1706,7 +1715,9 @@ class Component extends DCLogic {
         // 'pending' until this fetch lands, so resolve it now.
         if (this.state.route === 'pending') {
           const slug = this.state.pendingSlug;
-          const match = slug ? cases.find((c) => (c.id || '').toLowerCase() === slug) : null;
+          // slug only — see the matching comment in parsePath() for why id
+          // must never be a fallback here.
+          const match = slug ? cases.find((c) => (c.slug || '').toLowerCase() === slug) : null;
           if (match) this.setState({ route: 'case', caseId: match.id, pendingSlug: null });
           else this.setState({ route: 'home', caseId: 'dsphere', pendingSlug: null });
           this.updateSeo(match ? 'case' : 'home', match ? match.id : null);

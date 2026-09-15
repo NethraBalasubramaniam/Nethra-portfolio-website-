@@ -24,6 +24,10 @@ require __DIR__ . '/_chrome_top.php';
       <h3>Add a case study</h3>
       <p>Title, tag, summary, tags, cover image</p>
     </a>
+    <a class="dash-card" href="slugs.php">
+      <h3>Slugs &amp; SEO</h3>
+      <p><?= (int)$caseCount ?> case <?= $caseCount === 1 ? 'study' : 'studies' ?> — edit URL slug, meta title, meta description</p>
+    </a>
     <a class="dash-card" href="playground.php">
       <h3>View design playground</h3>
       <p><?= (int)$pgCount ?> piece<?= $pgCount === 1 ? '' : 's' ?> — edit or delete</p>

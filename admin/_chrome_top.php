@@ -12,6 +12,7 @@ if (!defined('ADMIN_ROOT') || !is_logged_in()) {
 $navItems = [
     'cases' => ['cases.php', 'Case studies'],
     'case-add' => ['case-add.php', 'Add case study'],
+    'slugs' => ['slugs.php', 'Slugs'],
     'playground' => ['playground.php', 'Playground'],
     'playground-add' => ['playground-add.php', 'Add playground piece'],
 ];
@@ -92,6 +93,26 @@ $navItems = [
   .dash-card:hover{border-color:rgba(244,242,239,0.3)}
   .dash-card h3{margin:0 0 6px;font-size:16px;color:#f4f2ef;font-weight:600}
   .dash-card p{margin:0;font-size:13px;color:rgba(244,242,239,0.5)}
+
+  table.slug-table{width:100%;border-collapse:collapse}
+  table.slug-table th{text-align:left;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:rgba(244,242,239,0.45);padding:0 12px 10px;font-weight:600}
+  table.slug-table td{padding:14px 12px;border-top:1px solid rgba(244,242,239,0.1);font-size:13.5px;vertical-align:top}
+  table.slug-table tr:first-child td{border-top:0}
+  table.slug-table .title-cell h3{margin:0 0 3px;font-size:14px;font-weight:600}
+  table.slug-table .title-cell span{font-size:11.5px;color:rgba(244,242,239,0.45)}
+  table.slug-table code{font-size:12.5px;color:#ffd23f;background:rgba(255,210,63,0.08);border-radius:6px;padding:3px 8px;display:inline-block}
+  table.slug-table .muted{color:rgba(244,242,239,0.4)}
+  table.slug-table .edit-btn{background:none;border:1px solid rgba(244,242,239,0.2);color:#f4f2ef;border-radius:999px;padding:6px 16px;font-size:12.5px;cursor:pointer;white-space:nowrap}
+  table.slug-table .edit-btn:hover{border-color:#ffd23f;color:#ffd23f}
+
+  dialog.seo-dialog{border:1px solid rgba(244,242,239,0.14);border-radius:14px;background:#101014;color:#f4f2ef;padding:0;width:min(520px,92vw)}
+  dialog.seo-dialog::backdrop{background:rgba(4,4,6,0.72)}
+  dialog.seo-dialog .dlg-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid rgba(244,242,239,0.1)}
+  dialog.seo-dialog .dlg-head h3{margin:0;font-size:15px;font-weight:600}
+  dialog.seo-dialog .dlg-close{background:none;border:0;color:rgba(244,242,239,0.55);font-size:20px;line-height:1;cursor:pointer;padding:4px}
+  dialog.seo-dialog .dlg-close:hover{color:#f4f2ef}
+  dialog.seo-dialog .dlg-body{padding:20px 22px}
+  dialog.seo-dialog .char-count{font-size:11px;color:rgba(244,242,239,0.4);margin:-10px 0 14px;text-align:right}
 </style>
 </head>
 <body>

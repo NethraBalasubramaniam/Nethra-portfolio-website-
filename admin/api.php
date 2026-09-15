@@ -204,6 +204,10 @@ switch ($action) {
         $bannerSrc = handle_upload($_FILES['banner_image'] ?? null);
         db_insert_case([
             'id' => $id,
+            // Starts the same as $id but lives in its own unique column —
+            // the Slugs admin page can rename it later without touching id
+            // (which chapters, edit/delete forms, etc. all key off).
+            'slug' => db_unique_slug(slugify($title)),
             'title' => $title,
             'tag' => clean_text($_POST['tag'] ?? '', 60),
             'blurb' => clean_text($_POST['blurb'] ?? '', 400),
@@ -249,6 +253,18 @@ switch ($action) {
     case 'update_case_chapters': {
         $id = (string)($_POST['id'] ?? '');
         if (!db_update_case($id, ['chapters' => build_chapters()])) die('Case study not found.');
+        break;
+    }
+
+    case 'update_case_seo': {
+        $id = (string)($_POST['id'] ?? '');
+        $rawSlug = slugify(clean_text($_POST['slug'] ?? '', 191));
+        $fields = [
+            'slug' => db_unique_slug($rawSlug, $id),
+            'metaTitle' => clean_text($_POST['meta_title'] ?? '', 200),
+            'metaDescription' => clean_text($_POST['meta_description'] ?? '', 300),
+        ];
+        if (!db_update_case($id, $fields)) die('Case study not found.');
         break;
     }
 
@@ -301,7 +317,7 @@ switch ($action) {
         die('Unknown action.');
 }
 
-$allowedRedirects = ['index.php', 'cases.php', 'case-add.php', 'playground.php', 'playground-add.php'];
+$allowedRedirects = ['index.php', 'cases.php', 'case-add.php', 'playground.php', 'playground-add.php', 'slugs.php'];
 $redirect = (string)($_POST['redirect'] ?? '');
 header('Location: ' . (in_array($redirect, $allowedRedirects, true) ? $redirect : 'index.php'));
 exit;

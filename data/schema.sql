@@ -14,8 +14,17 @@ USE `nethra-portfolio`;
 -- page content and are edited directly in the database (or phpMyAdmin) —
 -- admin-created cases just leave them null/empty and get a simple detail
 -- page.
+-- `slug` is the URL-facing identifier (e.g. /dsphere-case-study) and is
+-- separate from `id` (the internal primary key everything else — chapters,
+-- admin edit/delete forms — keys off) specifically so it can be renamed
+-- from the admin Slugs page without touching anything else. Backfilled from
+-- `id` for existing rows; new rows also default to slugify(title) at
+-- creation and are then editable independently. meta_title/meta_description
+-- are optional SEO overrides — index.html falls back to auto-generated
+-- values when they're blank.
 CREATE TABLE IF NOT EXISTS `cases` (
   `id` VARCHAR(191) NOT NULL,
+  `slug` VARCHAR(191) NOT NULL DEFAULT '',
   `title` VARCHAR(120) NOT NULL,
   `tag` VARCHAR(60) NOT NULL DEFAULT '',
   `blurb` VARCHAR(400) NOT NULL DEFAULT '',
@@ -30,8 +39,11 @@ CREATE TABLE IF NOT EXISTS `cases` (
   `src` VARCHAR(255) NOT NULL DEFAULT '',
   `banner_src` VARCHAR(255) NOT NULL DEFAULT '',
   `ph` VARCHAR(160) NOT NULL DEFAULT '',
+  `meta_title` VARCHAR(200) NOT NULL DEFAULT '',
+  `meta_description` VARCHAR(300) NOT NULL DEFAULT '',
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `slug_unique` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `playground_items` (

@@ -5,12 +5,12 @@ declare(strict_types=1);
 // install (root, no password). Change here if your MySQL is configured
 // differently.
 const DB_HOST = 'localhost';
-// const DB_NAME = 'nethra-portfolio';
-// const DB_USER = 'root';
-// const DB_PASS = '';
-const DB_NAME = 'u269004420_nethra';
-const DB_USER = 'u269004420_nethra';
-const DB_PASS = 'g!J0!h4Ru$';
+const DB_NAME = 'nethra-portfolio';
+const DB_USER = 'root';
+const DB_PASS = '';
+// const DB_NAME = 'u269004420_nethra';
+// const DB_USER = 'u269004420_nethra';
+// const DB_PASS = 'g!J0!h4Ru$';
 
 function db(): PDO {
     static $pdo = null;
@@ -32,6 +32,7 @@ function db_ensure_schema(PDO $pdo): void {
     $done = true;
     $pdo->exec("CREATE TABLE IF NOT EXISTS `cases` (
         `id` VARCHAR(191) NOT NULL,
+        `slug` VARCHAR(191) NOT NULL DEFAULT '',
         `title` VARCHAR(120) NOT NULL,
         `tag` VARCHAR(60) NOT NULL DEFAULT '',
         `blurb` VARCHAR(400) NOT NULL DEFAULT '',
@@ -46,8 +47,11 @@ function db_ensure_schema(PDO $pdo): void {
         `src` VARCHAR(255) NOT NULL DEFAULT '',
         `banner_src` VARCHAR(255) NOT NULL DEFAULT '',
         `ph` VARCHAR(160) NOT NULL DEFAULT '',
+        `meta_title` VARCHAR(200) NOT NULL DEFAULT '',
+        `meta_description` VARCHAR(300) NOT NULL DEFAULT '',
         `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY (`id`)
+        PRIMARY KEY (`id`),
+        UNIQUE KEY `slug_unique` (`slug`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
     $pdo->exec("CREATE TABLE IF NOT EXISTS `playground_items` (
         `id` VARCHAR(191) NOT NULL,
@@ -106,6 +110,7 @@ function chapter_eyebrow_for_display(array $ch): string {
 function db_row_to_case(array $r): array {
     return [
         'id' => $r['id'],
+        'slug' => ($r['slug'] ?? '') !== '' ? $r['slug'] : $r['id'],
         'title' => $r['title'],
         'tag' => $r['tag'],
         'blurb' => $r['blurb'],
@@ -120,6 +125,8 @@ function db_row_to_case(array $r): array {
         'src' => $r['src'],
         'bannerSrc' => $r['banner_src'] ?? '',
         'ph' => $r['ph'],
+        'metaTitle' => $r['meta_title'] ?? '',
+        'metaDescription' => $r['meta_description'] ?? '',
         'createdAt' => $r['created_at'],
     ];
 }
@@ -152,6 +159,22 @@ function db_unique_id(string $table, string $base): string {
     }
 }
 
+// Same idea as db_unique_id() but against the `slug` column, and excluding
+// the row being edited (so keeping a case's own current slug unchanged
+// never falsely collides with itself).
+function db_unique_slug(string $base, string $excludeId = ''): string {
+    $pdo = db();
+    $stmt = $pdo->prepare('SELECT id FROM `cases` WHERE slug = ? AND id != ?');
+    $slug = $base;
+    $n = 2;
+    while (true) {
+        $stmt->execute([$slug, $excludeId]);
+        if (!$stmt->fetch()) return $slug;
+        $slug = $base . '-' . $n;
+        $n++;
+    }
+}
+
 // ── Cases ───────────────────────────────────────────────────────────────
 function db_list_cases(): array {
     $rows = db()->query('SELECT * FROM `cases` ORDER BY created_at ASC')->fetchAll();
@@ -164,10 +187,10 @@ function db_list_cases(): array {
 // page renders a simple page instead of a full written case study. Seed
 // full case studies directly via SQL/phpMyAdmin — see data/schema.sql.
 function db_insert_case(array $c): void {
-    $stmt = db()->prepare('INSERT INTO `cases` (id, title, tag, blurb, headline, lede, chips, meta, pillars, chapters, metrics, slot, src, banner_src, ph)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    $stmt = db()->prepare('INSERT INTO `cases` (id, slug, title, tag, blurb, headline, lede, chips, meta, pillars, chapters, metrics, slot, src, banner_src, ph, meta_title, meta_description)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
     $stmt->execute([
-        $c['id'], $c['title'], $c['tag'], $c['blurb'],
+        $c['id'], $c['slug'] ?? $c['id'], $c['title'], $c['tag'], $c['blurb'],
         $c['headline'] ?? $c['title'],
         $c['lede'] ?? $c['blurb'],
         json_encode($c['chips'] ?? []),
@@ -176,6 +199,7 @@ function db_insert_case(array $c): void {
         json_encode($c['chapters'] ?? []),
         json_encode($c['metrics'] ?? []),
         $c['slot'], $c['src'], $c['bannerSrc'] ?? '', $c['ph'],
+        $c['metaTitle'] ?? '', $c['metaDescription'] ?? '',
     ]);
 }
 
@@ -197,6 +221,9 @@ function db_update_case(string $id, array $fields): bool {
     if (array_key_exists('chapters', $fields)) { $sets[] = '`chapters` = ?'; $params[] = json_encode($fields['chapters']); }
     if (array_key_exists('src', $fields)) { $sets[] = '`src` = ?'; $params[] = $fields['src']; }
     if (array_key_exists('bannerSrc', $fields)) { $sets[] = '`banner_src` = ?'; $params[] = $fields['bannerSrc']; }
+    if (array_key_exists('slug', $fields)) { $sets[] = '`slug` = ?'; $params[] = $fields['slug']; }
+    if (array_key_exists('metaTitle', $fields)) { $sets[] = '`meta_title` = ?'; $params[] = $fields['metaTitle']; }
+    if (array_key_exists('metaDescription', $fields)) { $sets[] = '`meta_description` = ?'; $params[] = $fields['metaDescription']; }
     if (!$sets) return true;
     $params[] = $id;
     $pdo->prepare('UPDATE `cases` SET ' . implode(', ', $sets) . ' WHERE id = ?')->execute($params);

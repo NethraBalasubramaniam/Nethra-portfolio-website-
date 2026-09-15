@@ -1135,10 +1135,10 @@
       </div>
       </sc-if>
 
-      <section style="padding: clamp(40px, 6vh, 80px) clamp(20px, 4vw, 56px) clamp(50px, 9vh, 100px);">
+      <section style="padding: clamp(28px, 4vh, 48px) clamp(20px, 4vw, 56px) clamp(50px, 9vh, 100px);">
       <div style="max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(60px, 10vh, 120px);">
         <sc-for list="{{ active.chapters }}" as="ch" hint-placeholder-count="4">
-          <div id="{{ ch.tabId }}" class="chapter-grid" style="display: grid; gap: clamp(24px, 5vw, 70px); align-items: start; scroll-margin-top: 135px;">
+          <div id="{{ ch.tabId }}" class="chapter-grid" style="display: grid; gap: clamp(16px, 2.5vw, 32px); align-items: start; scroll-margin-top: 135px;">
             <div >
               <div data-reveal="up" style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #ffd23f;">{{ ch.n }}</div>
               <h2 data-reveal="up" data-delay="60" style="margin: 12px 0 0; font-family: 'Clash Display', sans-serif; font-weight: 500; font-size: clamp(1.5rem, 3.2vw, 2.4rem); line-height: 1.02; letter-spacing: -0.035em;">{{ ch.title }}</h2>

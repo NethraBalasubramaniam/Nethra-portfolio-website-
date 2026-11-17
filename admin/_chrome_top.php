@@ -82,6 +82,7 @@ $navItems = [
   .row-add:hover{border-color:#ffd23f;color:#ffd23f}
 
   .chapter-block{border:1px solid rgba(244,242,239,0.12);border-radius:10px;padding:16px;margin-bottom:14px;background:#0c0c10}
+  .chapter-group{border-top:1px dashed rgba(244,242,239,0.14);margin-top:14px;padding-top:12px}
   .chapter-img-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
   .row-remove-block{background:none;border:1px solid rgba(239,81,82,0.4);color:#ff8f8f;border-radius:999px;padding:6px 14px;font-size:12px;cursor:pointer}
   .row-remove-block:hover{background:rgba(239,81,82,0.14)}

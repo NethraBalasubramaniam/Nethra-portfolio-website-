@@ -90,15 +90,31 @@ function db_json_or(?string $raw, $fallback) {
 // the original hand-authored named-slot fields (src/src1b/src2/src2b/src2c/
 // src3) — this normalizes either shape into a plain list for display, so
 // editing an old chapter still shows (and can keep) its existing images.
-function chapter_images_for_display(array $ch): array {
-    if (!empty($ch['images']) && is_array($ch['images'])) {
-        return array_values(array_map(fn($im) => ['src' => $im['src'] ?? ''], $ch['images']));
+// Returns ['images' => first-group images, 'more' => [['sub', 'images'], ...]]
+// for the admin form. Admin-saved chapters carry `images` + `more`;
+// hand-authored ones use named slots — src/src1b under `sub`,
+// src2/src2b/src2c under `sub2`, src3 under `sub3` — mapped to the same shape
+// so editing them keeps every sub-heading.
+function chapter_groups_for_display(array $ch): array {
+    $pick = fn($list) => is_array($list) ? array_slice(array_values(array_map(fn($im) => ['src' => $im['src'] ?? ''], $list)), 0, 4) : [];
+    if (isset($ch['images']) && is_array($ch['images'])) {
+        $more = [];
+        foreach ((is_array($ch['more'] ?? null) ? $ch['more'] : []) as $g) {
+            $more[] = ['sub' => (string)($g['sub'] ?? ''), 'images' => $pick($g['images'] ?? [])];
+        }
+        return ['images' => $pick($ch['images']), 'more' => $more];
     }
-    $out = [];
-    foreach (['src', 'src1b', 'src2', 'src2b', 'src2c', 'src3'] as $k) {
-        if (!empty($ch[$k])) $out[] = ['src' => $ch[$k]];
+    $legacy = function (array $keys) use ($ch) {
+        $out = [];
+        foreach ($keys as $k) if (!empty($ch[$k])) $out[] = ['src' => $ch[$k]];
+        return $out;
+    };
+    $more = [];
+    foreach ([['sub2', ['src2', 'src2b', 'src2c']], ['sub3', ['src3']]] as [$subKey, $keys]) {
+        $imgs = $legacy($keys);
+        if (!empty($ch[$subKey]) || $imgs) $more[] = ['sub' => (string)($ch[$subKey] ?? ''), 'images' => $imgs];
     }
-    return array_slice($out, 0, 4);
+    return ['images' => $legacy(['src', 'src1b']), 'more' => $more];
 }
 
 // The eyebrow shown above a chapter's title on the case page is stored in

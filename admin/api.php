@@ -149,6 +149,10 @@ function build_chapters(): array {
     $eyebrows = $_POST['chapter_eyebrow'] ?? [];
     $parasRaw = $_POST['chapter_paras'] ?? [];
     $pulls = $_POST['chapter_pull'] ?? [];
+    // Extra sub-heading groups: chapter_more[i][j][sub|src][n], with new
+    // uploads as single files named chapter_more_img_{i}_{j}_{n} (named on
+    // submit by the submit listener in _chrome_bottom.php).
+    $more = $_POST['chapter_more'] ?? [];
     $imgSrcs = [];
     $imgFiles = [];
     for ($n = 1; $n <= 4; $n++) {
@@ -164,17 +168,33 @@ function build_chapters(): array {
         $pull = trim((string)($pulls[$i] ?? ''));
         $parasText = (string)($parasRaw[$i] ?? '');
         $paras = array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $parasText)), fn($p) => $p !== ''));
+        $ph = $title !== '' ? $title : 'Chapter image';
+        $mkImg = fn(string $src) => ['slot' => 'chapter-img-' . bin2hex(random_bytes(4)), 'src' => $src, 'ph' => $ph];
 
         $images = [];
         for ($n = 1; $n <= 4; $n++) {
             $uploaded = handle_upload($imgFiles[$n][$i] ?? null);
             $src = $uploaded ?? (string)($imgSrcs[$n][$i] ?? '');
-            if ($src !== '') {
-                $images[] = ['slot' => 'chapter-img-' . bin2hex(random_bytes(4)), 'src' => $src, 'ph' => $title !== '' ? $title : 'Chapter image'];
-            }
+            if ($src !== '') $images[] = $mkImg($src);
         }
 
-        if ($title === '' && !$paras && $pull === '' && !$images) continue;
+        $groups = [];
+        $chMore = is_array($more[$i] ?? null) ? $more[$i] : [];
+        ksort($chMore);
+        foreach ($chMore as $j => $grp) {
+            if (!is_array($grp)) continue;
+            $gSub = trim((string)($grp['sub'] ?? ''));
+            $gImages = [];
+            for ($n = 1; $n <= 4; $n++) {
+                $uploaded = handle_upload($_FILES["chapter_more_img_{$i}_{$j}_{$n}"] ?? null);
+                $src = $uploaded ?? (string)($grp['src'][$n] ?? '');
+                if ($src !== '') $gImages[] = $mkImg($src);
+            }
+            if ($gSub === '' && !$gImages) continue;
+            $groups[] = ['sub' => mb_substr($gSub, 0, 160), 'images' => $gImages];
+        }
+
+        if ($title === '' && !$paras && $pull === '' && $sub === '' && !$images && !$groups) continue;
 
         $num = str_pad((string)(count($out) + 1), 2, '0', STR_PAD_LEFT);
         $chapter = [
@@ -185,6 +205,7 @@ function build_chapters(): array {
             'title' => mb_substr($title, 0, 200),
             'paras' => array_map(fn($p) => mb_substr($p, 0, 2000), $paras),
             'images' => $images,
+            'more' => $groups,
         ];
         if ($sub !== '') $chapter['sub'] = mb_substr($sub, 0, 160);
         if ($pull !== '') $chapter['pull'] = mb_substr($pull, 0, 400);

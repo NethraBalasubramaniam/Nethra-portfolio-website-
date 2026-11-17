@@ -5,12 +5,12 @@ declare(strict_types=1);
 // install (root, no password). Change here if your MySQL is configured
 // differently.
 const DB_HOST = 'localhost';
-// const DB_NAME = 'nethra-portfolio';
-// const DB_USER = 'root';
-// const DB_PASS = '';
-const DB_NAME = 'u269004420_nethra';
-const DB_USER = 'u269004420_nethra';
-const DB_PASS = 'g!J0!h4Ru$';
+const DB_NAME = 'nethra-portfolio';
+const DB_USER = 'root';
+const DB_PASS = '';
+// const DB_NAME = 'u269004420_nethra';
+// const DB_USER = 'u269004420_nethra';
+// const DB_PASS = 'g!J0!h4Ru$';
 
 function db(): PDO {
     static $pdo = null;
@@ -60,6 +60,17 @@ function db_ensure_schema(PDO $pdo): void {
         `description` VARCHAR(300) NOT NULL DEFAULT '',
         `likes` VARCHAR(10) NOT NULL DEFAULT '0',
         `views` VARCHAR(10) NOT NULL DEFAULT '0',
+        `slot` VARCHAR(191) NOT NULL,
+        `src` VARCHAR(255) NOT NULL DEFAULT '',
+        `ph` VARCHAR(160) NOT NULL DEFAULT '',
+        `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `ai_explorations` (
+        `id` VARCHAR(191) NOT NULL,
+        `title` VARCHAR(120) NOT NULL,
+        `youtube_url` VARCHAR(500) NOT NULL DEFAULT '',
+        `video_id` VARCHAR(32) NOT NULL DEFAULT '',
         `slot` VARCHAR(191) NOT NULL,
         `src` VARCHAR(255) NOT NULL DEFAULT '',
         `ph` VARCHAR(160) NOT NULL DEFAULT '',
@@ -265,4 +276,69 @@ function db_update_playground(string $id, array $fields): bool {
 
 function db_delete_playground(string $id): void {
     db()->prepare('DELETE FROM `playground_items` WHERE id = ?')->execute([$id]);
+}
+
+// ── AI Explorations (YouTube link cards) ───────────────────────────────
+// Accepts a full youtube.com/watch, youtu.be, /embed/, /shorts/ link (with
+// any extra query params like ?si=... or &t=...) or a bare video id, and
+// returns just the 11(+)-char id, or '' if nothing recognizable was found.
+function youtube_extract_id(string $url): string {
+    $url = trim($url);
+    if ($url === '') return '';
+    if (preg_match('~youtu\.be/([A-Za-z0-9_-]{6,})~', $url, $m)) return $m[1];
+    if (preg_match('~youtube(?:-nocookie)?\.com/(?:embed|shorts|v)/([A-Za-z0-9_-]{6,})~', $url, $m)) return $m[1];
+    if (preg_match('~[?&]v=([A-Za-z0-9_-]{6,})~', $url, $m)) return $m[1];
+    if (preg_match('~^[A-Za-z0-9_-]{6,}$~', $url)) return $url;
+    return '';
+}
+
+// YouTube always serves this size for every public video, no API key
+// needed — used as the automatic cover image unless the admin uploads one.
+function youtube_thumb_url(string $videoId): string {
+    return 'https://img.youtube.com/vi/' . $videoId . '/hqdefault.jpg';
+}
+
+function db_row_to_ai(array $r): array {
+    return [
+        'id' => $r['id'],
+        'title' => $r['title'],
+        'youtubeUrl' => $r['youtube_url'],
+        'videoId' => $r['video_id'],
+        'slot' => $r['slot'],
+        'src' => $r['src'],
+        'ph' => $r['ph'],
+        'createdAt' => $r['created_at'],
+    ];
+}
+
+function db_list_ai_explorations(): array {
+    $rows = db()->query('SELECT * FROM `ai_explorations` ORDER BY created_at ASC')->fetchAll();
+    return array_map('db_row_to_ai', $rows);
+}
+
+function db_insert_ai_exploration(array $it): void {
+    $stmt = db()->prepare('INSERT INTO `ai_explorations` (id, title, youtube_url, video_id, slot, src, ph) VALUES (?, ?, ?, ?, ?, ?, ?)');
+    $stmt->execute([$it['id'], $it['title'], $it['youtubeUrl'], $it['videoId'], $it['slot'], $it['src'], $it['ph']]);
+}
+
+function db_update_ai_exploration(string $id, array $fields): bool {
+    $pdo = db();
+    $stmt = $pdo->prepare('SELECT id FROM `ai_explorations` WHERE id = ?');
+    $stmt->execute([$id]);
+    if (!$stmt->fetch()) return false;
+
+    $map = ['title' => 'title', 'youtubeUrl' => 'youtube_url', 'videoId' => 'video_id', 'src' => 'src'];
+    $sets = [];
+    $params = [];
+    foreach ($map as $inKey => $col) {
+        if (array_key_exists($inKey, $fields)) { $sets[] = "`$col` = ?"; $params[] = $fields[$inKey]; }
+    }
+    if (!$sets) return true;
+    $params[] = $id;
+    $pdo->prepare('UPDATE `ai_explorations` SET ' . implode(', ', $sets) . ' WHERE id = ?')->execute($params);
+    return true;
+}
+
+function db_delete_ai_exploration(string $id): void {
+    db()->prepare('DELETE FROM `ai_explorations` WHERE id = ?')->execute([$id]);
 }

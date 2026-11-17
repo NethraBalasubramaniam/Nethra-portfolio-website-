@@ -15,6 +15,8 @@ $navItems = [
     'slugs' => ['slugs.php', 'Slugs'],
     'playground' => ['playground.php', 'Playground'],
     'playground-add' => ['playground-add.php', 'Add playground piece'],
+    'ai-explorations' => ['ai-explorations.php', 'AI Explorations'],
+    'ai-explorations-add' => ['ai-explorations-add.php', 'Add AI exploration'],
 ];
 ?>
 <!DOCTYPE html>

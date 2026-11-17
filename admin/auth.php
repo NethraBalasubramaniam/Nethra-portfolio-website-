@@ -50,3 +50,14 @@ function slugify(string $text): string {
 function h($v): string {
     return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
 }
+
+// Admin pages live one directory below site root, so a stored relative path
+// like "uploads/admin-....jpg" needs "../" to resolve — but a stored
+// absolute URL (e.g. an auto-fetched YouTube thumbnail) must NOT get that
+// prefix or it breaks. Every <img> preview in admin that renders a stored
+// `src` should go through this instead of hand-rolling the "../" prefix.
+function admin_img_src(string $src): string {
+    if ($src === '') return '';
+    if (preg_match('~^https?://~i', $src)) return $src;
+    return '../' . $src;
+}

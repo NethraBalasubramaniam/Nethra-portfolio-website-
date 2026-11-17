@@ -1059,6 +1059,62 @@
   </div>
   </sc-if>
 
+  <!-- ══ AI EXPLORATIONS GALLERY PAGE ══ -->
+  <sc-if value="{{ isAiExplorations }}" hint-placeholder-val="{{ false }}">
+  <div style="padding-top: 74px;">
+    <section style="padding: clamp(50px, 9vh, 110px) clamp(20px, 4vw, 56px) clamp(30px, 6vh, 60px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <p data-reveal="up" style="margin: 0 0 18px; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #EF5152;">Design at the intersection of AI &amp; product</p>
+        <h1 data-reveal="up" data-delay="80" style="margin: 0; max-width: 18ch; font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: clamp(2.6rem, 9vw, 7.4rem); line-height: 0.88; letter-spacing: -0.045em;">AI Explorations</h1>
+        <p data-reveal="up" data-delay="160" style="margin: clamp(22px, 4vh, 34px) 0 0; max-width: 58ch; font-size: clamp(15px, 1.4vw, 17px); line-height: 1.6; color: rgba(244,242,239,0.58);">Short-form videos on AI-assisted product design — workflows, tool walkthroughs, and experiments. Click any card to watch.</p>
+      </div>
+    </section>
+
+    <section style="padding: 0 clamp(20px, 4vw, 56px) clamp(70px, 12vh, 130px);">
+      <div style="max-width: 1240px; margin: 0 auto;">
+        <sc-if value="{{ !aiItems.length }}" hint-placeholder-val="{{ false }}">
+          <p class="empty" style="font-size: 13.5px; color: rgba(244,242,239,0.4);">No videos yet — check back soon.</p>
+        </sc-if>
+        <div class="dribbble-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; width: 100%;">
+          <sc-for list="{{ aiItems }}" as="ai" hint-placeholder-count="6">
+            <div class="dribbble-shot" data-reveal="card" onClick="{{ ai.open }}" style="cursor: pointer;">
+              <div data-cardframe="1" class="dribbble-shot-frame" style="border-radius: 8px !important; overflow: hidden !important; position: relative;">
+                <image-slot id="{{ ai.slot }}" shape="rect" fit="cover" src="{{ ai.src }}" placeholder="{{ ai.ph }}" style="width: 100%; height: 100%; border-radius: 8px !important; overflow: hidden !important;"></image-slot>
+                <span style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none;">
+                  <span style="width: 52px; height: 52px; border-radius: 50%; background: rgba(8,8,10,0.55); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(244,242,239,0.3);">
+                    <svg width="18" height="18" viewBox="0 0 14 14" fill="none"><path d="M3.5 1.8L11.5 7L3.5 12.2V1.8Z" fill="#f4f2ef"/></svg>
+                  </span>
+                </span>
+              </div>
+              <div style="margin-top: 12px;">
+                <span style="font-size: 13.5px; font-weight: 600; color: #f4f2ef; line-height: 1.35; display: block;">{{ ai.title }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ VIDEO LIGHTBOX (YouTube embed) ══ -->
+    <sc-if value="{{ videoLightboxOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 9999; background: rgba(8, 8, 10, 0.94); backdrop-filter: blur(20px); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; animation: lightboxFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);" onClick="{{ closeVideoLightbox }}">
+      <div style="position: absolute; top: 24px; left: 28px; right: 28px; display: flex; align-items: center; justify-content: space-between; z-index: 10000;">
+        <h3 style="margin: 0; font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: clamp(1.1rem, 2vw, 1.4rem); color: #f4f2ef;">{{ videoLightboxItem.title }}</h3>
+        <button onClick="{{ closeVideoLightbox }}" style="background: rgba(239,81,82,0.15); border: 1px solid rgba(239,81,82,0.4); color: #EF5152; border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s ease;">✕</button>
+      </div>
+      <div style="width: min(calc(100vw - 128px), 1100px); aspect-ratio: 16/9; border-radius: 16px; overflow: hidden; background: #000; box-shadow: 0 20px 50px rgba(0,0,0,0.85);" onClick="{{ stopClick }}">
+        <sc-if value="{{ videoLightboxItem.videoId }}" hint-placeholder-val="{{ false }}">
+          <iframe width="100%" height="100%" src="{{ videoEmbedUrl }}" title="{{ videoLightboxItem.title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="display: block; width: 100%; height: 100%;"></iframe>
+        </sc-if>
+      </div>
+      <p style="margin: 14px 0 0; font-size: 12px; color: rgba(244,242,239,0.48); letter-spacing: 0.04em;">Click anywhere outside the video to close</p>
+    </div>
+    </sc-if>
+
+    <dc-import name="Footer" go-work="{{ goWork }}" hint-size="100%,420px"></dc-import>
+  </div>
+  </sc-if>
+
   <!-- ══ CASE DETAIL ══ -->
   <sc-if value="{{ isCase }}" hint-placeholder-val="{{ false }}">
     <section style="padding: 74px clamp(20px, 4vw, 56px) clamp(40px, 6vh, 70px);">
@@ -1279,6 +1335,8 @@ class Component extends DCLogic {
       document.title = 'Case Studies & Projects | Nethra Balasubramaniam';
     } else if (route === 'design-playground' || route === 'playground') {
       document.title = 'Design Playground & Experiments | Nethra Balasubramaniam';
+    } else if (route === 'ai-explorations') {
+      document.title = 'AI Explorations | Nethra Balasubramaniam';
     } else if (route === 'about') {
       document.title = 'About Nethra Balasubramaniam — Product Designer';
     } else if (route === 'hire') {
@@ -1320,7 +1378,7 @@ class Component extends DCLogic {
     // insert/update), so this is never empty in practice.
     const caseMatch = (this.state.cases || []).find((c) => (c.slug || '').toLowerCase() === norm);
     if (caseMatch) return { route: 'case', caseId: caseMatch.id };
-    if (['work', 'about', 'hire', 'design-playground'].includes(norm)) return { route: norm, caseId: 'dsphere' };
+    if (['work', 'about', 'hire', 'design-playground', 'ai-explorations'].includes(norm)) return { route: norm, caseId: 'dsphere' };
     return { route: 'home', caseId: 'dsphere' };
   }
 
@@ -1339,7 +1397,7 @@ class Component extends DCLogic {
     let initialRoute = 'home';
     let initialCaseId = 'dsphere';
     let pendingSlug = null;
-    if (norm && ['work', 'about', 'hire', 'design-playground'].includes(norm)) {
+    if (norm && ['work', 'about', 'hire', 'design-playground', 'ai-explorations'].includes(norm)) {
       initialRoute = norm;
     } else if (norm) {
       // All case data now lives in the database and is fetched in
@@ -1349,7 +1407,7 @@ class Component extends DCLogic {
       pendingSlug = norm;
     }
 
-    return { route: initialRoute, caseId: initialCaseId, pendingSlug: pendingSlug, isWorksOpen: false, activeHoverItem: 'cases', lightboxOpen: false, lightboxItem: null, isZoomed: false, cases: [], playgroundData: [] };
+    return { route: initialRoute, caseId: initialCaseId, pendingSlug: pendingSlug, isWorksOpen: false, activeHoverItem: 'cases', lightboxOpen: false, lightboxItem: null, isZoomed: false, videoLightboxOpen: false, videoLightboxItem: null, cases: [], playgroundData: [], aiExplorationsData: [] };
   })();
 
   wrap = React.createRef();
@@ -1703,9 +1761,10 @@ class Component extends DCLogic {
     }, 540);
   }
 
-  // All case studies and playground pieces live in the `nethra-portfolio`
-  // MySQL database (data/cases.php, data/playground.php) — nothing is
-  // hardcoded in this file. The admin panel writes to the same tables.
+  // All case studies, playground pieces, and AI exploration videos live in
+  // the `nethra-portfolio` MySQL database (data/cases.php,
+  // data/playground.php, data/ai-explorations.php) — nothing is hardcoded
+  // in this file. The admin panel writes to the same tables.
   _loadContent() {
     if (typeof fetch === 'undefined') return;
     const loadOne = (url) => fetch(url, { cache: 'no-store' })
@@ -1713,8 +1772,8 @@ class Component extends DCLogic {
       .then((j) => (Array.isArray(j) ? j : []))
       .catch(() => []);
 
-    Promise.all([loadOne('data/cases.php'), loadOne('data/playground.php')]).then(([cases, playgroundData]) => {
-      this.setState({ cases: cases, playgroundData: playgroundData }, () => {
+    Promise.all([loadOne('data/cases.php'), loadOne('data/playground.php'), loadOne('data/ai-explorations.php')]).then(([cases, playgroundData, aiExplorationsData]) => {
+      this.setState({ cases: cases, playgroundData: playgroundData, aiExplorationsData: aiExplorationsData }, () => {
         // A hard-load of a case-study URL can't resolve synchronously (the
         // state initializer has no case data yet) — it's parked as route
         // 'pending' until this fetch lands, so resolve it now.
@@ -1841,11 +1900,25 @@ class Component extends DCLogic {
 
     const activeImageSrc = this.state.activeImageSrc || (this.state.lightboxItem ? this.state.lightboxItem.src : '');
 
+    // Every AI exploration comes from the `ai_explorations` table
+    // (data/ai-explorations.php) — see _loadContent(). Opening a card sets
+    // videoLightboxItem rather than reusing the image lightbox above: a
+    // YouTube embed has no zoom toggle and no image-slot fallback.
+    const rawAiItems = this.state.aiExplorationsData || [];
+    const aiItems = rawAiItems.map((item) => Object.assign({}, item, {
+      open: (e) => {
+        if (e) e.stopPropagation();
+        this.setState({ videoLightboxOpen: true, videoLightboxItem: item });
+      }
+    }));
+    const videoLightboxItem = this.state.videoLightboxItem || {};
+    const videoEmbedUrl = videoLightboxItem.videoId ? ('https://www.youtube-nocookie.com/embed/' + videoLightboxItem.videoId + '?autoplay=1&rel=0') : '';
+
     return {
       wrap: this.wrap, ov: this.ov, dot: this.dot, ring: this.ring, ringLabel: this.ringLabel, bar: this.bar, greet: this.greet, heroCur: this.heroCur, hoverPrev: this.hoverPrev, preload: this.preload, plTop: this.plTop, plBot: this.plBot,
-      isHome: route === 'home', isWork: route === 'work', isCase: route === 'case', isAbout: route === 'about', isPlayground: route === 'design-playground' || route === 'playground',
+      isHome: route === 'home', isWork: route === 'work', isCase: route === 'case', isAbout: route === 'about', isPlayground: route === 'design-playground' || route === 'playground', isAiExplorations: route === 'ai-explorations',
       homeInk: route === 'home' ? '#f4f2ef' : dim,
-      workInk: (route === 'work' || route === 'case' || route === 'design-playground' || route === 'playground') ? '#f4f2ef' : dim,
+      workInk: (route === 'work' || route === 'case' || route === 'design-playground' || route === 'playground' || route === 'ai-explorations') ? '#f4f2ef' : dim,
       aboutInk: route === 'about' ? '#f4f2ef' : dim,
       isHire: route === 'hire',
       hireInk: route === 'hire' ? '#EF5152' : '#f4f2ef',
@@ -1856,7 +1929,7 @@ class Component extends DCLogic {
       hoverAiExplorations: () => this.setState({ activeHoverItem: 'ai' }),
       hoverPlayground: () => this.setState({ activeHoverItem: 'playground' }),
       navCaseStudies: () => { this.setState({ isWorksOpen: false }); this.go('work'); },
-      navAiExplorations: () => { this.setState({ isWorksOpen: false }); this.go('case', 'dsphere'); },
+      navAiExplorations: () => { this.setState({ isWorksOpen: false }); this.go('ai-explorations'); },
       navPlayground: () => { this.setState({ isWorksOpen: false }); this.go('design-playground'); },
       previewTitle: previewTitle,
       previewBlurb: previewBlurb,
@@ -1872,6 +1945,12 @@ class Component extends DCLogic {
       isZoomed: !!this.state.isZoomed,
       closeLightbox: (e) => { if (e) e.stopPropagation(); this.setState({ lightboxOpen: false, lightboxItem: null, activeImageSrc: '', isZoomed: false }); },
       toggleZoom: (e) => { if (e) e.stopPropagation(); this.setState({ isZoomed: !this.state.isZoomed }); },
+      aiItems: aiItems,
+      videoLightboxOpen: !!this.state.videoLightboxOpen,
+      videoLightboxItem: videoLightboxItem,
+      videoEmbedUrl: videoEmbedUrl,
+      closeVideoLightbox: (e) => { if (e) e.stopPropagation(); this.setState({ videoLightboxOpen: false, videoLightboxItem: null }); },
+      stopClick: (e) => { if (e) e.stopPropagation(); },
       goHire: () => this.go('hire'),
       goHome: () => this.go('home'),
       goWork: () => this.go('work'),

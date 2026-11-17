@@ -5,6 +5,7 @@ require_login();
 
 $caseCount = count(db_list_cases());
 $pgCount = count(db_list_playground());
+$aiCount = count(db_list_ai_explorations());
 
 $pageTitle = 'Dashboard';
 $activeNav = 'dashboard';
@@ -35,6 +36,14 @@ require __DIR__ . '/_chrome_top.php';
     <a class="dash-card" href="playground-add.php">
       <h3>Add a playground piece</h3>
       <p>Title, tag, description, image</p>
+    </a>
+    <a class="dash-card" href="ai-explorations.php">
+      <h3>View AI Explorations</h3>
+      <p><?= (int)$aiCount ?> video<?= $aiCount === 1 ? '' : 's' ?> — edit or delete</p>
+    </a>
+    <a class="dash-card" href="ai-explorations-add.php">
+      <h3>Add an AI exploration</h3>
+      <p>YouTube link, title, cover image</p>
     </a>
   </div>
 </section>

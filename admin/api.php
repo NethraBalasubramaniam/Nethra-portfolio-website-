@@ -312,12 +312,58 @@ switch ($action) {
         break;
     }
 
+    case 'create_ai_exploration': {
+        $title = clean_text($_POST['title'] ?? '', 120);
+        $youtubeUrl = clean_text($_POST['youtube_url'] ?? '', 500);
+        if ($title === '') die('Title is required.');
+        $videoId = youtube_extract_id($youtubeUrl);
+        if ($videoId === '') die('Enter a valid YouTube video link.');
+        $id = db_unique_id('ai_explorations', slugify($title));
+        $uploaded = handle_upload($_FILES['image'] ?? null);
+        db_insert_ai_exploration([
+            'id' => $id,
+            'title' => $title,
+            'youtubeUrl' => $youtubeUrl,
+            'videoId' => $videoId,
+            'slot' => 'admin-ai-' . $id,
+            'src' => $uploaded ?? youtube_thumb_url($videoId),
+            'ph' => clean_text($_POST['ph'] ?? $title, 160),
+        ]);
+        break;
+    }
+
+    case 'update_ai_exploration': {
+        $id = (string)($_POST['id'] ?? '');
+        $title = clean_text($_POST['title'] ?? '', 120);
+        $youtubeUrl = clean_text($_POST['youtube_url'] ?? '', 500);
+        $videoId = youtube_extract_id($youtubeUrl);
+        if ($videoId === '') die('Enter a valid YouTube video link.');
+        $fields = [
+            'title' => $title,
+            'youtubeUrl' => $youtubeUrl,
+            'videoId' => $videoId,
+        ];
+        $uploaded = handle_upload($_FILES['image'] ?? null);
+        if ($uploaded) {
+            $fields['src'] = $uploaded;
+        } elseif (!empty($_POST['use_youtube_thumb'])) {
+            $fields['src'] = youtube_thumb_url($videoId);
+        }
+        if (!db_update_ai_exploration($id, $fields)) die('AI exploration not found.');
+        break;
+    }
+
+    case 'delete_ai_exploration': {
+        db_delete_ai_exploration((string)($_POST['id'] ?? ''));
+        break;
+    }
+
     default:
         http_response_code(400);
         die('Unknown action.');
 }
 
-$allowedRedirects = ['index.php', 'cases.php', 'case-add.php', 'playground.php', 'playground-add.php', 'slugs.php'];
+$allowedRedirects = ['index.php', 'cases.php', 'case-add.php', 'playground.php', 'playground-add.php', 'slugs.php', 'ai-explorations.php', 'ai-explorations-add.php'];
 $redirect = (string)($_POST['redirect'] ?? '');
 header('Location: ' . (in_array($redirect, $allowedRedirects, true) ? $redirect : 'index.php'));
 exit;

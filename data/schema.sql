@@ -59,3 +59,22 @@ CREATE TABLE IF NOT EXISTS `playground_items` (
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- `ai_explorations` backs the /ai-explorations page — each row is a YouTube
+-- link card. `src` is the cover image: an admin upload if provided,
+-- otherwise it's auto-filled from YouTube's own thumbnail
+-- (img.youtube.com/vi/<video_id>/hqdefault.jpg) at save time, no API key
+-- needed. `video_id` is extracted from whatever YouTube URL shape the admin
+-- pastes (watch/youtu.be/embed/shorts) so the front-end can embed it
+-- directly.
+CREATE TABLE IF NOT EXISTS `ai_explorations` (
+  `id` VARCHAR(191) NOT NULL,
+  `title` VARCHAR(120) NOT NULL,
+  `youtube_url` VARCHAR(500) NOT NULL DEFAULT '',
+  `video_id` VARCHAR(32) NOT NULL DEFAULT '',
+  `slot` VARCHAR(191) NOT NULL,
+  `src` VARCHAR(255) NOT NULL DEFAULT '',
+  `ph` VARCHAR(160) NOT NULL DEFAULT '',
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
